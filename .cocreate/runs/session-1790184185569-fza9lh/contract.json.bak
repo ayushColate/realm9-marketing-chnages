@@ -1,5 +1,23 @@
 {
-  "acceptance_criteria": [],
+  "acceptance_criteria": [
+    "Each todo's verify criterion proves that specific todo's outcome through: grep checks for required keywords/messaging in modified files (tone words, capability names, statistics), and final human observation for holistic consistency review. No build/tests required since only content (text, metadata) changes, not code logic. All claims cross-checked against FEATURE_MAP.md verified statistics. Final verification is consistency review across all 18 pages before sign-off."
+  ],
+  "amendments": [
+    {
+      "kind": "new_task",
+      "objective": "in which file project have you done the chnages",
+      "source_characters": 47,
+      "source_sha256": "2be379d6b6986c8017bb8ae64c9329d2a72f7986a64c8b1a341a51722971590a",
+      "task_epoch": 2
+    },
+    {
+      "kind": "scope_change",
+      "objective": "brother i want to implement in realm9-nextjs (1)",
+      "source_characters": 48,
+      "source_sha256": "24fbecbc2bff66aa2138ece4b623a3fd99011b6f100956e71815a20937a5e265",
+      "task_epoch": 2
+    }
+  ],
   "created_at": "2026-09-23T17:23:07.287Z",
   "document_type": "contract",
   "goal": "Prompt: Realm9 Website Content Redesign\n\nRedesign and implement the website content only in realm9-nextjs. Do NOT modify colate/realm9 or redesign the UI yet. Our priority is to finalize meaningful, professional marketing content across all pages before working on the visual design.\n\nUse colate/realm9 as the source of truth for Realm9's actual capabilities, features, modules, statistics, and product positioning. Review the existing application and identify newly introduced capabilities that are missing from the current marketing website.\n\nContent requirements:\n\nModules section: Rewrite and enhance the module names, descriptions, and supporting content shown in the screenshot. Clearly communicate what each module does and the value it provides to customers.\nExisting pages: Review and improve the hero headings, descriptions, section content, and CTAs. Preserve the meaning of Realm9's existing content while making it more compelling, concise, and premium.\nNew capabilities: Incorporate relevant features introduced in colate/realm9 that are not yet represented on the marketing website.\nNew pages: Develop meaningful, audience-specific marketing content for pages such as Startups and other routes that were not part of the original Realm9 website. Ensure every page accurately communicates how Realm9 serves its intended audience.\nStatistics: Use only verified statistics and product claims from colate/realm9. Do not invent metrics, capabilities, or customer claims.\n\nContent direction: Take inspiration from the existing Realm9 website, but do not simply copy its wording. Rewrite the content to reflect Realm9's current capabilities and give the website a fresh, premium, enterprise-grade identity that meets professional SaaS marketing standards.\n\nEvery page should help a potential customer immediately understand what Realm9 offers, what problems it solves, how its capabilities benefit them, and why they should explore the platform further.\n\nFirst, audit the existing website content against colate/realm9, identify missing or outdated information, and then implement the improved content across all relevant pages in realm9-nextjs.\n\nImportant: Focus exclusively on content, messaging, and page structure. Preserve the existing UI, styling, routes, and functionality. We will work on the visual redesign separately after the content is finalized",
@@ -13,8 +31,54 @@
     "source_sha256": "dfeda49143e1acac4b117984ec9d3f62f8c4d72e083f84d0fcacba1241864ee3"
   },
   "non_goals": [],
-  "requirements": [],
+  "requirements": [
+    {
+      "description": "Update hero eyebrow to 'The Governance Layer', strengthen title/sub to emphasize 'humans and agents' with policy-driven infrastructure. Update StatBand with verified metrics (13+ audit categories, 4 clouds, <10 min setup). Enhance Cards + FeatureRows to highlight Policy Engine, Audit Layer, Agent Governance, Cost Attribution. Strengthen on-prem parity messaging. Preserve all component structure, styling, routes, Metadata export.",
+      "title": "Rewrite home page (app/page.tsx) with governance + agent messaging",
+      "todo_id": "a6fd4f11"
+    },
+    {
+      "description": "MCP Server: Add agent system names (Claude Code, Cursor, Windsurf, GitHub Copilot agents); emphasize cost attribution to principal+task. R9: Verify 'never applies on its own' safety; add 'bring your own LLM key on every plan'. FinOps: Add 'agent spend' explicitly; show agent-attributed cost in terminal. All: Preserve component structure, styling, Metadata export.",
+      "title": "Update product pages: MCP Server, R9, FinOps with specific claims",
+      "todo_id": "7195fec8"
+    },
+    {
+      "description": "Infrastructure Mgmt: Hero sub to emphasize 'SAME workflow for VM in your rack as EC2'. Data Centers: Reframe as 'Govern Your Data Centers First-Class'; position vCenter/Proxmox as equal to cloud. Add CIS scanning capability. Terminal example shows vCenter VM + cloud instances in same governance flow. Preserve component structure, styling, Metadata export.",
+      "title": "Emphasize on-prem parity: Infrastructure Mgmt + Data Centers pages",
+      "todo_id": "1c6b22a1"
+    },
+    {
+      "description": "Trust Center: Expand from 47 to ~150+ lines. Add sections on Audit Exports (SOC 2, ISO 27001, PCI DSS), Deployment Options (air-gapped, VPC isolated, on-prem K8s), Data Residency, Identity/Access (SAML/SCIM/MFA, session security, break-glass). Add '12-month audit retention' stat. Use Cases: Populate with substantive content for 6 industries (telecom, healthcare, fintech, public sector, manufacturing, AI research) with problem+solution. Preserve component structure, styling, Metadata export.",
+      "title": "Expand enterprise pages: Trust Center + Use Cases (major additions)",
+      "todo_id": "b3cd2fea"
+    },
+    {
+      "description": "Sandbox: Set 'Q4 2026 private preview' timeline; emphasize 'MicroVM isolation on your own hardware'. Release Mgmt: Set 'Target: Q1 2027' timeline; emphasize 'release calendars read from REAL environment bookings'. Both: Set realistic expectations without underselling. Preserve ComingSoon component structure, styling, Metadata export.",
+      "title": "Update coming-soon pages with clear timelines: Sandbox + Release Mgmt",
+      "todo_id": "715e979f"
+    },
+    {
+      "description": "Update hero sub to explain 'per-request pricing meters governance (requests, approvals, leases), not inventory'. Add new section 'Why per-request beats per-resource' with clear explanation. Refine tier positioning (Free: no CC, Starter: $299/mo multi-cloud, Enterprise: custom on-prem, Ultimate: FinOps+audit+24/7). Preserve table structure, styling, Metadata export.",
+      "title": "Clarify pricing page: per-request vs per-resource messaging",
+      "todo_id": "2960edaf"
+    },
+    {
+      "description": "Realm9 Agents: Add specific agent types (reclaim, drift, cost, onboarding). Strengthen 'answers from live platform data' messaging. Verify 'bring your own LLM key' emphasized. AIops: Ensure positioning aligns with new agent governance messaging. Both: Preserve component structure, styling, Metadata export.",
+      "title": "Update agent pages: Realm9 Agents + AIops with clearer messaging",
+      "todo_id": "a885ee22"
+    },
+    {
+      "description": "Verify PLANS descriptions, METERS, and feature strings match new messaging. Ensure tier gating correct: Free (1 project, 5 envs), Starter (5 projects), Enterprise (100 projects, on-prem, CIS, 12-hour SLA), Ultimate (unlimited, FinOps, audit logs, 24/7 4-hour SLA). Update FAQ to emphasize per-request pricing, on-prem, agents, bring-your-own-LLM. Preserve all data structures.",
+      "title": "Update lib/pricing.ts: Verify tier structure + feature gates",
+      "todo_id": "88e89299"
+    },
+    {
+      "description": "Read through all 18 updated pages to verify: (1) tone is premium/professional throughout, (2) messaging hierarchy consistent (home→products→audiences reinforce same value props), (3) CTAs clear and conversion-focused ('Start free' vs 'Talk to engineer' vs 'Schedule demo'), (4) NO UI/styling/component changes made (only text), (5) all new claims verified against FEATURE_MAP audit, (6) no broken links/routes, (7) Metadata on all pages is unique, specific, SEO-optimized. Document findings in consistency checklist.",
+      "title": "Final consistency review: tone, messaging, CTAs, no UI changes",
+      "todo_id": "7bf3fd93"
+    }
+  ],
   "run_id": "session-1790184185569-fza9lh",
   "schema_version": 1,
-  "updated_at": "2026-09-23T17:26:07.747Z"
+  "updated_at": "2026-09-23T17:53:40.166Z"
 }

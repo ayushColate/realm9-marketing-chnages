@@ -1,0 +1,13 @@
+total 80
+drwxr-xr-x@ 11 charusachan  staff    352 14 Sep 08:51 .
+drwx------@ 16 charusachan  staff    512 23 Sep 23:17 ..
+drwxr-xr-x@  4 charusachan  staff    128 14 Sep 08:51 agents
+drwxr-xr-x@  8 charusachan  staff    256 14 Sep 08:51 enterprise
+-rw-r--r--@  1 charusachan  staff  19808 14 Sep 08:51 globals.css
+-rw-r--r--@  1 charusachan  staff   1227 14 Sep 08:51 layout.tsx
+-rw-r--r--@  1 charusachan  staff    357 14 Sep 08:51 not-found.tsx
+-rw-r--r--@  1 charusachan  staff   9448 14 Sep 08:51 page.tsx
+drwxr-xr-x@  3 charusachan  staff     96 14 Sep 08:51 pricing
+drwxr-xr-x@  9 charusachan  staff    288 14 Sep 08:51 products
+drwxr-xr-x@  3 charusachan  staff     96 14 Sep 08:51 startups
+[exit code 0]

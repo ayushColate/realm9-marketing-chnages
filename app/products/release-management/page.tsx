@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import ComingSoon from "@/components/coming-soon";
 
-export const metadata: Metadata = { title: "Release Management", description: "Coordinate releases across environments, teams and change windows. Coming soon." };
+export const metadata: Metadata = { title: "Release Management — Target Q1 2027", description: "Coordinate deployments across environments using live environment booking records. Release calendars read from real approval workflows. Target: Q1 2027." };
 
 export default function Page() {
   return <ComingSoon
@@ -13,7 +13,6 @@ export default function Page() {
       "Implementation plans with per-step ownership, dependencies and rollback criteria",
       "Cross-team dependency mapping so a blocked release surfaces the blocking team, not just the delay",
       "Deployment evidence packaged for audit — what shipped, to where, approved by whom",
-    ]}
-    why="Release management and environment management are the same problem viewed from different ends, and almost every organisation runs them in two disconnected tools. The environment calendar says one thing, the release plan says another, and the truth is discovered on the day. Because Realm9 already owns the booking record, it can enforce the release plan rather than describe it."
-  />;
+      "One-click rollback with the same approval, quota and audit as the original release",
+    ]} />;
 }

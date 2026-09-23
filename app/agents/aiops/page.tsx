@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import ComingSoon from "@/components/coming-soon";
 
-export const metadata: Metadata = { title: "AIOps", description: "Detect, explain and remediate infrastructure incidents under policy. Coming soon." };
+export const metadata: Metadata = { title: "AIOps — Detect & Explain Infrastructure Incidents", description: "Detect and explain infrastructure incidents using change, booking and approval history Realm9 already records. Suggest reviewable remediation through normal approval workflows." };
 
 export default function Page() {
   return <ComingSoon

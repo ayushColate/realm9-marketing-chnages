@@ -1,0 +1,22 @@
+import { Hero, StatBand, Cards, FeatureRow, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+import { Icons } from "@/components/icons";
+
+const LOGOS = ["BT", "Verizon", "Harman", "Vodafone", "Orange", "Telefónica"];
+
+export default function Home() {
+  return (
+    <>
+      <Hero
+        badge="New"
+        eyebrow="The Governance Layer"
+        title="Terraform and AI agents, governed together"
+        sub="Policy-driven infrastructure for teams that run Terraform and empower AI agents — with cost you can explain down to the request. One control plane
+for environments, infrastructure and compute, with the approvals, quotas and audit that make it safe to hand any of it to an agent."
+        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to an engineer", href: "/enterprise/contact" }]}
+      />
+
+      <Section className="pad-sm">
+        <p className="small center" style={{ marginBottom: 30 }}>Running in production at</p>
+        <div className="logos">{LOGOS.map((l) => <span key={l}>{l}</span>)}</div>
+      </Section>
+[exit code 0]

@@ -1,0 +1,77 @@
+age.tsx app/products/environment-management/page.tsx app/products/sandbox/page.tsx app/products/release-management/page.tsx
+==> app/products/r9/page.tsx <==
+import type { Metadata } from "next";
+import { Hero, Cards, SectionHead, CtaBand, Section } from "@/components/sections";
+import { Icons } from "@/components/icons";
+import R9Demo from "@/components/r9-demo";
+
+export const metadata: Metadata = {
+  title: "AI Terraform Editor",
+  description: "Generate, edit and explain Terraform with AI — scanned by Checkov and Trivy, reviewed before commit, approved before apply. Never applies on its
+ own. Bring your own LLM key on every plan." in plain language. Get reviewable, policy-checked code.",
+};
+
+
+==> app/products/finops/page.tsx <==
+import type { Metadata } from "next";
+import { Hero, FeatureRow, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+
+export const metadata: Metadata = {
+  title: "FinOps & Cost Attribution",
+  description: "Multi-cloud cost visibility with cost attribution per principal (team, agent, role). Anomaly detection, forecasts, rightsizing — and dashboards
+generated from natural-language requirements." to the request that caused it — cloud, on-prem and tokens.",
+};
+
+export default function Page() {
+  return (
+
+==> app/products/infrastructure-management/page.tsx <==
+import type { Metadata } from "next";
+import { Hero, StatBand, FeatureRow, Term, CtaBand } from "@/components/sections";
+
+export const metadata: Metadata = {
+  title: "Infrastructure Management",
+  description: "Terraform, Kubernetes, vCenter and Proxmox from one governed control plane.",
+};
+
+export default function Page() {
+  return (
+
+==> app/products/environment-management/page.tsx <==
+import type { Metadata } from "next";
+import { Hero, Cards, FeatureRow, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+
+export const metadata: Metadata = {
+  title: "Environment Management",
+  description: "Book, approve and reclaim every environment your teams contend over.",
+};
+
+export default function Page() {
+  return (
+
+==> app/products/sandbox/page.tsx <==
+import type { Metadata } from "next";
+import ComingSoon from "@/components/coming-soon";
+
+export const metadata: Metadata = { title: "Realm9 Sandbox", description: "Sub-second isolated environments for agent work, on your own hardware. Coming soon."
+};
+
+export default function Page() {
+  return <ComingSoon
+    title="Realm9 Sandbox" accent="#0d9488" when="Private preview: Q4 2026"
+    sub="Sub-second isolated environments for agent work — running on hardware you already own, under the quotas and budgets you already set."
+    what={[
+
+==> app/products/release-management/page.tsx <==
+import type { Metadata } from "next";
+import ComingSoon from "@/components/coming-soon";
+
+export const metadata: Metadata = { title: "Release Management", description: "Coordinate releases across environments, teams and change windows. Coming soon."
+};
+
+export default function Page() {
+  return <ComingSoon
+    title="Release Management" accent="#0070f3" when="Target: Q1 2027"
+    sub="Coordinate releases across environments, teams and change windows — on the same booking and approval engine that already governs your environments."
+    what={[
+[exit code 0]

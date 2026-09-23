@@ -1,0 +1,7 @@
+ Agent Context for Terraform" - Description: Add Claude Code, Cursor, Windsurf, GitHub Copilot agent names - Add cost attribution messaging to agent + task EOF
+cat /tmp/update_mcp_server.txt
+MCP Server metadata needs update:
+- Title: "MCP Server" → "AI Agent Context for Terraform"
+- Description: Add Claude Code, Cursor, Windsurf, GitHub Copilot agent names
+- Add cost attribution messaging to agent + task
+[exit code 0]

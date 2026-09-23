@@ -8,9 +8,9 @@ export default function Home() {
     <>
       <Hero
         badge="New"
-        eyebrow="Realm9 MCP Server is generally available"
-        title="Realm9 handles the ecosystem for software and hardware, leveraged by humans and by agents."
-        sub="One control plane for the environments, infrastructure and compute your teams contend over — with the approvals, quotas and cost attribution that make it safe to hand any of it to an agent."
+        eyebrow="The Governance Layer"
+        title="Terraform and AI agents, governed together"
+        sub="Policy-driven infrastructure for teams that run Terraform and empower AI agents — with cost you can explain down to the request. One control plane for environments, infrastructure and compute, with the approvals, quotas and audit that make it safe to hand any of it to an agent."
         ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to an engineer", href: "/enterprise/contact" }]}
       />
 

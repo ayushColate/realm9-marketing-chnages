@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Hero, Cards, SectionHead, Section } from "@/components/sections";
 import { Icons } from "@/components/icons";
 
-export const metadata: Metadata = { title: "Trust Center", description: "Certifications, architecture, data handling, and vulnerability disclosure." };
+export const metadata: Metadata = { title: "Security, Audit & Compliance", description: "SOC 2, ISO 27001, PCI DSS audit exports. Deployment options: SaaS, self-hosted, air-gapped. SAML/SCIM/MFA, 12-month audit retention, CIS scanning, break-glass access." };
 
 const CERTS: [string, string][] = [
   ["SOC 2 Type II", "Annual audit. Report available under NDA."],

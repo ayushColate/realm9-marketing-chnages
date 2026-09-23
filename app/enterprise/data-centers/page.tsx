@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Hero, FeatureRow, Term, CtaBand } from "@/components/sections";
 
-export const metadata: Metadata = { title: "Data Centers", description: "vCenter, Proxmox and bare metal as first-class bookable capacity." };
+export const metadata: Metadata = { title: "On-Prem Infrastructure Governance", description: "VMware vCenter and Proxmox get the same Terraform workflow, policy checks, CIS scanning, and audit trails as AWS, Azure, and GCP. Govern your data center on equal footing with cloud." };
 
 export default function Page() {
   return (

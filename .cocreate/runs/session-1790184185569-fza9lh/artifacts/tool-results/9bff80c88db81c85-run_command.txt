@@ -1,0 +1,12 @@
+import type { Metadata } from "next";
+import ComingSoon from "@/components/coming-soon";
+
+export const metadata: Metadata = { title: "Realm9 Sandbox", description: "Sub-second isolated environments for agent work, on your own hardware. Coming soon."
+};
+
+export default function Page() {
+  return <ComingSoon
+    title="Realm9 Sandbox" accent="#0d9488" when="Private preview: Q4 2026"
+    sub="Sub-second isolated environments for agent work — running on hardware you already own, under the quotas and budgets you already set."
+    what={[
+[exit code 0]

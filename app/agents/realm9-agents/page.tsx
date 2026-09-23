@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import ComingSoon from "@/components/coming-soon";
 
-export const metadata: Metadata = { title: "Realm9 Agents", description: "Named, budgeted, revocable identities for every non-human actor. Coming soon." };
+export const metadata: Metadata = { title: "Realm9 AI System Assistant", description: "Ask Realm9 about bookings, environments, Terraform, costs and compliance in plain language. Answers from live platform data, scoped to your role. Bring your own LLM key on every plan." };
 
 export default function Page() {
   return <ComingSoon

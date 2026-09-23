@@ -1,0 +1,3 @@
+2>&1 | head -5
+diff: /Users/charusachan/Downloads/realm9-nextjs (1)/components/landing/hero.tsx: No such file or directory
+[exit code 0]

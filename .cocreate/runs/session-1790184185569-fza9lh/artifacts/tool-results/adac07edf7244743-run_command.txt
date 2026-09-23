@@ -1,0 +1,5 @@
+export const metadata: Metadata = {
+  title: "AI Agent Context for Terraform",
+  description: "Connect Claude Code, Cursor, Windsurf, and GitHub Copilot agents to your infrastructure with policy control and cost attribution. Agents see you
+r real infrastructure through one protocol. Grants, not credentials.",
+[exit code 0]

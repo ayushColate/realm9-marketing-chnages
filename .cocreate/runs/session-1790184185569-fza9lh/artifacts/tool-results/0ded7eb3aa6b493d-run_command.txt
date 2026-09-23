@@ -1,0 +1,25 @@
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   app/agents/aiops/page.tsx
+        modified:   app/agents/realm9-agents/page.tsx
+        modified:   app/enterprise/contact/page.tsx
+        modified:   app/enterprise/data-centers/page.tsx
+        modified:   app/enterprise/gpu/page.tsx
+        modified:   app/enterprise/page.tsx
+        modified:   app/enterprise/trust-center/page.tsx
+        modified:   app/enterprise/use-cases/page.tsx
+        modified:   app/pricing/page.tsx
+        modified:   app/products/environment-management/page.tsx
+        modified:   app/products/finops/page.tsx
+        modified:   app/products/infrastructure-management/page.tsx
+        modified:   app/products/mcp-server/page.tsx
+        modified:   app/products/r9/page.tsx
+        modified:   app/products/release-management/page.tsx
+        modified:   app/products/sandbox/page.tsx
+        modified:   app/startups/page.tsx
+        modified:   components/landing/hero.tsx
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[exit code 0]

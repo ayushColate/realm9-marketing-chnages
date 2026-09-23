@@ -3,7 +3,7 @@ import { Hero, SectionHead, CtaBand, Section } from "@/components/sections";
 import PricingPlans from "@/components/pricing-plans";
 import { METERS, COMPARE, FAQ } from "@/lib/pricing";
 
-export const metadata: Metadata = { title: "Pricing", description: "Priced on what you govern, not on how much infrastructure you own." };
+export const metadata: Metadata = { title: "Pricing — Per-Request Infrastructure Governance", description: "Priced on governed actions (requests, approvals, leases), not resource inventory. Start free on SaaS or self-hosted. Scale to Starter, Enterprise or Ultimate as your team grows." };
 
 export default function Page() {
   return (

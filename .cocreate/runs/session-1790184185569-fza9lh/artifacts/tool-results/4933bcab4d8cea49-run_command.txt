@@ -1,0 +1,3 @@
+6d30ab2 (HEAD -> main) feat: content redesign - governance layer messaging, agent capabilities, on-prem parity, compliance exports, per-request pricing model
+9111d27 Fixed Content and UI Changes
+[exit code 0]

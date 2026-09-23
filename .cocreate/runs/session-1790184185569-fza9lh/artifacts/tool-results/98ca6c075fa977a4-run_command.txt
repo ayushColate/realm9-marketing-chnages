@@ -1,0 +1,14 @@
+total 96
+drwxr-xr-x@ 12 charusachan  staff   384 14 Sep 08:51 .
+drwx------@ 16 charusachan  staff   512 23 Sep 23:17 ..
+-rw-r--r--@  1 charusachan  staff  1320 14 Sep 08:51 coming-soon.tsx
+-rw-r--r--@  1 charusachan  staff  2774 14 Sep 08:51 contact-form.tsx
+-rw-r--r--@  1 charusachan  staff  1973 14 Sep 08:51 footer.tsx
+-rw-r--r--@  1 charusachan  staff  3820 14 Sep 08:51 icons.tsx
+-rw-r--r--@  1 charusachan  staff  4886 14 Sep 08:51 nav.tsx
+-rw-r--r--@  1 charusachan  staff  2240 14 Sep 08:51 pricing-plans.tsx
+-rw-r--r--@  1 charusachan  staff  3185 14 Sep 08:51 r9-demo.tsx
+-rw-r--r--@  1 charusachan  staff  5138 14 Sep 08:51 sections.tsx
+-rw-r--r--@  1 charusachan  staff  2201 14 Sep 08:51 use-case-switcher.tsx
+-rw-r--r--@  1 charusachan  staff  1094 14 Sep 08:51 waitlist.tsx
+[exit code 0]

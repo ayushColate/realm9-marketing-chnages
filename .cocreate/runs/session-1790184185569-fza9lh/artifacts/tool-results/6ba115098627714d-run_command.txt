@@ -1,0 +1,11 @@
+extjs (1)  # 1. Update MCP Server metadata sed -i '' 's|title: "MCP Server"|title: "AI Agent Context for Terraform"|g' app/products/mcp-server/page.tsx sed -i '
+' 's|description: "Give coding agents governed infrastructure|description: "Connect Claude Code, Cursor, Windsurf, and GitHub Copilot agents to your infrastruct
+ure with policy control and cost attribution. Agents see your real infrastructure|g' app/products/mcp-server/page.tsx  # 2. Update R9 metadata   sed -i '' 's|ti
+tle: "R9"|title: "AI Terraform Editor"|g' app/products/r9/page.tsx sed -i '' 's|description: "Describe infrastructure|description: "Generate, edit and explain T
+erraform with AI — scanned by Checkov and Trivy, reviewed before commit, approved before apply. Never applies on its own. Bring your own LLM key on every plan."
+|g' app/products/r9/page.tsx  # 3. Update FinOps metadata sed -i '' 's|title: "FinOps"|title: "FinOps \& Cost Attribution"|g' app/products/finops/page.tsx sed -
+i '' 's|description: "Attribute every dollar|description: "Multi-cloud cost visibility with cost attribution per principal (team, agent, role). Anomaly detectio
+n, forecasts, rightsizing — and dashboards generated from natural-language requirements."|g' app/products/finops/page.tsx  echo "Applied content changes to MCP
+Server, R9, and FinOps" EOFSCRIPT chmod +x /tmp/apply_changes.sh bash /tmp/apply_changes.sh
+Applied content changes to MCP Server, R9, and FinOps
+[exit code 0]

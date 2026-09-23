@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Hero, Cards, Term, SectionHead, CtaBand, Section } from "@/components/sections";
 
 export const metadata: Metadata = {
-  title: "MCP Server",
-  description: "Give coding agents governed infrastructure through one protocol. Grants, not credentials.",
+  title: "AI Agent Context for Terraform",
+  description: "Connect Claude Code, Cursor, Windsurf, and GitHub Copilot agents to your infrastructure with policy control and cost attribution. Agents see your real infrastructure through one protocol. Grants, not credentials.",
 };
 
 export default function Page() {

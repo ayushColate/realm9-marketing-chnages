@@ -1,0 +1,2 @@
+cat: components/landing/hero.tsx: No such file or directory
+[exit code 0]

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Hero, CtaBand, Section } from "@/components/sections";
 import UseCaseSwitcher from "@/components/use-case-switcher";
 
-export const metadata: Metadata = { title: "Use cases", description: "How telecom, healthcare, finance, public sector, AI research and service providers deploy Realm9." };
+export const metadata: Metadata = { title: "Use Cases & Industry Solutions", description: "How telecom, healthcare, financial services, public sector, manufacturing, and AI research teams solve infrastructure governance with Realm9." };
 
 export default function Page() {
   return (

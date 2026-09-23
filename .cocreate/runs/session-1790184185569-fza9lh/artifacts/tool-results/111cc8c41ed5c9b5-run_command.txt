@@ -1,0 +1,18 @@
+total 128
+drwx------@  16 charusachan  staff    512 23 Sep 23:17 .
+drwx------@ 700 charusachan  staff  22400 23 Sep 22:52 ..
+drwxr-xr-x@   6 charusachan  staff    192 23 Sep 23:04 .cocreate
+drwxr-xr-x@  12 charusachan  staff    384 23 Sep 23:28 .git
+-rw-r--r--@   1 charusachan  staff     73 14 Sep 08:51 .gitignore
+drwxr-xr-x@   3 charusachan  staff     96 23 Sep 22:53 .next
+drwxr-xr-x@  11 charusachan  staff    352 14 Sep 08:51 app
+drwxr-xr-x@  12 charusachan  staff    384 14 Sep 08:51 components
+drwxr-xr-x@   6 charusachan  staff    192 14 Sep 08:51 lib
+-rw-r--r--@   1 charusachan  staff    296 23 Sep 22:53 next-env.d.ts
+-rw-r--r--@   1 charusachan  staff    448 14 Sep 08:51 next.config.ts
+drwxr-xr-x@  28 charusachan  staff    896 23 Sep 22:53 node_modules
+-rw-r--r--@   1 charusachan  staff  33716 23 Sep 22:53 package-lock.json
+-rw-r--r--@   1 charusachan  staff    457 14 Sep 08:51 package.json
+-rw-r--r--@   1 charusachan  staff   5000 14 Sep 08:59 README.md
+-rw-r--r--@   1 charusachan  staff    698 14 Sep 08:51 tsconfig.json
+[exit code 0]

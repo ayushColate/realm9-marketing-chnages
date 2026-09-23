@@ -1,0 +1,15 @@
+Started in the background as job "vt-1790186633168-194" in terminal "main-2".
+
+(still running after 8s — moved to background as job vt-1790186633168-194 in terminal "main-2"; you'll get a tool result when it finishes)
+It's running in the Cana Agent terminal (separate from the user's). You are NOT blocked — you'll receive a terminal-job-done result automatically when it finishes. Do not poll in a loop; use TERMINAL_READ (or poll once) only if you need intermediate output. NOTE: terminal "main" was busy, so this ran on "main-2" — target that name for TERMINAL_READ/TERMINAL_WRITE.
+
+Your background jobs still running (2):
+- vt-1790186633168-194  terminal="main-2"  running 8s
+    cd "/Users/charusachan/Downloads/realm9-nextjs (1)" && npm run build 2>&1 | tail -20
+    │ (no output yet)
+- vt-1790186114748-120  terminal="main"  running 8m47s
+    cd "/Users/charusachan/Downloads/realm9-nextjs" && npm run dev
+    │ ✓ Ready in 381ms
+    │ ✓ Running next.config.ts took 26ms
+    │  GET / 200 in 645ms (next.js: 280ms, application-code: 366ms)
+A job you no longer need should be stopped, not left running.

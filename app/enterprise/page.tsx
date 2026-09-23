@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Hero, StatBand, Cards, SectionHead, CtaBand, Section } from "@/components/sections";
 import { Icons } from "@/components/icons";
 
-export const metadata: Metadata = { title: "Enterprise", description: "Air-gapped deployment, data residency, SSO and SCIM, and an engineer on the call." };
+export const metadata: Metadata = { title: "Enterprise — Scale, Compliance & Control", description: "Governed infrastructure at your scale and under your constraints. Air-gapped deployment, data residency, SSO/SCIM, 12-month audit retention, and engineer support." };
 
 export default function Page() {
   return (
