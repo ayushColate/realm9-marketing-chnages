@@ -1,0 +1,10 @@
+total 8
+drwxr-xr-x@  8 charusachan  staff   256 14 Sep 08:51 .
+drwxr-xr-x@ 11 charusachan  staff   352 14 Sep 08:51 ..
+drwxr-xr-x@  3 charusachan  staff    96 14 Sep 08:51 contact
+drwxr-xr-x@  3 charusachan  staff    96 14 Sep 08:51 data-centers
+drwxr-xr-x@  3 charusachan  staff    96 14 Sep 08:51 gpu
+-rw-r--r--@  1 charusachan  staff  3848 14 Sep 08:51 page.tsx
+drwxr-xr-x@  3 charusachan  staff    96 14 Sep 08:51 trust-center
+drwxr-xr-x@  3 charusachan  staff    96 14 Sep 08:51 use-cases
+[exit code 0]

@@ -1,0 +1,91 @@
+import type { Metadata } from "next";
+import "../../landing.css";
+import { Hero, Cards, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+
+export const metadata: Metadata = {
+  title: "MCP Server",
+  description: "Connect AI coding agents to your Realm9 Terraform projects, workspaces and cloud connections through the Model Context Protocol — with changes r
+eviewed before they are committed.",
+};
+
+export default function Page() {
+  return (
+    <div className="lp">
+      <Hero badge="New" eyebrow="Realm9 MCP Server" accent="#8B7DFF"
+        title="Give your AI coding agents real context about your infrastructure"
+        sub="The Realm9 MCP Server connects MCP-compatible AI agents to your Terraform projects, workspaces and cloud connections. Agents can look up how your e
+state is organised, generate and edit Terraform, and check run logs — while commits and plans still go through you."
+        ctas={[{ label: "Schedule a live demo", href: "/enterprise/contact" }, { label: "See pricing", href: "/pricing" }]} />
+
+      <Section className="pad-sm">
+        <div className="grid g3">
+          <div><h4 style={{ marginBottom: 8 }}>Works with MCP-compatible clients</h4><p className="small">Built on the open Model Context Protocol and served ov
+er Streamable HTTP, so any client that supports MCP can connect.</p></div>
+          <div><h4 style={{ marginBottom: 8 }}>Grounded in your estate</h4><p className="small">Agents see your real projects, workspaces and cloud connections
+instead of guessing at names, regions and structure.</p></div>
+          <div><h4 style={{ marginBottom: 8 }}>You stay in the loop</h4><p className="small">Git commits are reviewed by you before they are saved, and Terrafor
+m plans run in the editor with your interaction.</p></div>
+        </div>
+      </Section>
+
+      <section className="pad alt"><div className="wrap">
+        <div className="feature-row">
+          <div>
+            <h3 style={{ marginBottom: 14 }}>Why agents need infrastructure context</h3>
+            <p className="lede" style={{ fontSize: 16 }}>AI coding assistants write Terraform quickly, but without context they invent resource names, miss your
+ conventions and can&rsquo;t tell whether a connection has the permissions a change needs.</p>
+            <p className="lede" style={{ fontSize: 16, marginTop: 16 }}>The Realm9 MCP Server gives them that context directly from the platform your team alrea
+dy uses — and keeps a person in control of what is committed and run.</p>
+            <ul className="bullets" style={{ ["--acc" as string]: "var(--purple)", marginTop: 26 }}>
+              <li>Look up projects, workspaces and cloud connections</li>
+              <li>Validate AWS IAM permissions before a change is attempted</li>
+              <li>Generate Terraform and search existing code semantically</li>
+              <li>Read run logs, including Kubernetes events, to diagnose failures</li>
+            </ul>
+          </div>
+          <div className="fr-media">
+            <Term title="Realm9 MCP · tool families" html={`<span class="c-com"># what an agent can do through Realm9</span>
+
+  <span class="c-fn">projects & workspaces</span>   <span class="c-dim">look up structure and settings</span>
+  <span class="c-fn">cloud connections</span>       <span class="c-dim">list connections, validate IAM</span>
+  <span class="c-fn">terraform generation</span>    <span class="c-dim">write code from a description</span>
+  <span class="c-fn">code search</span>             <span class="c-dim">semantic search across projects</span>
+  <span class="c-fn">file editing</span>            <span class="c-dim">read and edit project files</span>
+  <span class="c-fn">git</span>                     <span class="c-dim">status, and commit after your review</span>
+  <span class="c-fn">terraform plan</span>          <span class="c-dim">runs in the editor with you</span>
+  <span class="c-fn">run logs</span>                <span class="c-dim">including Kubernetes events</span>
+
+<span class="c-dim">transport</span>  Streamable HTTP`} />
+          </div>
+        </div>
+      </div></section>
+
+      <Section>
+        <SectionHead title="A typical session" />
+        <Term title="coding agent → Realm9 MCP" html={`<span class="c-fn">→ list workspaces</span>        project <span class="c-str">"payments"</span>
+  <span class="c-ok">3 workspaces found</span>   <span class="c-dim">staging · uat · production</span>
+
+<span class="c-fn">→ validate permissions</span>   connection <span class="c-str">"aws/staging"</span>
+  <span class="c-ok">required IAM actions available</span>
+
+<span class="c-fn">→ generate terraform</span>     <span class="c-str">"add a read replica for the staging database"</span>
+  <span class="c-ok">changes prepared</span>     <span class="c-dim">rds.tf</span>
+
+<span class="c-fn">→ git commit</span>
+  <span class="c-warn">⧗ waiting for your review</span> <span class="c-dim">before the commit is saved</span>`} />
+        <div style={{ marginTop: 36 }}>
+          <Cards items={[
+            { title: "Fewer wrong guesses", desc: "Agents work from the real names, structure and connections in your workspace, so the Terraform they produce f
+its the estate it targets." },
+            { title: "Problems found earlier", desc: "Permission checks and log access let an agent spot a missing IAM action or a failing run before a person h
+as to dig through it." },
+            { title: "Same guardrails as your team", desc: "Commits wait for your review, runs are scanned, and approvals still apply — agent-authored changes f
+ollow the same path as everyone else's." },
+          ]} />
+        </div>
+      </Section>
+
+      <CtaBand title="Connect your coding agents to the infrastructure they change"
+        sub="See the MCP Server working against a Realm9 workspace, or start with the platform on the free tier."
+        primary={{ label: "Schedule a live demo", href: "/enterprise/contact" }} secondary={{ label: "Start free", href: "/pricing" }} />
+[exit code 0]

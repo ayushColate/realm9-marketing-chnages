@@ -1,0 +1,3 @@
+han/Downloads/realm9-nextjs/app/enterprise/data-centers/page.tsx && echo "✓ Todo 3 acceptance criteria met" || echo "Criteria check failed"
+✓ Todo 3 acceptance criteria met
+[exit code 0]

@@ -1,0 +1,97 @@
+import type { Metadata } from "next";
+import "../../landing.css";
+import { Hero, Cards, FeatureRow, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+
+export const metadata: Metadata = {
+  title: "Self-Service Environments",
+  description: "Request, book, approve and decommission environments through one governed workflow — with queueing, priorities and approval SLAs built in.",
+};
+
+export default function Page() {
+  return (
+    <div className="lp">
+      <Hero eyebrow="Self-Service Environments" accent="#8B7DFF"
+        title="Every shared environment, booked, approved and accounted for"
+        sub="Realm9 replaces spreadsheets and chat threads with one governed workflow for your environments. Teams request and book what they need, approvals mo
+ve against a visible SLA, and every environment has an owner from request to decommission."
+        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Schedule a live demo", href: "/enterprise/contact" }]} />
+
+      <Section>
+        <SectionHead title="The problems it solves" />
+        <Cards items={[
+          { title: "Double-booked environments", desc: "Two teams deploy to the same environment and lose a day working out whose change broke it. Realm9 detect
+s the overlap and queues the second booking automatically." },
+          { title: "Approvals that stall", desc: "Requests sit in an inbox with no deadline. Realm9 tracks every approval against an SLA and warns before it bec
+omes a breach." },
+          { title: "Environments nobody owns", desc: "Infrastructure outlives the project that needed it. Realm9 gives every environment a register entry, an ow
+ner and a formal decommission path." },
+        ]} />
+      </Section>
+
+      <section className="pad alt"><div className="wrap stack-24" style={{ gap: 80 }}>
+        <FeatureRow accent="#8B7DFF"
+          title="Bookings with priorities, queueing and a shared calendar"
+          body="Teams reserve environments for a purpose and a time window. Realm9 checks every request against existing bookings, queues conflicts in priority
+order and shows the whole picture on a calendar and timeline."
+          bullets={["Priorities from Low to Emergency — Emergency bookings jump the queue and bypass maintenance windows", "Automatic conflict detection and que
+ueing", "Maximum booking durations and maintenance windows per environment", "Save drafts and submit when you are ready"]}
+          media={<Term title="Bookings · timeline · int-01" html={`  MON   <span class="c-ok">████████</span> BKG-881  payments     <span class="c-dim">UAT</spa
+n>
+  TUE   <span class="c-ok">████████</span> BKG-881  payments
+  WED   <span class="c-str">████</span>     BKG-894  qa           <span class="c-dim">regression</span>
+        <span class="c-warn">░░░░</span>     <span class="c-warn">BKG-903 queued · priority High</span>
+  THU   <span class="c-dim">▒▒▒▒▒▒▒▒</span> <span class="c-dim">maintenance window</span>
+  FRI   <span class="c-dim">────────</span> <span class="c-dim">available</span>`} />} />
+
+        <FeatureRow flip accent="#8B7DFF"
+          title="Approvals that move on time"
+          body="Configure multi-level approval workflows for each environment type and give them SLA targets. Approvers see what is at risk, requesters see wher
+e their request stands, and nothing waits silently."
+          bullets={["Multi-level workflows per environment type", "SLA status: On track, At risk, Paused, Met or Breached", "A configurable \"Warn before\" aler
+t ahead of every deadline", "Every decision recorded with approver, timestamp and comments"]}
+          media={<Term title="Approvals · SLA tracking" html={`REQUEST     LEVEL         APPROVER        SLA
+BKG-903     1 of 2        team lead       <span class="c-ok">On track</span>
+ENV-214     2 of 2        platform        <span class="c-warn">At risk</span>
+BKG-897     1 of 1        env manager     <span class="c-dim">Paused</span>
+DEC-031     1 of 1        platform        <span class="c-ok">Met</span>
+
+<span class="c-dim">warn before</span>   2h ahead of each deadline`} />} />
+
+        <FeatureRow accent="#8B7DFF"
+          title="The full lifecycle, from request to decommission"
+          body="New environments start as tracked requests, and retired ones leave through a reviewed decommission process with a checklist and approval — so th
+e register always reflects what actually exists."
+          bullets={["Environment requests (ENV-) and decommission requests (DEC-) with readable keys", "Decommission checklists and approval before anything is
+removed", "Access and credential information held with the environment, with every reveal logged", "Activity history for bookings, including emails sent and cre
+dential reveals"]}
+          media={<Term title="Decommission · DEC-031" html={`<span class="c-dim">environment</span>   perf-02
+<span class="c-dim">reason</span>        project complete
+
+<span class="c-dim">checklist</span>
+  <span class="c-ok">✓</span> data backed up
+  <span class="c-ok">✓</span> dependent services notified
+  <span class="c-ok">✓</span> active bookings resolved
+
+<span class="c-dim">approval</span>      <span class="c-ok">approved</span> <span class="c-dim">· recorded in audit log</span>`} />} />
+
+        <FeatureRow flip accent="#8B7DFF"
+          title="Connected to the systems you already run"
+          body="Realm9 fits into your existing service management and engineering tools rather than replacing them, so environment data stays consistent everywh
+ere it is used."
+          bullets={["ServiceNow CMDB import and sync", "Automatic service-request tickets in ServiceNow", "Email notifications and webhooks for booking and appr
+oval events", "Provision the environment itself with Terraform from the same platform"]}
+          media={<Term title="Integrations · ServiceNow" html={`<span class="c-dim">cmdb</span>        <span class="c-ok">connected</span>
+<span class="c-dim">import</span>      environments and configuration items
+<span class="c-dim">sync</span>        <span class="c-ok">enabled</span>
+<span class="c-dim">tickets</span>     service requests created automatically
+
+<span class="c-ok">✓ register and CMDB in step</span>`} />} />
+      </div></section>
+
+      <CtaBand title="Give every shared environment an owner and a queue"
+        sub="Start on the free tier with up to five environments, or book a demo to see approvals, SLAs and decommissions in action."
+        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Schedule a live demo", href: "/enterprise/contact" }} />
+    </div>
+  );
+}
+[exit code 0]

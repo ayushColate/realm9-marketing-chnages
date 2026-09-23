@@ -1,0 +1,41 @@
+import "./landing.css";
+import Hero from "@/components/landing/hero";
+import TrustBar from "@/components/landing/trust-bar";
+import Lifecycle from "@/components/landing/lifecycle";
+import ProductShowcase from "@/components/landing/product-showcase";
+import AgentFlow from "@/components/landing/agent-flow";
+import AIEditor from "@/components/landing/ai-editor";
+import FinOps from "@/components/landing/finops";
+import Governance from "@/components/landing/governance";
+import MultiCloud from "@/components/landing/multi-cloud";
+import CapabilityMatrix from "@/components/landing/capability-matrix";
+import FinalCta from "@/components/landing/final-cta";
+import PulseLine from "@/components/landing/pulse-line";
+import { ScrollProgress } from "@/components/landing/motion";
+
+/*
+ * The story, in order:
+ * infrastructure is complex → Realm9 connects it → AI understands it →
+ * automation operates it → governance controls it → teams move faster.
+ */
+export default function Home() {
+  return (
+    <div className="r9">
+      <ScrollProgress />
+      <Hero />
+      <TrustBar />
+      <Lifecycle />
+      <PulseLine />
+      <ProductShowcase />
+      <AgentFlow />
+      <AIEditor />
+      <PulseLine />
+      <FinOps />
+      <Governance />
+      <MultiCloud />
+      <CapabilityMatrix />
+      <FinalCta />
+    </div>
+  );
+}
+[exit code 0]

@@ -1,0 +1,3 @@
+/Users/charusachan/Downloads/realm9-nextjs/components/landing/hero.tsx
+/Users/charusachan/Downloads/realm9-nextjs/components/landing/pulse-line.tsx
+[exit code 0]

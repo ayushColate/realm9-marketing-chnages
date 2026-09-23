@@ -1,0 +1,44 @@
+==> app/products/sandbox/page.tsx <==
+import type { Metadata } from "next";
+import "../../landing.css";
+import ComingSoon from "@/components/coming-soon";
+
+export const metadata: Metadata = { title: "Realm9 Sandbox", description: "Isolated, governed environments for AI agent work. On the roadmap." };
+
+export default function Page() {
+  return <div className="lp"><ComingSoon
+    title="Realm9 Sandbox" accent="#8B7DFF" when="On the roadmap"
+    sub="Isolated environments for AI agent work — requested, approved and tracked through the same workflow your teams already use."
+    what={[
+      "Isolated environments where agent-generated code can run away from shared systems",
+      "Requested and approved through the same booking and approval workflow as any other environment",
+      "Every sandbox with an owner, a time limit and an entry in the audit trail",
+      "Available in SaaS and self-hosted deployments, including your own infrastructure",
+    ]}
+    why="Teams increasingly let AI agents write and test code, and those agents need somewhere safe to run it. Realm9 already governs who can use which environm
+ent, for how long and with whose approval — extending that to agent workloads keeps the same control over a new kind of user."
+  /></div>;
+}
+
+==> app/products/release-management/page.tsx <==
+import type { Metadata } from "next";
+import "../../landing.css";
+import ComingSoon from "@/components/coming-soon";
+
+export const metadata: Metadata = { title: "Release Management", description: "Coordinate deployments across multiple environments with automated pipelines." };
+
+export default function Page() {
+  return <div className="lp"><ComingSoon
+    title="Release Management" accent="#8B7DFF" when="Part of the platform"
+    sub="Coordinate deployments across multiple environments with automated pipelines."
+    what={[
+      "Coordinate deployments across development, testing and production environments",
+      "Keep release activity aligned with the environment booking and approval record",
+      "Give every release a clear owner and status across teams",
+      "Connect deployment activity with the same governance and audit trail",
+    ]}
+    why="Release management and environment management depend on the same information: which environment is available, who holds it, and what has been approved.
+ Realm9 brings that record together so deployment coordination and governed infrastructure workflows operate as one process."
+  /></div>;
+}
+[exit code 0]

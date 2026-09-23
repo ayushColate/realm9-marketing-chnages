@@ -1,0 +1,57 @@
+import type { Metadata } from "next";
+import "../../landing.css";
+import { Hero, StatBand, FeatureRow, Term, CtaBand } from "@/components/sections";
+
+export const metadata: Metadata = {
+  title: "Infrastructure Orchestration",
+  description: "Git-driven Terraform across AWS, Azure, GCP, Proxmox and VMware vCenter — with drift detection, security scanning and policy checks on every run
+.",
+};
+
+export default function Page() {
+  return (
+    <div className="lp">
+      <Hero eyebrow="Infrastructure Orchestration" accent="#8B7DFF"
+        title="Terraform across every cloud and data center, governed from one place"
+        sub="Realm9 runs your Terraform from Git, scans every plan before it applies, and brings VMware vCenter and Proxmox into the same workflow as AWS, Azure
+ and GCP — so platform teams operate one estate instead of several."
+        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Schedule a live demo", href: "/enterprise/contact" }]} />
+
+      <StatBand stats={[
+        { n: "Terraform", l: "Projects, workspaces, remote state and locking" },
+        { n: "AWS · Azure · GCP", l: "Connected through IAM roles and service principals" },
+        { n: "vCenter · Proxmox", l: "Reached securely over site-to-site VPN" },
+        { n: "3 scanners", l: "Checkov, Trivy and TruffleHog on every run" },
+      ]} />
+
+      <section className="pad"><div className="wrap stack-24" style={{ gap: 80 }}>
+        <FeatureRow accent="#8B7DFF"
+          title="Git-driven runs, reviewed before they apply"
+          body="Connect a repository from GitHub, GitLab or Bitbucket and every push can trigger a run. Each plan is scanned for misconfigurations, vulnerabilit
+ies and leaked secrets, and organisation policies decide what needs approval before apply."
+          bullets={["Git-triggered plans and applies per workspace", "Checkov, Trivy and TruffleHog scanning with severity thresholds", "Organisation-wide polic
+ies for Terraform operations", "Live run logs, with AI explanations when a run fails"]}
+          media={<Term title="Run · production-vpc" html={`<span class="c-dim">trigger</span>    push to main <span class="c-dim">· GitLab</span>
+<span class="c-dim">stage</span>  plan        <span class="c-ok">✓ complete</span>
+<span class="c-dim">stage</span>  checkov     <span class="c-ok">✓ passed</span>  <span class="c-warn">1 warning</span>
+<span class="c-dim">stage</span>  trufflehog  <span class="c-ok">✓ no secrets found</span>
+<span class="c-dim">stage</span>  trivy       <span class="c-ok">✓ no high or critical</span>
+<span class="c-dim">stage</span>  approve     <span class="c-warn">⧗ waiting</span>
+<span class="c-dim">stage</span>  apply       <span class="c-dim">pending approval</span>`} />} />
+
+        <FeatureRow flip accent="#8B7DFF"
+          title="Catch drift before it becomes an incident"
+          body="Out-of-band changes happen. Realm9 compares what you declared with what is actually running, shows exactly what diverged, and lets you remediate
+ through a reviewed run."
+          bullets={["Drift detection across workspaces", "Clear diff of declared versus actual state", "Remediation through the same governed run pipeline", "St
+ate management and locking to prevent conflicting changes"]}
+          media={<Term title="Drift · production-vpc" html={`<span class="c-dim">aws_security_group.api</span>
+  <span class="c-warn">~</span> ingress[3].cidr_blocks
+      declared  <span class="c-str">["10.0.0.0/8"]</span>
+      actual    <span class="c-str">["0.0.0.0/0"]</span>   <span class="c-warn">← changed outside Terraform</span>
+
+<span class="c-dim">status</span>     <span class="c-warn">drift detected</span>
+<span class="c-dim">action</span>     remediation run ready for review`} />} />
+
+        <FeatureRow accent="#8B7DFF"
+[exit code 0]

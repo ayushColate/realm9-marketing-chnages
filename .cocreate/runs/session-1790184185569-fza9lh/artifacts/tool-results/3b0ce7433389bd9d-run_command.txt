@@ -1,0 +1,3 @@
+-nextjs/app/products/finops/page.tsx && echo "✓ Partial checks passed" || echo "Need to complete FinOps updates"
+Need to complete FinOps updates
+[exit code 0]

@@ -1,0 +1,49 @@
+import type { Metadata } from "next";
+import "../../landing.css";
+import { Hero, Cards, SectionHead, CtaBand, Section } from "@/components/sections";
+import { Icons } from "@/components/icons";
+import R9Demo from "@/components/r9-demo";
+
+export const metadata: Metadata = {
+  title: "AI Editor",
+  description: "Generate, edit and explain Terraform with AI in a browser-based editor — scanned, reviewed and approved before anything is applied.",
+};
+
+export default function Page() {
+  return (
+    <div className="lp">
+      <Hero eyebrow="AI Editor — Terraform from plain language" accent="#8B7DFF"
+        title="Describe the infrastructure you need, then review the Terraform before it runs"
+        sub="Realm9 generates Terraform from a plain-language description inside a browser-based editor, runs security scans on every change, and routes the res
+ult through your normal approval workflow. AI speeds up the writing — your team still decides what gets applied."
+        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Schedule a live demo", href: "/enterprise/contact" }]} />
+
+      <Section><R9Demo /></Section>
+
+      <Section alt>
+        <SectionHead center title="AI assistance, inside a governed workflow"
+          sub="Generating code is only the first step. What matters is how that code is reviewed, scanned and approved before it touches your infrastructure." /
+>
+        <Cards items={[
+          { icon: Icons.infra, accent: "var(--pink)", title: "Built into the editor", desc: "A Monaco-based editor with AI chat alongside your Terraform files.
+Ask for a new resource, a refactor or an explanation without leaving the workspace." },
+          { icon: Icons.shield, accent: "var(--pink)", title: "Scanned on every run", desc: "Checkov, Trivy and TruffleHog check generated code for misconfigura
+tions, vulnerabilities and exposed secrets before it can be applied." },
+          { icon: Icons.ledger, accent: "var(--pink)", title: "Undo any AI change", desc: "Every AI edit can be rolled back file by file, so experimenting with
+suggestions never puts your working code at risk." },
+          { icon: Icons.lock, accent: "var(--pink)", title: "Reviewed before it is committed", desc: "Changes are committed to your repository only after you re
+view them, and runs still pass through your approval policies before apply." },
+          { icon: Icons.finops, accent: "var(--pink)", title: "Errors explained", desc: "When a plan or apply fails, AI explains the error in plain language and
+ suggests a fix, so engineers spend less time reading logs." },
+          { icon: Icons.mcp, accent: "var(--pink)", title: "Your model, your key", desc: "Bring your own LLM API key on every plan, including Free. The same cap
+abilities are available to coding agents through the Realm9 MCP Server." },
+        ]} />
+      </Section>
+
+      <CtaBand title="Write infrastructure faster without giving up review"
+        sub="The AI Editor is included on every plan. Bring your own LLM key and start on the free tier."
+        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Schedule a live demo", href: "/enterprise/contact" }} />
+    </div>
+  );
+}
+[exit code 0]

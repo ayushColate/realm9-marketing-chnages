@@ -1,0 +1,63 @@
+import type { Metadata } from "next";
+import "../landing.css";
+import { Hero, StatBand, Cards, SectionHead, CtaBand, Section } from "@/components/sections";
+import { Icons } from "@/components/icons";
+
+export const metadata: Metadata = { title: "Enterprise", description: "Enterprise identity, approvals, audit and on-prem infrastructure — deployed as SaaS or on
+ your own Kubernetes cluster." };
+
+export default function Page() {
+  return (
+    <div className="lp">
+      <Hero eyebrow="Realm9 for Enterprise" accent="#8B7DFF"
+        title="Self-service infrastructure, with the controls regulated organisations need"
+        sub="Realm9 gives engineering teams self-service access to environments and infrastructure, while security, compliance and finance keep the identity con
+trols, approvals and audit evidence they are accountable for. Run it as SaaS or on your own Kubernetes cluster."
+        ctas={[{ label: "Schedule a live demo", href: "/enterprise/contact" }, { label: "Visit the Trust Center", href: "/enterprise/trust-center" }]} />
+
+      <StatBand stats={[
+        { n: "SSO · SCIM · MFA", l: "Okta, Azure AD and Google, with automated user provisioning" },
+        { n: "13+", l: "Audit categories, with export and SIEM support" },
+        { n: "SaaS or self-hosted", l: "Including a dedicated single-tenant environment" },
+        { n: "4-hour", l: "Support SLA on Ultimate · 12-hour on Enterprise" },
+      ]} />
+
+      <Section>
+        <SectionHead title="Explore enterprise" />
+        <Cards cols={2} items={[
+          { icon: Icons.dc, accent: "var(--blue)", title: "Data Centers", desc: "Provision on VMware vCenter and Proxmox over site-to-site VPN, with CIS enforce
+ment and hardened templates.", href: "/enterprise/data-centers" },
+          { icon: Icons.cases, accent: "var(--amber)", title: "Use cases", desc: "How software, financial services, healthcare, retail, manufacturing and teleco
+m teams use Realm9.", href: "/enterprise/use-cases" },
+          { icon: Icons.lock, accent: "var(--green)", title: "Trust Center", desc: "Security architecture, identity and access controls, data protection and ass
+urance documents.", href: "/enterprise/trust-center" },
+          { icon: Icons.mail, accent: "var(--cyan)", title: "Contact us", desc: "Book a live demo and talk through deployment, identity integration and rollout.
+", href: "/enterprise/contact" },
+        ]} />
+      </Section>
+
+      <Section alt>
+        <SectionHead title="What enterprise teams get" />
+        <Cards items={[
+          { title: "Identity you already manage", desc: "SAML 2.0 single sign-on with Okta, Azure AD and others, SCIM 2.0 provisioning, MFA, and group-to-role m
+apping so access follows your directory." },
+          { title: "Session and access security", desc: "Session security policies, device fingerprinting and break-glass access for emergencies — each recorded
+ in the audit trail." },
+          { title: "Approvals with accountability", desc: "Multi-level approval workflows with separation of duties and SLA tracking, so every change has a name
+d approver and a deadline." },
+          { title: "Audit evidence on demand", desc: "13+ audit categories covering bookings, approvals, Terraform, access and credential reveals, exportable to
+ your SIEM." },
+          { title: "Compliance built into provisioning", desc: "CIS benchmark scanning that can block non-compliant VMs, with HTML, ARF and JSON reports for you
+r auditors." },
+          { title: "Support that matches the stakes", desc: "Priority support with a 12-hour SLA and dedicated onboarding on Enterprise; 24/7 phone support with
+ a 4-hour SLA and a dedicated account manager on Ultimate." },
+        ]} />
+      </Section>
+
+      <CtaBand title="See how Realm9 fits your organisation"
+        sub="We'll walk through identity, approvals, audit and deployment options against your own requirements."
+        primary={{ label: "Schedule a live demo", href: "/enterprise/contact" }} secondary={{ label: "Trust Center", href: "/enterprise/trust-center" }} />
+    </div>
+  );
+}
+[exit code 0]

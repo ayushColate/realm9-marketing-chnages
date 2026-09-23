@@ -1,0 +1,502 @@
+  1	# Realm9 — Terraform Feature Map
+  2	
+  3	**Purpose:** Exhaustive, cross-layer map of the Terraform feature prior to client delivery. Synthesized from six parallel code-exploration agents (UI, API, data, jobs, tests, config) and direct file reads of the critical paths (runs creation/approval, GitHub webhook signing, policy override, RBAC, middleware license gating).
+  4	
+  5	**Last synthesized:** 2026-04-22
+  6	
+  7	**Legend:**
+  8	- `✅` confirmed by direct file read
+  9	- `⚠` flagged as potentially inconsistent or risky
+ 10	- `UNVERIFIED` noted in [§14](#14-unverified) — needs manual QA confirmation
+ 11	
+ 12	---
+ 13	
+ 14	## Table of Contents
+ 15	
+ 16	1. [Executive summary](#1-executive-summary)
+ 17	2. [Feature boundaries](#2-feature-boundaries)
+ 18	3. [UI layer](#3-ui-layer)
+ 19	4. [API layer](#4-api-layer)
+ 20	5. [Data layer](#5-data-layer)
+ 21	6. [Execution pipeline](#6-execution-pipeline)
+ 22	7. [Background jobs & schedulers](#7-background-jobs--schedulers)
+ 23	8. [Webhook flow](#8-webhook-flow)
+ 24	9. [Editor / AI subsystem](#9-editor--ai-subsystem)
+ 25	10. [Configuration](#10-configuration)
+ 26	11. [Cross-feature coupling](#11-cross-feature-coupling)
+ 27	12. [External integrations](#12-external-integrations)
+ 28	13. [Existing test coverage](#13-existing-test-coverage)
+ 29	14. [UNVERIFIED](#14-unverified)
+ 30	
+ 31	---
+ 32	
+ 33	## 1. Executive summary
+ 34	
+ 35	| Metric | Count |
+ 36	|---|---|
+ 37	| UI pages under `app/terraform/**` | 19 |
+ 38	| API route files under `app/api/terraform/**` | ~82 |
+ 39	| Terraform-owned Prisma models | 17 |
+ 40	| Junction tables bridging to Environments/Bookings | 3 |
+ 41	| Terraform-specific enums | 30+ |
+ 42	| Background schedulers touching Terraform | 3 (+ startup recovery) |
+ 43	| K8s init containers in a full policy-enabled run | up to 5 (git-clone, TruffleHog, Checkov, Trivy, custom, policy-aggregate) |
+ 44	| Cloud providers with real support | AWS, Azure, on-prem (Proxmox + vSphere) |
+ 45	| Git providers with real support | GitHub, GitLab |
+ 46	| Existing automated tests (Jest) | 71 unit + 20 integration |
+ 47	| Existing Playwright e2e coverage for Terraform | **0** ⚠ |
+ 48	
+ 49	**Highest-risk surfaces before client delivery:**
+ 50	1. **Run approval lifecycle** — no timeout on PENDING_APPROVAL; runs can hang indefinitely. ([§6](#6-execution-pipeline))
+ 51	2. **Log/event retention** — `TerraformRunLog`, `TerraformK8sEvent`, `TerraformPodStatus` have no cleanup job; unbounded growth. ([§7](#7-background-jobs--schedulers))
+ 52	3. **Drift scanning** — `TerraformProjectSyncStatus.nextScanAt` is populated but no cron reads it; scans are **webhook-only**. ([§8](#8-webhook-flow))
+ 53	4. **License tier gating** — `middleware.ts:78` enforces `PROFESSIONAL` minimum for `/api/terraform/**`, which may differ from the tier matrix in `lib/licensing/tier-limits.ts`. ⚠ ([§10](#10-configuration))
+ 54	5. **Editor sessions** — no stale-session cleanup; `ACTIVE` sessions could accumulate. ([§9](#9-editor--ai-subsystem))
+ 55	6. **AI chat tool calls** — no visible rate limit or max-time budget; runaway agents could exhaust tokens. ([§9](#9-editor--ai-subsystem))
+ 56	7. **Webhook replay** — HMAC signature verified, but no `deliveryId` dedup table observed. ([§8](#8-webhook-flow))
+ 57	8. **Zero Playwright e2e coverage** for Terraform despite full E2E infra in place. ([§13](#13-existing-test-coverage))
+ 58	
+ 59	---
+ 60	
+ 61	## 2. Feature boundaries
+ 62	
+ 63	### In-scope paths
+ 64	- `app/terraform/**` — all 19 UI pages
+ 65	- `app/api/terraform/**` — all 82 API route handlers
+ 66	- `lib/terraform/**` — services, K8s client, job builder, utils, redis-chat, unified-state, editor-cache, drift-detection, policy-manager, execution-controller, secure-credential-manager, startup recovery
+ 67	- `prisma/schema.prisma` §2036–5129 — Terraform models (see [§5](#5-data-layer) for precise line anchors)
+ 68	- `mcp-server/**` — MCP server providing Terraform tool-calls to the AI Agent
+ 69	- `k8s/namespace/terraform-runs.yaml`, `k8s/rbac/service-account.yaml`, `k8s/configmaps/terraform-backend-config.yaml`, `k8s/jobs/terraform-job-template.yaml`, `rbac.yaml` (Helm)
+ 70	
+ 71	### Shared utilities used (not Terraform-owned)
+ 72	- `lib/auth/get-server-session.ts`, `lib/auth/role-permissions.ts`, `lib/auth/audit.ts`, `lib/auth/license-blocking.ts`
+ 73	- `lib/prisma.ts`, `lib/observability/app-logger.ts`
+ 74	- `lib/licensing/license-service.ts`, `lib/licensing/license-types.ts`, `lib/licensing/tier-limits.ts`
+ 75	- `lib/email.ts` (approval/rejection/failure emails)
+ 76	- `lib/scheduler/scheduler-service.ts`, `lib/scheduler/redis-lock-manager.ts`
+ 77	- `lib/secrets/secret-provider.factory.ts`
+ 78	- `middleware.ts` (license + auth middleware)
+ 79	
+ 80	### Out of scope (but entangled — see [§11](#11-cross-feature-coupling))
+ 81	- Environments, Bookings, FinOps, SSO, Observability, Audit Logs — all couple with Terraform via junction tables and shared services.
+ 82	
+ 83	---
+ 84	
+ 85	## 3. UI layer
+ 86	
+ 87	All pages are under `app/terraform/**`. Layout: `app/terraform/layout.tsx` (auth-redirects unauthenticated users to `/auth/signin`; unauthorized users to `/unauthorized`; gates the whole tree on `canAccessRoute(role, 'terraform')` which resolves to `VIEW_TERRAFORM` permission).
+ 88	
+ 89	| # | Route | File | Heading / Purpose | Key controls | API calls (primary) | Role gates | Deep-link params |
+ 90	|---|-------|------|-------|--------------|---------------------|------------|------------------|
+ 91	| 1 | `/terraform/projects` | `projects/page.tsx` | Projects list | Search, cloud-provider filter, status filter, grid/list toggle, "New Project" | `GET /api/terraform/projects` | "New Project" requires `isAdmin` + `canCreateResource('terraformProjects')` | — |
+ 92	| 2 | `/terraform/projects/new` | `projects/new/page.tsx` | Create project wizard (`choose`, `custom`, `starter-browse`, `starter-create` modes) | BYO form OR StarterBrowser + StarterCreateForm | `GET /api/terraform/connections`, `GET /api/starter-projects`, `POST /api/terraform/projects` | `canAccessRoute('terraform/projects/new')` → MANAGE_TERRAFORM | `?mode=starter` (inferred) |
+ 93	| 3 | `/terraform/projects/[id]` | `projects/[id]/page.tsx` | Project detail — tabs: Variables, Workspaces, Templates, Recent Runs | Sync Variables (amber), Activate/Reactivate, Open Agent (Editor), Settings, Register Webhook, Re-Validate, New Workspace | `GET /api/terraform/projects/{id}`, `GET /.../variables`, `POST /.../activate`, `POST /.../sync-variables`, `POST /.../webhook`, `POST /.../analyze` | Settings button: `isAdmin`. New Workspace: `isAdmin` + limit check | `?page=`, `?limit=` on Recent Runs |
+ 94	| 4 | `/terraform/projects/[id]/settings` | `projects/[id]/settings/page.tsx` | Project settings — General, Git, CI/CD, Validation, Custom Init, Policy & Security, Execution, State, Danger Zone | All forms; Delete Project (confirmation dialog) | `GET /api/terraform/projects/{id}`, `PUT /.../projects/{id}`, `DELETE /.../projects/{id}`, `GET /api/admin/users`, `GET /api/terraform/policy-profiles` | Delete: `isAdmin`. Settings access: MANAGE_TERRAFORM | — |
+ 95	| 5 | `/terraform/projects/[id]/editor` | `projects/[id]/editor/page.tsx` + `editor/components/chat-input-with-mentions.tsx` | IDE-like editor: Monaco, AI chat with @mentions, file tree, terminal, git ops, resources panel | Open file, edit, save, commit & push, switch branch, refresh from git, AI chat, undo agent change, undo delete | `GET /api/terraform/editor/sessions`, many `/api/terraform/projects/{id}/editor/**` routes | `canAccessRoute('terraform/projects/editor')` → MANAGE_TERRAFORM | `?file=`, `?branch=` (inferred) |
+ 96	| 6 | `/terraform/projects/[id]/workspaces/new` | `projects/[id]/workspaces/new/page.tsx` | Create workspace scoped to project | Form | `POST /api/terraform/workspaces` | MANAGE_TERRAFORM | — |
+ 97	| 7 | `/terraform/workspaces` | `workspaces/page.tsx` | Global workspaces list with analytics (Total, Success %, Total Runs, Recent, Avg Duration, Failed) | Search, project filter, environment filter, grid/list toggle, "New Workspace" | `GET /api/terraform/workspaces`, `GET /.../analytics`, `GET /api/environments/list`, `GET /api/terraform/projects` | New Workspace: `isManager` + limit check | `?projectId=`, `?limit=`, `?offset=` |
+ 98	| 8 | `/terraform/workspaces/new` | `workspaces/new/page.tsx` | Create workspace globally | Form (project selector + workspace fields) | `POST /api/terraform/workspaces` | MANAGE_TERRAFORM | — |
+ 99	| 9 | `/terraform/workspaces/[id]` | `workspaces/[id]/page.tsx` | Workspace detail — tabs: Runs (filters), State | New Run dialog (PLAN/APPLY/DESTROY/REFRESH with stale-commit validation), Cancel Run, Force Unlock, Sync from Project, Dismiss variable-refresh | `GET /api/terraform/workspaces/{id}`, `GET /.../lock`, `DELETE /.../lock`, `GET /.../latest-commit`, `POST /.../sync-variables`, `POST /.../dismiss-variable-refresh`, `POST /api/terraform/runs`, `POST /api/terraform/runs/{id}/cancel` | New Run: `canManageTerraform`; Settings: `isAdmin`; Force Unlock: `isAdmin` | `?from=global` / `?from=project` (back-button behavior); `?type=`, `?status=`, `?page=` |
+100	| 10 | `/terraform/workspaces/[id]/settings` | `workspaces/[id]/settings/page.tsx` | Workspace settings — General, Variables, Resources, Retention, Danger Zone | All forms; Delete Workspace | `GET /api/terraform/workspaces/{id}`, `PUT /.../workspaces/{id}`, `GET /.../retention`, `PUT /.../retention`, `DELETE /.../workspaces/{id}` | Delete: `isAdmin`; Access: MANAGE_TERRAFORM | — |
+101	| 11 | `/terraform/runs` | `runs/page.tsx` | Global runs list | Filters (type/status/workspace), pagination | `GET /api/terraform/runs` | VIEW_TERRAFORM | `?workspaceId=`, `?projectId=`, `?status=`, `?type=` |
+102	| 12 | `/terraform/runs/[id]` | `runs/[id]/page.tsx` | Run detail — status, type, trigger, commit, duration, logs stream, plan summary, policy results, approve/reject actions | Approve, Reject, Cancel, Retry, Policy Override (dialog with 10–1000 char reason) | `GET /api/terraform/runs/{id}`, `GET /.../logs`, `GET /.../policy-checks`, `POST /.../approve`, `POST /.../reject`, `POST /.../cancel`, `POST /.../retry`, `POST /.../policy-checks/override` | Approve/Reject: PROVISIONER+ AND in `project.approverUserIds` (if configured); Override HARD_MANDATORY: MANAGE_TERRAFORM | — |
+103	| 13 | `/terraform/connections` | `connections/page.tsx` | Cloud connections list | Provider/status filters, Create, Test, Delete-preview, Delete | `GET /api/terraform/connections`, `POST /.../{id}/test`, `GET /.../{id}/delete-preview`, `DELETE /.../{id}?confirmDataDeletion=true` | Create: `MANAGE_CLOUD_CONNECTIONS` + limit check | `?provider=`, `?status=` |
+104	| 14 | `/terraform/connections/[id]` | `connections/[id]/page.tsx` | Connection detail + roles + cluster mapping (for on-prem) + VPN status | Add role, validate role, edit, delete, vSphere inventory fetch, VPN health | `GET /api/terraform/connections/{id}`, `GET /.../roles`, `POST /.../roles`, `POST /.../roles/{roleId}/validate`, `GET /.../roles/{roleId}/clusters`, `GET /.../vsphere/{clusters\|datacenters\|datastores\|networks\|templates}`, `GET /.../vpn`, `GET /.../vpn/health`, `GET /.../vpn/router-config` | MANAGE_CLOUD_CONNECTIONS | — |
+105	| 15 | `/terraform/drift-alerts` | `drift-alerts/page.tsx` | Drift alerts list | Status/severity filters, Resolve (with note), Ignore, Acknowledge | `GET /api/terraform/drift-alerts`, `POST /api/terraform/drift-alerts/{id}/resolve`, `GET /api/terraform/drift-alerts/{id}` | VIEW_TERRAFORM for view; MANAGE_TERRAFORM for resolve | `?status=`, `?severity=` |
+106	| 16 | `/terraform/templates` | `templates/page.tsx` | Template list (OS templates and workspace templates) | CRUD, deploy | `GET /api/.../policy-profiles` (? UNVERIFIED for templates API path) | VIEW_TEMPLATES | — |
+107	| 17 | `/terraform/templates/new` | `templates/new/page.tsx` | Create template | Form | `POST /api/terraform/policy-profiles` or templates-specific path (UNVERIFIED) | MANAGE_TEMPLATES | — |
+108	
+109	**Layout + nav:**
+110	- Sidebar (`components/layout/sidebar.tsx`) renders Terraform section items conditionally on `hasPermission(role, Permission.VIEW_TERRAFORM)`:
+111	  - Projects, Workspaces, Runs, Templates, Drift Alerts
+112	  - Additional settings submenu: `/settings/terraform-policies` (MANAGE_SETTINGS), `/audit/terraform` (VIEW_AUDIT_LOGS)
+113	
+114	**License gate UI:** pages are wrapped in `LicenseGate` for feature `terraform`; the license hook (`useLicense`) exposes `canCreateResource('terraformProjects'|'terraformWorkspaces'|'cloudConnections')`.
+115	
+116	---
+117	
+118	## 4. API layer
+119	
+120	Base path: `/api/terraform/**`. All routes require `NextAuth` session **except** webhook + state-import upload (explicit carve-outs in `middleware.ts:18-19`).
+121	
+122	Error model is consistent: unauthenticated → 401; forbidden (license, role, approver) → 403; resource missing or cross-org → 404; state conflict (drift, variable sync, lock, not-in-approval-state) → 409; invalid input (Zod) → 400.
+123	
+124	### 4.1 Projects
+125	
+126	| Method | Path | Auth | Role | Key logic | Returns |
+127	|---|---|---|---|---|---|
+128	| GET | `/api/terraform/projects` | ✓ | VIEW_TERRAFORM | List (paginated, filterable by cloudProvider/status) | `{ projects[], total }` |
+129	| POST | `/api/terraform/projects` | ✓ | MANAGE_TERRAFORM + license limit `terraformProjects` | Create; encrypts `gitToken` via `secureCredentialManager`; assigns default policy profile | 201 project |
+130	| GET | `/api/terraform/projects/[id]` | ✓ | VIEW_TERRAFORM | Fetch project with paginated recent runs | project+runs |
+131	| PUT | `/api/terraform/projects/[id]` | ✓ | MANAGE_TERRAFORM | Update settings; re-encrypts `gitToken` if changed | project |
+132	| DELETE | `/api/terraform/projects/[id]` | ✓ | ADMIN | Soft-archives or hard-deletes + cascades workspaces/runs; warns about S3 state bucket | 204 |
+133	| POST | `/api/terraform/projects/[id]/activate` | ✓ | MANAGE_TERRAFORM | Pull git, extract variables, run IAM analysis, transition status ACTIVE/PERMISSION_MISMATCH/ERROR | status update |
+134	| POST | `/api/terraform/projects/[id]/analyze` | ✓ | MANAGE_TERRAFORM | Re-run IAM analysis | analysis result |
+135	| POST | `/api/terraform/projects/[id]/sync-variables` | ✓ | MANAGE_TERRAFORM | Re-extract + upsert `TerraformProjectVariable`; marks workspaces `NEEDS_SYNC` | variables |
+136	| POST | `/api/terraform/projects/[id]/webhook` | ✓ | MANAGE_TERRAFORM | Register GitHub/GitLab webhook; generates HMAC secret (64 hex), encrypts | webhookId |
+137	| GET | `/api/terraform/projects/[id]/variables` | ✓ | VIEW_TERRAFORM | List extracted variables + history | variables[] |
+138	| GET/PUT | `/api/terraform/projects/[id]/tfvars` | ✓ | MANAGE_TERRAFORM | Upload tfvars, parse, merge into workspaces | tfvars summary |
+139	
+140	### 4.2 Workspaces
+141	
+142	| Method | Path | Auth | Role | Key logic |
+143	|---|---|---|---|---|
+144	| GET | `/api/terraform/workspaces` | ✓ | VIEW_TERRAFORM | Paginated list with project + linked environments/bookings |
+145	| POST | `/api/terraform/workspaces` | ✓ | MANAGE_TERRAFORM + limit `workspacesPerProject` | Create; encrypts cloudCredentials |
+146	| GET | `/api/terraform/workspaces/[id]` | ✓ | VIEW_TERRAFORM | Detail with runs filtered by `type`/`status` |
+147	| PUT | `/api/terraform/workspaces/[id]` | ✓ | MANAGE_TERRAFORM | Update general/resource settings |
+148	| DELETE | `/api/terraform/workspaces/[id]` | ✓ | ADMIN | Delete + cascade runs |
+149	| GET | `/api/terraform/workspaces/[id]/lock` | ✓ | VIEW_TERRAFORM | DynamoDB lock status |
+150	| DELETE | `/api/terraform/workspaces/[id]/lock` | ✓ | ADMIN | Force-unlock DynamoDB |
+151	| GET | `/api/terraform/workspaces/[id]/latest-commit` | ✓ | VIEW_TERRAFORM | Git remote latest commit; used to block stale APPLY |
+152	| GET/PUT | `/api/terraform/workspaces/[id]/retention` | ✓ | MANAGE_TERRAFORM | Retention policy CRUD |
+153	| POST | `/api/terraform/workspaces/[id]/sync-variables` | ✓ | MANAGE_TERRAFORM | `{ source: 'project' \| 'tfvars' }` |
+154	| POST | `/api/terraform/workspaces/[id]/dismiss-variable-refresh` | ✓ | MANAGE_TERRAFORM | Sets `variableRefreshDismissed=true` |
+155	| POST | `/api/terraform/workspaces/[id]/state-import/token` | ✓ | MANAGE_TERRAFORM | Generate short-lived import token (SHA-256 hashed in DB), sets `stateImportStatus=PENDING` |
+156	| GET/POST | `/api/terraform/workspaces/[id]/state` | ✓ | VIEW_TERRAFORM | Read/write state (rare; mostly read for UI) |
+157	| GET | `/api/terraform/workspaces/analytics` | ✓ | VIEW_TERRAFORM | Aggregates for UI cards |
+158	
+159	### 4.3 Runs
+160	
+161	Confirmed directly from `app/api/terraform/runs/route.ts` and `app/api/terraform/runs/[id]/approve/route.ts` and `policy-checks/override/route.ts`.
+162	
+163	| Method | Path | Auth | Role | Key logic | Error codes |
+164	|---|---|---|---|---|---|
+165	| POST | `/api/terraform/runs` | ✓ | MANAGE_TERRAFORM | Blocks if project `DRIFT_DETECTED` or `VARIABLES_PENDING`; blocks if workspace `variablesSyncStatus ∈ {NEEDS_SYNC, PENDING_INPUT}`. Creates run via `ExecutionController.createRun`; audits `TERRAFORM_RUN_CREATED` | 401 / 403 / 404 / `409 DRIFT_DETECTED` / `409 VARIABLES_PENDING` / `409 WORKSPACE_NEEDS_SYNC` / `409 PENDING_INPUT` / 500 |
+166	| GET | `/api/terraform/runs` | ✓ | VIEW_TERRAFORM | Paginated, filterable | 401/500 |
+167	| GET | `/api/terraform/runs/[id]` | ✓ | VIEW_TERRAFORM | Full run detail | 401/404/500 |
+168	| GET | `/api/terraform/runs/[id]/logs` | ✓ | VIEW_TERRAFORM | Streaming logs (paginated by `afterId`) | 401/404/500 |
+169	| POST | `/api/terraform/runs/[id]/approve` | ✓ | `isProvisioner` (PROVISIONER/ADMIN/SUPER_ADMIN) + in `project.approverUserIds` if configured | Only valid when `status=PENDING_APPROVAL`; calls `ExecutionController.approveRun`; audits `TERRAFORM_RUN_APPROVED` | 401/403/404/`400 Run is not pending approval`/500 |
+170	| POST | `/api/terraform/runs/[id]/reject` | ✓ | `isProvisioner` + approver list | `ExecutionController.rejectRun`; audits `TERRAFORM_RUN_REJECTED`; sends email | 401/403/404/400/500 |
+171	| POST | `/api/terraform/runs/[id]/cancel` | ✓ | MANAGE_TERRAFORM | Cancels K8s job (deletes) + marks CANCELLED; cleans up K8s secret | 401/403/404/500 |
+172	| POST | `/api/terraform/runs/[id]/retry` | ✓ | MANAGE_TERRAFORM | Creates a new child run with `parentRunId` preserving config | 201 run |
+173	| GET | `/api/terraform/runs/[id]/policy-checks` | ✓ | VIEW_TERRAFORM | Lists check + results | 401/404/500 |
+174	| GET | `/api/terraform/runs/[id]/policy-checks/results` | (token) | K8s job callback (hashed SHA-256 apiToken) | Receives scanner results from job | 401 bad token / 500 |
+175	| POST | `/api/terraform/runs/[id]/policy-checks/override` | ✓ | Per profile `enforcementMode`: `HARD_MANDATORY` → MANAGE_TERRAFORM; `SOFT_MANDATORY` → any authed user. Reason 10–1000 chars (Zod). | Overrides specific check (if `checkId`) or all blocked; writes audit `POLICY_CHECK_OVERRIDDEN` + run log | 400 Zod / 401 / 403 hard-mandatory / 404 / 400 no-blocked-checks / 500 |
+176	
+177	### 4.4 Connections (cloud) & roles
+178	
+179	- `GET/POST /api/terraform/connections` — list/create (AWS/Azure/on-prem/hybrid; GCP exists in enum but UI gated off).
+180	- `GET/PUT/DELETE /api/terraform/connections/[id]`
+181	- `POST /api/terraform/connections/[id]/test` — AWS: STS GetCallerIdentity (real); Azure/GCP: placeholder validation (⚠ see `docs/TERRAFORM_TEST_CONNECTION.md`).
+182	- `GET /api/terraform/connections/[id]/delete-preview` — lists projects/workspaces affected.
+183	- `GET/POST /api/terraform/connections/[id]/roles` — manage `CloudConnectionRole`.
+184	- `GET/PUT/DELETE /api/terraform/connections/[id]/roles/[roleId]`
+185	- `POST /api/terraform/connections/[id]/roles/[roleId]/validate` — AssumeRole + permission discovery.
+186	- `GET /api/terraform/connections/[id]/roles/[roleId]/clusters` — on-prem cluster mapping.
+187	- `GET /api/terraform/connections/[id]/vsphere/{clusters,datacenters,datastores,networks,templates}` — vSphere inventory.
+188	- `GET /api/terraform/connections/[id]/vpn`, `/vpn/health`, `/vpn/router-config` — on-prem VPN (strongSwan).
+189	- `GET /api/terraform/connections/roles` — cross-connection role query.
+190	
+191	### 4.5 Policy profiles
+192	
+193	- `GET/POST /api/terraform/policy-profiles` — list/create (Checkov, TruffleHog, Trivy, Infracost, OPA, custom scanner toggles).
+194	- `GET/PUT/DELETE /api/terraform/policy-profiles/[id]`.
+195	- `GET /api/terraform/policy-profiles/test-registry` — validate private registry credentials for custom scanner image.
+196	
+197	### 4.6 Drift alerts
+198	
+199	- `GET /api/terraform/drift-alerts?status=&severity=`.
+200	- `GET/PATCH /api/terraform/drift-alerts/[id]` — acknowledge, ignore.
+201	- `POST /api/terraform/drift-alerts/[id]/resolve` — with resolution note.
+202	
+203	### 4.7 Webhooks
+204	
+205	- `POST /api/terraform/webhooks/github` — HMAC SHA-256 (`x-hub-signature-256`), `timingSafeEqual`. Only processes `push`. Deduplication by `x-github-delivery` is **not** implemented in a dedup table (relies on idempotency of drift detection). ⚠
+206	- `POST /api/terraform/webhooks/gitlab` — `x-gitlab-token` header match.
+207	
+208	Flow is described in [§8](#8-webhook-flow).
+209	
+210	### 4.8 Editor & AI
+211	
+212	All `POST /api/terraform/projects/[id]/editor/**` require session + MANAGE_TERRAFORM. Details in [§9](#9-editor--ai-subsystem).
+213	
+214	Routes: `ai/chat`, `ai/continue`, `agent-logs`, `agent-state`, `file-lock`, `unified-state`, `cache-status`, `files` (+ `[...path]`), `folders`, `git/branches`, `git/commit`, `git/diff`, `git/status`, `git/switch-branch`, `resources`, `session` (+ `cache-status`), `undo-agent-change`, `undo-delete`, `validate`.
+215	
+216	Plus top-level: `app/api/terraform/editor/sessions/route.ts`, `app/api/terraform/editor/metrics/route.ts`.
+217	
+218	### 4.9 State import
+219	
+220	- `POST /api/terraform/workspaces/[id]/state-import/token` — generates token, hashes it (SHA-256), stores `stateImportToken` (hash), sets expiry and `stateImportStatus=PENDING`.
+221	- `POST /api/terraform/state-import/upload` — **no NextAuth**, validates `X-Import-Token` header against stored hash + expiry. Uploads to S3/Azure under `imports/{workspaceId}/terraform.tfstate`. Transitions workspace `stateImportStatus=UPLOADED`. CSRF-exempt.
+222	
+223	### 4.10 Misc
+224	
+225	- `GET /api/terraform/stats/runs-summary` — aggregated stats for dashboards.
+226	- `GET /api/terraform/realm9-identity` — exposes Realm9's own K8s SA / AWS role for Azure federated trust setup.
+227	- `GET /api/terraform/validation/stats` — validation job stats.
+228	- `POST /api/terraform/cleanup` — manual cleanup trigger (typically called by cron or admin).
+229	
+230	---
+231	
+232	## 5. Data layer
+233	
+234	All models live in `prisma/schema.prisma` between lines ~2036 and ~5129.
+235	
+236	### 5.1 Core Terraform models
+237	
+238	| Model | Table | Line | Key fields | Relations |
+239	|---|---|---|---|---|
+240	| `TerraformProject` | `terraform_projects` | 2036 | name, gitProvider, gitRepoUrl, gitBranch, gitPath, gitToken (enc), webhookId, webhookSecret (enc), webhookEnabled, cloudProvider, autoApply, requiresApproval, enableAutoPlan, autoPlanBranches[], approverUserIds[], minApprovalsRequired, backendType, stateBucket/stateRegion/lockTable, legacyStateBucket/Region/LockTable, stateMigrationNeeded, stateMigratedAt, starterProjectId, status (ProjectStatus), validationEnabled, maxConcurrentValidations, validationTimeoutSeconds, initTimeoutSeconds, customInitScript, cloudConnectionId, cloudConnectionRoleId, policyProfileId, skipPolicyChecks | organization, cloudConnection, cloudConnectionRole, policyProfile, workspaces[], syncStatus, variables[], variableHistory[], driftAlerts[], editorSessions[], iamAnalysisResults[], templates[], bookingEnvironments[] |
+241	| `TerraformWorkspace` | `terraform_workspaces` | 2162 | projectId, name, lifecycleStage (LifecycleStage: DEVELOPMENT/TESTING/STAGING/PRODUCTION/DEPRECATED), variables (Json), authMethod, cloudCredentials (enc Json), credentialsSecretArn, terraformServiceAccount, stateKey, workingDirectory, lastRunStatus, resourceCount, lastPlanResources (Json), retentionPolicy, retentionDays, retentionCount, workspaceVolumeSize, scanResultsVolumeSize, jobMemory/Cpu/Ephemeral Request/Limit, jobTimeoutSeconds, variablesSyncStatus (IN_SYNC/NEEDS_SYNC/PENDING_INPUT), variablesRefreshedAt, variableRefreshDismissed, stateImportToken (hash), stateImportTokenExpiresAt, stateImportStatus (PENDING/UPLOADED/MIGRATING/MIGRATED/MIGRATION_FAILED), stateImportKey, stateMigratedAt, templateId | project, template, creator, updater, environmentWorkspaces[], bookingWorkspaces[], runs[] |
+242	| `TerraformRun` | `terraform_runs` | 2256 | workspaceId, parentRunId, type (PLAN/APPLY/DESTROY/REFRESH), status, trigger (MANUAL/VCS/API/AUTO/WEBHOOK), planId, planOutput, planSummary, estimatedCost, applyOutput, appliedResources, errorOutput, errorDetails, k8sJobName, k8sNamespace, k8sJobStatus, k8sPodName, k8sSecretName, k8sRegistrySecretName, gitCommitSha/Message/Author, requiresApproval, approvedBy, approvedAt, approvalNotes, rejectedBy, rejectedAt, rejectionReason, stateLockId, stateLockAcquired, queuedAt, startedAt, completedAt, duration, policyCheckStatus, policyCheckPassed, policyCheckOverridden | workspace, creator, approver, rejecter, parentRun/childRuns, logs[], k8sEvents[], podStatusHistory[], policyChecks[] |
+243	| `TerraformRunLog` | `terraform_run_logs` | 2345 | runId, timestamp, level (DEBUG/INFO/WARN/ERROR/FATAL), message, source (terraform/git/k8s/system) | run |
+244	| `TerraformK8sEvent` | `terraform_k8s_events` | 2361 | runId, eventUid (unique), type, reason, message, source, timestamp | run |
+245	| `TerraformPodStatus` | `terraform_pod_status` | 2379 | runId, phase, reason, message, timestamp | run |
+246	| `TerraformProjectSyncStatus` | `terraform_project_sync_status` | 2736 | projectId (unique), lastAnalyzedAt/Commit/Branch, currentResources, currentPermissions, currentVariables, currentModules, rolePermissions, permissionCoverage, syncStatus (UNKNOWN/IN_SYNC/DRIFT_DETECTED/OVER_PRIVILEGED/ERROR), missingPermissions, excessPermissions, driftDetectedAt, driftTypes[], latestGitCommit, driftDetails, nextScanAt | project |
+247	| `TerraformProjectVariable` | `terraform_project_variables` | 2778 | projectId, name, type, description, defaultValue, sensitive, validationRules, extractedAt, extractedFrom | project |
+248	| `TerraformProjectVariableHistory` | `terraform_project_variable_history` | 2805 | projectId, variableId, name, type, description, defaultValue, sensitive, validationRules, changeType (CREATED/UPDATED/DELETED), changedAt, gitCommitSha | project |
+249	
+250	### 5.2 Editor & AI models
+251	
+252	| Model | Table | Line | Key fields |
+253	|---|---|---|---|
+254	| `EditorSession` | `editor_sessions` | 2397 | projectId, userId, status (ACTIVE/IDLE/CLOSED), currentBranch, workingDirectory, cacheStatus (NOT_STARTED/LOADING/COMPLETED/FAILED/PARTIAL), cacheProgress, cacheTotalFiles, cacheLoadedFiles, cacheError, cacheStartedAt, cacheCompletedAt, startedAt, lastActivityAt, endedAt |
+255	| `AIChatMessage` | `ai_chat_messages` | 2435 | sessionId, role (USER/ASSISTANT/SYSTEM), content, contextFiles, contextResources, toolCallId, functionName, tokens, model, createdAt |
+256	| `IAMAnalysisResult` | `iam_analysis_results` | 2467 | projectId, sessionId, resourceTypes[], requiredPermissions[], currentPermissions[], missingPermissions[], excessPermissions[], coverage, suggestedPolicy, recommendation, analyzedAt |
+257	
+258	### 5.3 Cloud connection / drift models
+259	
+260	| Model | Table | Line | Notes |
+261	|---|---|---|---|
+262	| `CloudConnection` | `cloud_connections` | 2500 | Per-org, per-provider. Fields: accountId, externalId, region, tenantId, subscriptionId, hypervisorType (PROXMOX/VMWARE/VMWARE_VCENTER), proxmoxEndpoint, onPremSubnet/PublicIp, routerVendor, sshPublicKey, hypervisor endpoints, finopsEnabled, status (ACTIVE/INACTIVE/ERROR/EXPIRED). |
+263	| `CloudConnectionRole` | `cloud_connection_roles` | 2633 | roleArn (AWS) or clientId/clientSecret (Azure); validationStatus; detectedResources[]/Permissions[]; iamPolicyDocument. |
+264	| `RoleDriftAlert` | `role_drift_alerts` | 2691 | driftType (NEW_RESOURCES/REMOVED_RESOURCES/NEW_PERMISSIONS/ROLE_CHANGED/REPO_UPDATED/VARIABLES_CHANGED/MODULES_CHANGED), severity (INFO/WARNING/ERROR/CRITICAL), status (OPEN/ACKNOWLEDGED/RESOLVED/IGNORED), detectedBy (GIT_WEBHOOK/PERIODIC_SCAN/MANUAL/PRE_RUN_CHECK). |
+265	
+266	### 5.4 Policy models
+267	
+268	| Model | Table | Line | Notes |
+269	|---|---|---|---|
+270	| `PolicyCheckProfile` | `policy_check_profiles` | 4859 | Scanner toggles (checkov/truffleHog/trivy/infracost/opa/custom), enforcement (`ADVISORY`/`SOFT_MANDATORY`/`HARD_MANDATORY`), blockOn thresholds, exclusions, custom scanner image + registry creds (encrypted). |
+271	| `TerraformRunPolicyCheck` | `terraform_run_policy_checks` | 4964 | runId + phase unique; violation counts; apiToken (SHA-256 hashed callback token); passed/blockedRun/overridden/overriddenBy/overrideReason; raw scanner outputs (Json). |
+272	| `PolicyCheckResult` | `policy_check_results` | 5052 | policyCheckId, checkId, scanner, category, severity, title, description, fileName, lineStart/End, resourceName/Type/Address, remediation, documentationUrl, status (OPEN/SUPPRESSED/FIXED). |
+273	
+274	### 5.5 Workspace templates
+275	
+276	| Model | Table | Line | Notes |
+277	|---|---|---|---|
+278	| `Template` | `templates` | 2837 | formFields (Json), hiddenVariables (Json), workspaceNamePattern, defaultLifecycleStage. Used by `TerraformWorkspace.templateId`. |
+279	
+280	### 5.6 Junction tables (cross-feature)
+281	
+282	| Model | Table | Line | Purpose |
+283	|---|---|---|---|
+284	| `EnvironmentWorkspace` | `environment_workspaces` | 2883 | Environment ↔ TerraformWorkspace, with `executionOrder`, `provisioningStatus`. |
+285	| `EnvironmentBookingProject` | `environment_booking_projects` | 2903 | Environment ↔ TerraformProject. |
+286	| `BookingWorkspace` | `booking_workspaces` | 2920 | Booking ↔ TerraformWorkspace, with `executionOrder`, `provisioningStatus`. |
+287	
+288	### 5.7 Terraform-specific enums (select)
+289	
+290	`TerraformRunType`, `TerraformRunStatus`, `TerraformTrigger`, `TerraformBackendType`, `CloudAuthMethod`, `CloudProvider`, `HypervisorType`, `RouterVendor`, `GitProvider`, `ProjectStatus`, `ProvisioningStatus`, `StateImportStatus`, `VariableSyncStatus`, `RoleValidationStatus`, `DriftType`, `AlertSeverity`, `AlertStatus`, `DetectionMethod`, `SyncStatus`, `LifecycleStage`, `EditorSessionStatus`, `EditorCacheStatus`, `LogLevel`, `ConnectionStatus`, `AIChatRole`, `PolicyEnforcementMode`, `PolicyCheckStatus`, `PolicyCheckPhase`, `PolicyScanner`, `PolicyCheckCategory`, `PolicySeverity`, `PolicyResultStatus`.
+291	
+292	### 5.8 Shared tables accessed
+293	
+294	- `User` — `createdBy`, `approvedBy`, `rejectedBy`, editor sessions, policy overrides
+295	- `Organization` — scoping on every model
+296	- `AuditLog` — audit-events enumerated in `lib/auth/audit.ts` (`TERRAFORM_RUN_CREATED/APPROVED/REJECTED/CANCELLED`, `PROJECT_ACTIVATED`, `GIT_WEBHOOK_RECEIVED/CREATED`, `POLICY_CHECK_OVERRIDDEN`, `USER_DATA_DELETED`)
+297	- `Notification` — approval-pending, failure, drift, policy-violation
+298	
+299	### 5.9 Raw SQL usage
+300	
+301	**None** found in `/app/api/terraform/**` — all access is through Prisma.
+302	
+303	---
+304	
+305	## 6. Execution pipeline
+306	
+307	### 6.1 State machine
+308	
+309	```
+310	                   ┌────────────────┐
+311	  POST /runs ─────►│  QUEUED        │
+312	                   └──────┬─────────┘
+313	                          │ if requiresApproval
+314	                          ▼
+315	                   ┌────────────────┐   reject   ┌────────────┐
+316	                   │ PENDING_APPROVAL├──────────►│ REJECTED   │
+317	                   └──────┬─────────┘            └────────────┘
+318	                          │ approve
+319	                          ▼
+320	     ┌────────────────────────────────────────┐
+321	     │  executeRunAsync (lib/terraform/...)   │
+322	     │  ExecutionController.executeRunAsync   │
+323	     └─────────┬──────────────────────────────┘
+324	               ▼
+325	   ┌─────────────────┐  K8s job spawn   ┌──────────────┐
+326	   │ PLANNING /      │────────────────► │ running in   │
+327	   │ APPLYING /      │                  │ terraform-   │
+328	   │ DESTROYING      │                  │ runs ns      │
+329	   └─────┬───────────┘                  └──────┬───────┘
+330	         │                                     │
+331	         │ success                             │ failure / cancel / policy
+332	         ▼                                     ▼
+333	   ┌─────────────────┐                  ┌──────────────────┐
+334	   │ PLANNED /       │                  │ FAILED /         │
+335	   │ APPLIED /       │                  │ POLICY_FAILED /  │
+336	   │ DESTROYED /     │                  │ CANCELLED        │
+337	   │ COMPLETED       │                  └──────────────────┘
+338	   └─────┬───────────┘
+339	         │ (if PLAN + project.autoApply)
+340	         ▼
+341	    auto-APPLY run created (new run, parentRunId set)
+342	```
+343	
+344	### 6.2 Block conditions at `POST /api/terraform/runs`
+345	
+346	All return HTTP **409** with a `code` field for the UI to route:
+347	- `DRIFT_DETECTED` — `project.status === 'DRIFT_DETECTED'`
+348	- `VARIABLES_PENDING` — `project.status === 'VARIABLES_PENDING'`
+349	- `WORKSPACE_NEEDS_SYNC` — `workspace.variablesSyncStatus === 'NEEDS_SYNC'`
+350	- `PENDING_INPUT` — `workspace.variablesSyncStatus === 'PENDING_INPUT'`
+351	
+352	### 6.3 K8s job anatomy
+353	
+354	Namespace: `terraform-runs`. Service account: `terraform-executor` (IRSA-annotated).
+355	
+356	Init containers (in order, if policy profile enables scanner):
+357	1. `git-clone` (alpine/git) — checks out `gitRepoUrl` at `gitCommitSha || gitBranch`
+358	2. `trufflehog` (trufflesecurity/trufflehog)
+359	3. `checkov` (bridgecrew/checkov)
+360	4. `trivy` (aquasec/trivy)
+361	5. (optional) `custom-scanner` — user image with registry-creds-secret
+362	6. `policy-aggregate` (alpine:3.19) — merges scan JSON, writes `/scan-results/policy-results.json`, evaluates `enforcementMode` + `blockOn*` → either proceeds or short-circuits
+363	
+364	Main container:
+365	- `hashicorp/terraform:1.6` — runs `terraform init` (with backend override), `terraform plan`/`apply`/`destroy` depending on `RUN_TYPE` env var.
+366	- Backend override file written by init: S3 or Azure blob backend stanza derived from project config (`backendType`, `stateBucket`, `azureResourceGroup`, etc.).
+367	- AWS: uses `AWS_PROFILE` pointing at injected `~/.aws/credentials` with STS assumed-role credentials (short-lived) OR IRSA token.
+368	- Azure: uses `ARM_USE_OIDC=true` + projected SA token OR client-secret from secret.
+369	
+370	Resource limits (defaults, overridable at workspace):
+371	- requests: 256Mi memory / 250m CPU / 1Gi ephemeral
+372	- limits: 2Gi memory / 1000m CPU / 5Gi ephemeral
+373	- workspace volume: 2Gi emptyDir
+374	- scan-results volume: 500Mi emptyDir
+375	
+376	Timeouts:
+377	- pod scheduling: **5 min** before `ExecutionController` gives up
+378	- job activeDeadlineSeconds: **1800 s (30 min)**
+379	- job TTL after finished: **3600 s (1 h)** (K8s TTL controller)
+380	
+381	### 6.4 Monitoring loop (in `ExecutionController.executeWithMonitoring`)
+382	
+383	- every 3 s: fetch K8s events for job+pod, dedup by eventUid → `TerraformK8sEvent`
+384	- every 5 s: fetch pod logs incrementally (track offset per container) → `TerraformRunLog`, mask credentials via `lib/terraform/utils/log-masking.ts`
+385	- every 5 s: poll job status (`Job.status.succeeded|failed|active`)
+386	- cancellation detected if pod disappears for 3 consecutive polls → throws `K8S_JOB_FAILED {cancelled:true}` → status CANCELLED
+387	
+388	### 6.5 Completion dispatch (`onRunCompleted`)
+389	
+390	- `PLAN → PLANNED`: if `project.autoApply` and plan exited cleanly, spawn APPLY run.
+391	- `APPLY → APPLIED`: sets `EnvironmentWorkspace.provisioningStatus=PROVISIONED` / `BookingWorkspace.provisioningStatus=PROVISIONED`; recalculates env-level `Environment.provisioningStatus`.
+392	- `DESTROY → DESTROYED`: snapshots workspace state into `Booking.workspaceSnapshots`; sets `DESTROYED`.
+393	- Any `FAILED` / `POLICY_FAILED`: fires `sendTerraformRunNotification` + `sendEnvironmentProvisioningFailureNotification`.
+394	
+395	---
+396	
+397	## 7. Background jobs & schedulers
+398	
+399	Primary scheduler: `lib/scheduler/scheduler-service.ts` (Croner library). Uses `RedisLockManager` for multi-pod safety.
+400	
+401	| Cron | Schedule | Service | File | Lock |
+402	|---|---|---|---|---|
+403	| Booking status sync | `*/5 * * * *` | `BookingStatusSync` | `lib/scheduler/scheduler-service.ts:119` | Redis |
+404	| Workflow expiration sync | `*/5 * * * *` | `WorkflowExpirationSync` | `:150` | Redis |
+405	| Workflow reminder sync | `*/15 * * * *` | `WorkflowReminderSync` | `:181` | Redis |
+406	| SSO health check | `*/5 * * * *` | `SSOHealthSync` | `:212` | Redis |
+407	| **Terraform runs cleanup** | `0 2 * * *` | `RunRecoveryService.cleanupOldRuns` | `:243`, logic in `lib/terraform/services/run-recovery.service.ts:237` | Redis (`terraform-runs-cleanup`) |
+408	| FinOps cost sync | `0 2 * * *` | `CostSyncScheduler` | `:283` | Redis (`finops-cost-sync`) |
+409	
+410	Startup recovery (not cron, runs on server boot):
+411	- `initializeTerraformServices()` in `lib/terraform/startup.ts:10` → finds runs in `{QUEUED, PLANNING, APPLYING, DESTROYING}` with `k8sJobName` set, calls K8s `getJobStatus`. Syncs terminal state (COMPLETED/FAILED) or resumes monitoring; marks orphans as FAILED.
+412	
+413	Additional cron routes (outside main scheduler — invoked by external cron or manual):
+414	- `app/api/cron/audit-cleanup/route.ts`
+415	- `app/api/cron/session-cleanup/route.ts`
+416	- `app/api/cron/assistant-cleanup/route.ts` (90-day retention, uses PostgreSQL advisory lock 900901)
+417	- `app/api/cron/booking-status-sync/route.ts`
+418	- `app/api/cron/sso-migrations/route.ts`
+419	
+420	### 7.1 Retention policies
+421	
+422	- **Runs**: per-workspace `retentionPolicy ∈ {DAYS, COUNT, BOTH}`, `retentionDays` (1–365, default 30), `retentionCount` (1–10000, default 100). Deletes runs in statuses `{COMPLETED, FAILED, CANCELLED, PLANNED, APPLIED}`.
+423	- **K8s jobs**: cleaned by K8s TTL (1h) or explicitly by `cleanupOrphanedJobs()` in the same cron.
+424	- **Logs / k8s events / pod status**: ⚠ **no cleanup observed** — see [§14](#14-unverified).
+425	
+426	### 7.2 Distributed locks
+427	
+428	- `lib/terraform/utils/distributed-lock.ts` — Redis-based, SET NX + Lua release + auto-refresh.
+429	- `lib/scheduler/redis-lock-manager.ts` — scheduler-level lock wrapper.
+430	- PostgreSQL advisory locks for assistant-cleanup cron.
+431	
+432	---
+433	
+434	## 8. Webhook flow
+435	
+436	```
+437	  ┌──────────────┐     push event       ┌─────────────────────────────┐
+438	  │  GitHub/     │─────────────────────►│ POST /api/terraform/        │
+439	  │  GitLab      │                      │      webhooks/{github,gitlab}│
+440	  └──────────────┘                      └────────────┬────────────────┘
+441	                                                     │
+442	                                      verify HMAC SHA-256 with project
+443	                                      webhookSecret via timingSafeEqual
+444	                                                     │
+445	                                           if event == 'push':
+446	                                                     ▼
+447	                                      Find all active projects matching
+448	                                      gitRepoUrl + gitBranch + webhookEnabled
+449	                                                     │
+450	                                      Parallel: for each matched project:
+451	                                                     ▼
+452	                                  DriftDetectionService.detectDrift({method=WEBHOOK})
+453	                                      - analyze repo
+454	                                      - compare resources/permissions/vars
+455	                                      - create RoleDriftAlert rows
+456	                                      - update TerraformProjectSyncStatus
+457	                                      - upsert TerraformProjectVariable(+History)
+458	                                      - mark workspaces NEEDS_SYNC if vars changed
+459	                                                     │
+460	                           if project.enableAutoPlan and no drift:
+461	                                                     ▼
+462	                          if branch in project.autoPlanBranches:
+463	                                                     ▼
+464	                     batched spawn PLAN runs (max AUTOPLAN_MAX_WORKSPACES,
+465	                     batch size AUTOPLAN_BATCH_SIZE, delay AUTOPLAN_BATCH_DELAY_MS)
+466	                                                     │
+467	                                                     ▼
+468	                                  Respond 200 with per-project summary
+469	```
+470	
+471	### 8.1 Signature verification (GitHub)
+472	
+473	`app/api/terraform/webhooks/github/route.ts:13-21`:
+474	
+475	```ts
+476	function verifyGitHubSignature(payload, signature, secret) {
+477	  const hmac = crypto.createHmac('sha256', secret)
+478	  const digest = 'sha256=' + hmac.update(payload).digest('hex')
+479	  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(digest))
+480	}
+481	```
+482	
+483	- Header: `x-hub-signature-256`, format `sha256=<hex>`.
+484	- Event header: `x-github-event`; only `push` is processed.
+485	- Delivery header: `x-github-delivery` (used in audit log; **not** stored for dedup).
+486	
+487	### 8.2 Drift detection classification
+488	
+489	`lib/terraform/services/drift-detection.service.ts:53-329`:
+490	
+491	- `NEW_RESOURCES` / `REMOVED_RESOURCES` / `NEW_PERMISSIONS` → full `DRIFT_DETECTED` project status, blocks all new runs.
+492	- `VARIABLES_CHANGED` only → lighter `VARIABLES_PENDING` status; auto-upserts `TerraformProjectVariable`(+History); marks downstream workspaces `NEEDS_SYNC`.
+493	- `MODULES_CHANGED` / `ROLE_CHANGED` / `REPO_UPDATED` → classified, alert created.
+494	
+495	### 8.3 Auto-plan fan-out env vars
+496	
+497	- `AUTOPLAN_BATCH_SIZE` (default 10)
+498	- `AUTOPLAN_BATCH_DELAY_MS` (default 2000)
+499	- `AUTOPLAN_MAX_WORKSPACES` (default 50) — above this, auto-plan is skipped with a warning.
+500	
+
+[Truncated by requested limit; showing lines 1-500 of 745. Call READ again with offset=501 to continue.]

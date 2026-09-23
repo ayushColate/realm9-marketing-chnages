@@ -1,0 +1,45 @@
+44:| Cloud providers with real support | AWS, Azure, on-prem (Proxmox + vSphere) |
+45:| Git providers with real support | GitHub, GitLab |
+77:- `lib/secrets/secret-provider.factory.ts`
+91:| 1 | `/terraform/projects` | `projects/page.tsx` | Projects list | Search, cloud-provider filter, status filter, grid/list toggle, "New Project" | `GET /api
+/terraform/projects` | "New Project" requires `isAdmin` + `canCreateResource('terraformProjects')` | — |
+103:| 13 | `/terraform/connections` | `connections/page.tsx` | Cloud connections list | Provider/status filters, Create, Test, Delete-preview, Delete | `GET /ap
+i/terraform/connections`, `POST /.../{id}/test`, `GET /.../{id}/delete-preview`, `DELETE /.../{id}?confirmDataDeletion=true` | Create: `MANAGE_CLOUD_CONNECTIONS
+` + limit check | `?provider=`, `?status=` |
+104:| 14 | `/terraform/connections/[id]` | `connections/[id]/page.tsx` | Connection detail + roles + cluster mapping (for on-prem) + VPN status | Add role, vali
+date role, edit, delete, vSphere inventory fetch, VPN health | `GET /api/terraform/connections/{id}`, `GET /.../roles`, `POST /.../roles`, `POST /.../roles/{rol
+eId}/validate`, `GET /.../roles/{roleId}/clusters`, `GET /.../vsphere/{clusters\|datacenters\|datastores\|networks\|templates}`, `GET /.../vpn`, `GET /.../vpn/h
+ealth`, `GET /.../vpn/router-config` | MANAGE_CLOUD_CONNECTIONS | — |
+114:**License gate UI:** pages are wrapped in `LicenseGate` for feature `terraform`; the license hook (`useLicense`) exposes `canCreateResource('terraformProjec
+ts'|'terraformWorkspaces'|'cloudConnections')`.
+128:| GET | `/api/terraform/projects` | ✓ | VIEW_TERRAFORM | List (paginated, filterable by cloudProvider/status) | `{ projects[], total }` |
+145:| POST | `/api/terraform/workspaces` | ✓ | MANAGE_TERRAFORM + limit `workspacesPerProject` | Create; encrypts cloudCredentials |
+177:### 4.4 Connections (cloud) & roles
+179:- `GET/POST /api/terraform/connections` — list/create (AWS/Azure/on-prem/hybrid; GCP exists in enum but UI gated off).
+186:- `GET /api/terraform/connections/[id]/roles/[roleId]/clusters` — on-prem cluster mapping.
+188:- `GET /api/terraform/connections/[id]/vpn`, `/vpn/health`, `/vpn/router-config` — on-prem VPN (strongSwan).
+240:| `TerraformProject` | `terraform_projects` | 2036 | name, gitProvider, gitRepoUrl, gitBranch, gitPath, gitToken (enc), webhookId, webhookSecret (enc), webh
+ookEnabled, cloudProvider, autoApply, requiresApproval, enableAutoPlan, autoPlanBranches[], approverUserIds[], minApprovalsRequired, backendType, stateBucket/st
+ateRegion/lockTable, legacyStateBucket/Region/LockTable, stateMigrationNeeded, stateMigratedAt, starterProjectId, status (ProjectStatus), validationEnabled, max
+ConcurrentValidations, validationTimeoutSeconds, initTimeoutSeconds, customInitScript, cloudConnectionId, cloudConnectionRoleId, policyProfileId, skipPolicyChec
+ks | organization, cloudConnection, cloudConnectionRole, policyProfile, workspaces[], syncStatus, variables[], variableHistory[], driftAlerts[], editorSessions[
+], iamAnalysisResults[], templates[], bookingEnvironments[] |
+241:| `TerraformWorkspace` | `terraform_workspaces` | 2162 | projectId, name, lifecycleStage (LifecycleStage: DEVELOPMENT/TESTING/STAGING/PRODUCTION/DEPRECATED)
+, variables (Json), authMethod, cloudCredentials (enc Json), credentialsSecretArn, terraformServiceAccount, stateKey, workingDirectory, lastRunStatus, resourceC
+ount, lastPlanResources (Json), retentionPolicy, retentionDays, retentionCount, workspaceVolumeSize, scanResultsVolumeSize, jobMemory/Cpu/Ephemeral Request/Limi
+t, jobTimeoutSeconds, variablesSyncStatus (IN_SYNC/NEEDS_SYNC/PENDING_INPUT), variablesRefreshedAt, variableRefreshDismissed, stateImportToken (hash), stateImpo
+rtTokenExpiresAt, stateImportStatus (PENDING/UPLOADED/MIGRATING/MIGRATED/MIGRATION_FAILED), stateImportKey, stateMigratedAt, templateId | project, template, cre
+ator, updater, environmentWorkspaces[], bookingWorkspaces[], runs[] |
+262:| `CloudConnection` | `cloud_connections` | 2500 | Per-org, per-provider. Fields: accountId, externalId, region, tenantId, subscriptionId, hypervisorType (P
+ROXMOX/VMWARE/VMWARE_VCENTER), proxmoxEndpoint, onPremSubnet/PublicIp, routerVendor, sshPublicKey, hypervisor endpoints, finopsEnabled, status (ACTIVE/INACTIVE/
+ERROR/EXPIRED). |
+263:| `CloudConnectionRole` | `cloud_connection_roles` | 2633 | roleArn (AWS) or clientId/clientSecret (Azure); validationStatus; detectedResources[]/Permission
+s[]; iamPolicyDocument. |
+581:| Tier | terraformProjects | workspacesPerProject | cloudConnections | cisScanning | customScannerImages | starterProjects | onPremInfra |
+583:| FREE (cloud) | 1 | 2 | 1 | ❌ | ❌ | ❌ | ❌ |
+625:- Encrypted fields: `TerraformProject.gitToken`, `TerraformProject.webhookSecret`, `TerraformWorkspace.cloudCredentials` (per-key), `PolicyCheckProfile.infr
+acostApiKey`, `PolicyCheckProfile.customScannerRegistryUser/Pass`.
+660:- SSO provider identity flows into `userId` on audit logs and approver checks.
+688:| Proxmox API / SSH | Outbound | per-connection SSH key + password | On-prem VM creation |
+689:| strongSwan VPN (on-prem router) | Config generated | — | Router config for `/vpn/router-config` |
+[exit code 0]

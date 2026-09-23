@@ -1,0 +1,14 @@
+sx
+      40 app/page.tsx
+      82 app/products/environment-management/page.tsx
+      79 app/products/finops/page.tsx
+      83 app/products/infrastructure-management/page.tsx
+      83 app/products/mcp-server/page.tsx
+      40 app/products/r9/page.tsx
+      19 app/products/release-management/page.tsx
+      19 app/products/sandbox/page.tsx
+      50 app/enterprise/page.tsx
+      67 app/startups/page.tsx
+      61 app/pricing/page.tsx
+     623 total
+[exit code 0]

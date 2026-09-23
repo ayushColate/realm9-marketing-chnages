@@ -1,0 +1,77 @@
+import type { Metadata } from "next";
+import "../landing.css";
+import Link from "next/link";
+import { Hero, Cards, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+import { Icons } from "@/components/icons";
+
+export const metadata: Metadata = { title: "Startups", description: "Realm9 for startups — start free on SaaS or self-hosted, and move to Starter at $299 a mont
+h when your team grows." };
+
+export default function Page() {
+  return (
+    <div className="lp">
+      <Hero eyebrow="Realm9 for Startups" accent="#8B7DFF"
+        title="Platform engineering for startups that don't have a platform team yet"
+        sub="Realm9 gives a small team governed Terraform, environment booking and an AI co-pilot from day one. Start free, then move to Starter when you need m
+ore users, more environments and multi-cloud."
+        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Schedule a live demo", href: "/enterprise/contact" }]} />
+
+      <Section>
+        <SectionHead center title="What Realm9 takes off a small team's plate"
+          sub="The infrastructure work that eats engineering time long before anyone is hired to own it." />
+        <Cards items={[
+          { icon: Icons.infra, accent: "var(--blue)", title: "Terraform without the glue scripts", desc: "Git-triggered runs from GitHub, GitLab or Bitbucket, w
+ith drift detection, state management and locking included on the free plan." },
+          { icon: Icons.env, accent: "var(--cyan)", title: "No more fighting over staging", desc: "Book shared environments on a calendar. Conflicts queue autom
+atically, so nobody overwrites someone else's test run." },
+          { icon: Icons.r9, accent: "var(--pink)", title: "AI that writes the first draft", desc: "Generate and edit Terraform from a description and get failed
+ runs explained in plain language. Bring your own LLM key on every plan." },
+          { icon: Icons.lock, accent: "var(--green)", title: "Secrets kept out of your code", desc: "Reference credentials in AWS Secrets Manager, Azure Key Vau
+lt, HashiCorp Vault or OpenBao. Available on every plan, including Free." },
+          { icon: Icons.shield, accent: "var(--purple)", title: "Security checks from the first commit", desc: "Checkov, Trivy and TruffleHog scan your infrastr
+ucture code, so misconfigurations and leaked secrets are caught before they ship." },
+          { icon: Icons.rocket, accent: "var(--amber)", title: "Room to grow into enterprise", desc: "When your first enterprise customer asks about SSO, MFA an
+d audit trails, the same platform scales up to them. No migration required." },
+        ]} />
+      </Section>
+
+      <Section alt>
+        <div className="feature-row">
+          <div>
+            <h3 style={{ marginBottom: 14 }}>Start free, scale when you&rsquo;re ready</h3>
+            <p className="lede" style={{ fontSize: 16 }}>Pick SaaS or self-hosted. Both have a free plan with no credit card and no time limit, and Starter is b
+uilt for startups and growing teams.</p>
+            <ul className="bullets check" style={{ ["--acc" as string]: "var(--cyan)", marginTop: 24 }}>
+              <li>SaaS Free: 3 users, 5 environments, 1 Terraform project and 1 cloud connection</li>
+              <li>Self-hosted Free: 5 users, 10 environments and 2 Terraform projects on your own infrastructure</li>
+              <li>Starter at $299 a month: 15 users, 50 environments, 5 Terraform projects and unlimited cloud connections</li>
+              <li>Multi-cloud across AWS, Azure and GCP, plus webhooks and email support, on Starter</li>
+              <li>A 14-day free trial — if you don&rsquo;t upgrade, you move to Free and keep your data</li>
+            </ul>
+            <div className="btn-row" style={{ marginTop: 28 }}>
+              <Link className="btn btn-primary" href="/pricing">Compare plans</Link>
+              <Link className="btn btn-secondary" href="/enterprise/contact">Talk to us</Link>
+            </div>
+          </div>
+          <div className="fr-media">
+            <Term title="Your first week on Realm9" html={`<span class="c-com"># a typical setup on the free plan</span>
+
+  <span class="c-ok">✓</span> cloud connection     <span class="c-dim">aws · IAM role</span>
+  <span class="c-ok">✓</span> terraform project    <span class="c-dim">linked to your Git repo</span>
+  <span class="c-ok">✓</span> workspaces           <span class="c-dim">staging · production</span>
+  <span class="c-ok">✓</span> secrets              <span class="c-dim">vault:// references</span>
+  <span class="c-ok">✓</span> environments         <span class="c-dim">bookable by the team</span>
+  <span class="c-ok">✓</span> AI co-pilot          <span class="c-dim">your own LLM key</span>
+
+<span class="c-dim">plan</span>   Free <span class="c-dim">· no credit card</span>`} />
+          </div>
+        </div>
+      </Section>
+
+      <CtaBand title="Start on the free plan. Grow into the rest."
+        sub="Everything you set up on Free carries over when you move to Starter, Enterprise or Ultimate."
+        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Schedule a live demo", href: "/enterprise/contact" }} />
+    </div>
+  );
+}
+[exit code 0]

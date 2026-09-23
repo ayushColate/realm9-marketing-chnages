@@ -1,0 +1,64 @@
+import type { Metadata } from "next";
+import { Hero, SectionHead, CtaBand, Section } from "@/components/sections";
+import PricingPlans from "@/components/pricing-plans";
+import { INCLUDED, COMPARE, FAQ } from "@/lib/pricing";
+
+export const metadata: Metadata = { title: "Pricing", description: "Start free on SaaS or self-hosted, and scale to Starter, Enterprise or Ultimate as your team
+ grows." };
+
+export default function Page() {
+  return (
+    <>
+      <Hero eyebrow="Pricing" accent="#8B7DFF"
+        title="Start free, and scale when your team is ready"
+        sub="Run Realm9 as SaaS or on your own infrastructure. Every plan includes Terraform automation, environment booking and an AI co-pilot that uses your o
+wn LLM key — paid plans add capacity, enterprise identity, on-prem infrastructure and FinOps." />
+
+      <section style={{ padding: "48px 0 20px" }}><div className="wrap">
+        <PricingPlans />
+        <p className="small center" style={{ marginTop: 22 }}>
+          All prices in USD. Ultimate adds unlimited usage, FinOps and full audit logs on SaaS and self-hosted. Paid SaaS plans start with a 14-day free trial.
+        </p>
+      </div></section>
+
+      <Section>
+        <SectionHead center title="What each plan unlocks"
+          sub="The core of the platform is on every plan. Higher tiers add scale, security and cost management." />
+        <table className="tbl" style={{ maxWidth: 820, margin: "0 auto" }}>
+          <thead><tr><th>Capability</th><th>What it does</th><th style={{ textAlign: "right" }}>Available on</th></tr></thead>
+          <tbody>
+            {INCLUDED.map(([m, d, p]) => (
+              <tr key={m}><td><strong>{m}</strong></td><td>{d}</td><td style={{ textAlign: "right" }} className="mono">{p}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </Section>
+
+      <Section alt>
+        <SectionHead title="Compare plans" />
+        <table className="tbl">
+          <thead><tr><th style={{ width: "30%" }}>Feature</th><th>Free</th><th>Starter</th><th>Enterprise</th><th>Ultimate</th></tr></thead>
+          <tbody>
+            {COMPARE.map((r) => (
+              <tr key={r[0]}><td><strong>{r[0]}</strong></td><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td><td>{r[4]}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </Section>
+
+      <Section>
+        <SectionHead title="Questions" />
+        <div className="grid g2">
+          {FAQ.map(([q, a]) => (
+            <div className="card" key={q}><h4 style={{ marginBottom: 9 }}>{q}</h4><p>{a}</p></div>
+          ))}
+        </div>
+      </Section>
+
+      <CtaBand title="Start on the free plan today"
+        sub="No credit card and no time limit. Upgrade when you need more users, multi-cloud or enterprise security."
+        primary={{ label: "Start free", href: "/enterprise/contact" }} secondary={{ label: "Talk to sales", href: "/enterprise/contact" }} />
+    </>
+  );
+}
+[exit code 0]

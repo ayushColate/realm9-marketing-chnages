@@ -1,0 +1,89 @@
+import type { Metadata } from "next";
+import "../../landing.css";
+import { Hero, FeatureRow, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+
+export const metadata: Metadata = {
+  title: "Agentic FinOps",
+  description: "Multi-cloud cost visibility with anomaly detection, forecasts and rightsizing — and dashboards generated from natural-language requirements.",
+};
+
+export default function Page() {
+  return (
+    <div className="lp">
+      <Hero eyebrow="Agentic FinOps" accent="#8B7DFF"
+        title="Understand and control cloud spend without building another dashboard"
+        sub="Realm9 brings multi-cloud costs into the same platform that provisions your infrastructure. Describe the view you need in plain language, and agent
+s generate the dashboards and metrics — alongside anomaly detection, forecasts and rightsizing recommendations."
+        ctas={[{ label: "Talk to sales", href: "/enterprise/contact" }, { label: "See pricing", href: "/pricing" }]} />
+
+      <Section>
+        <SectionHead center title="Cost data, connected to the work that created it"
+          sub="Most cost tools sit apart from the systems that provision infrastructure. Realm9 keeps them together, so finance and engineering are looking at t
+he same record." />
+        <div className="grid g2" style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div className="card card-accent" style={{ ["--acc" as string]: "var(--fg-3)" }}>
+            <h4>A separate cost tool</h4>
+            <p style={{ marginBottom: 12 }}>Billing exports in one place, provisioning in another, and a spreadsheet to reconcile them at month end.</p>
+            <p className="mono" style={{ color: "var(--fg-4)" }}>Reports arrive after the money is spent.</p>
+          </div>
+          <div className="card card-accent" style={{ ["--acc" as string]: "var(--amber)" }}>
+            <h4>FinOps in Realm9</h4>
+            <p style={{ marginBottom: 12 }}>Costs across your connected clouds, grouped by the tags your teams already use, with anomalies and forecasts surface
+d alongside the environments and workspaces that drive them.</p>
+            <p className="mono" style={{ color: "var(--amber)" }}>Visible during the month, not after it.</p>
+          </div>
+        </div>
+      </Section>
+
+      <section className="pad alt"><div className="wrap stack-24" style={{ gap: 80 }}>
+        <FeatureRow accent="#8B7DFF"
+          title="Dashboards generated from natural-language requirements"
+          body="Tell Realm9 what you want to see and it builds the view from live cost data. Save it as a custom dashboard and share it with the teams that need
+ it — no query language, no BI project."
+          bullets={["Describe a view in plain language and get a live dashboard", "Custom dashboards saved for teams and stakeholders", "Cost explorer for ad ho
+c analysis", "Usage tracking alongside spend"]}
+          media={<Term title="FinOps · agentic dashboard" html={`<span class="c-com"># "monthly spend by team tag, last six months,</span>
+<span class="c-com">#  with a forecast for next quarter"</span>
+
+  <span class="c-dim">source</span>      connected cloud accounts
+  <span class="c-dim">grouping</span>    tag <span class="c-fn">team</span>
+  <span class="c-dim">range</span>       last 6 months
+  <span class="c-dim">forecast</span>    <span class="c-ok">next quarter added</span>
+
+<span class="c-ok">✓ dashboard generated</span> <span class="c-dim">— saved to FinOps</span>`} />} />
+
+        <FeatureRow flip accent="#8B7DFF"
+          title="Anomalies and forecasts, before the invoice arrives"
+          body="Realm9 watches spend trends continuously and flags unusual changes as they happen, and projects where costs are heading so budget conversations
+start early."
+          bullets={["Cost anomaly detection", "Trend analysis and forecasting", "Multi-cloud cost aggregation in one view", "Tag-based cost allocation by team,
+project or environment"]}
+          media={<Term title="FinOps · anomalies" html={`<span class="c-warn">▲ anomaly</span>   compute spend above expected range
+
+  <span class="c-dim">account</span>    aws/analytics
+  <span class="c-dim">allocation</span> tag <span class="c-fn">team</span> = data-science
+  <span class="c-dim">status</span>     <span class="c-warn">open</span> <span class="c-dim">· flagged for review</span>
+
+<span class="c-dim">forecast</span>   trend projected for the current month`} />} />
+
+        <FeatureRow accent="#8B7DFF"
+          title="Recommendations your platform team can act on"
+          body="Find the resources that cost more than they should. Realm9 highlights idle resources and rightsizing opportunities, and because it also runs you
+r Terraform, the change can go through the same reviewed workflow."
+          bullets={["Idle resource detection", "Rightsizing recommendations", "Changes applied through governed Terraform runs", "Full audit logs and compliance
+ reports on the same tier"]}
+          media={<Term title="FinOps · recommendations" html={`TYPE             RESOURCE                   STATUS
+rightsize        m5.2xlarge <span class="c-dim">→ smaller</span>      <span class="c-ok">ready</span>
+idle             unattached volumes         <span class="c-warn">review</span>
+idle             stopped instances          <span class="c-warn">review</span>
+
+<span class="c-dim">apply via</span>  Terraform run <span class="c-dim">· approval required</span>`} />} />
+      </div></section>
+
+      <CtaBand title="Put cloud cost next to the infrastructure that creates it"
+        sub="FinOps is part of the Ultimate plan, alongside unlimited usage and full audit logs. Talk to us about your cloud estate."
+        primary={{ label: "Talk to sales", href: "/enterprise/contact" }} secondary={{ label: "See pricing", href: "/pricing" }} />
+    </div>
+  );
+}
+[exit code 0]

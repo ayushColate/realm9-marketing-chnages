@@ -1,0 +1,59 @@
+import type { Metadata } from "next";
+import "../../landing.css";
+import { Hero, Cards, FeatureRow, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+import { Icons } from "@/components/icons";
+
+export const metadata: Metadata = {
+  title: "AI Assistant",
+  description: "Ask Realm9 about bookings, environments, Terraform, costs and compliance in plain language — with answers scoped to your role.",
+};
+
+export default function Page() {
+  return (
+    <div className="lp">
+      <Hero eyebrow="AI System Assistant" accent="#8B7DFF"
+        title="Ask your infrastructure platform a question and get a real answer"
+        sub="The Realm9 AI Assistant understands your bookings, environments, Terraform, costs and compliance data. Ask in plain language and get answers drawn
+from the platform itself — scoped to what your role is allowed to see."
+        ctas={[{ label: "Schedule a live demo", href: "/enterprise/contact" }, { label: "See pricing", href: "/pricing" }]} />
+
+      <Section>
+        <SectionHead title="One conversation across the whole platform" />
+        <Cards items={[
+          { icon: Icons.env, accent: "var(--purple)", title: "Bookings and environments", desc: "Find out which environments are free, who holds a booking, and
+what is waiting for approval." },
+          { icon: Icons.infra, accent: "var(--purple)", title: "Terraform", desc: "Check the status of projects, workspaces and runs, and get failed runs explai
+ned in plain language." },
+          { icon: Icons.finops, accent: "var(--purple)", title: "Costs and compliance", desc: "Ask about spend trends and compliance results without building a
+report first." },
+        ]} />
+      </Section>
+
+      <section className="pad alt"><div className="wrap stack-24" style={{ gap: 80 }}>
+        <FeatureRow accent="#8B7DFF"
+          title="Answers from live platform data, not a generic chatbot"
+          body="The assistant uses tools to act on real Realm9 data — bookings, environments, Terraform, costs and compliance — so its answers reflect what is a
+ctually happening in your organisation."
+          bullets={["Tool-based access to live platform data", "Role-aware: answers respect each user's permissions", "Plain-language questions, no query syntax
+", "Available from inside the Realm9 application"]}
+          media={<Term title="AI Assistant" html={`<span class="c-com"># "which UAT environments are free next week?"</span>
+
+  <span class="c-dim">checked</span>    bookings for UAT environments
+  <span class="c-ok">uat-02</span>     free Monday to Wednesday
+  <span class="c-ok">uat-04</span>     free all week
+  <span class="c-warn">uat-01</span>     booked · BKG-912 pending approval
+
+<span class="c-dim">answer scoped to your role</span>`} />} />
+
+        <FeatureRow flip accent="#8B7DFF"
+          title="Bring your own model"
+          body="Realm9 uses your own LLM provider key, on every plan including Free. You keep the relationship with your model provider and control over how AI
+is used across your organisation."
+          bullets={["Bring-your-own LLM key on every tier", "Powers the AI Assistant, the AI Editor and error explanations", "No separate AI add-on to purchase"
+, "Works in SaaS and self-hosted deployments"]}
+          media={<Term title="Settings · AI" html={`<span class="c-dim">provider</span>      your LLM provider
+<span class="c-dim">api key</span>       <span class="c-ok">configured</span>
+<span class="c-dim">used by</span>
+  <span class="c-fn">AI Assistant</span>
+  <span class="c-fn">AI Editor</span>          <span class="c-dim">Terraform generation</span>
+[exit code 0]

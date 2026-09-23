@@ -1,0 +1,137 @@
+// Tiers, limits and features mirror colate/realm9 (components/landing/pricing-section.tsx).
+export type Deployment = "saas" | "self";
+
+export interface Plan {
+  name: string;
+  price: string;
+  unit: string;
+  note: string;
+  desc: string;
+  featured?: boolean;
+  ctaLabel: string;
+  ctaHref: string;
+  ctaVariant: "btn-primary" | "btn-secondary";
+  meter: [string, string][];
+  features: string[];
+}
+
+const ENTERPRISE_FEATURES = [
+  "SSO / SAML with Okta, Azure AD and more",
+  "SCIM provisioning and multi-factor authentication",
+  "Session security, device fingerprinting and break-glass access",
+  "Starter project templates",
+  "VMware vCenter and Proxmox over site-to-site VPN",
+  "Custom scanner images and Zabbix monitoring integration",
+  "Priority support with a 12-hour SLA, plus dedicated onboarding and training",
+];
+
+const ULTIMATE_FEATURES = [
+  "Everything in Enterprise, with no usage limits",
+  "Real-time, multi-cloud cost tracking",
+  "Cost trends, forecasting and tag-based allocation",
+  "Cost anomaly and idle resource detection",
+  "Rightsizing recommendations",
+  "Full audit logs and compliance reports",
+  "24/7 phone support with a 4-hour SLA and a dedicated account manager",
+];
+
+export const PLANS: Record<Deployment, Plan[]> = {
+  saas: [
+    {
+      name: "Free", price: "$0", unit: "forever", note: "No credit card required",
+      desc: "For individuals and evaluation. Core Terraform automation and environment booking, hosted by us.",
+      ctaLabel: "Start free", ctaHref: "/enterprise/contact", ctaVariant: "btn-secondary",
+      meter: [["Users", "3"], ["Environments", "5"], ["Terraform projects", "1"], ["Workspaces per project", "2"], ["Cloud connections", "1"]],
+      features: ["Full Terraform automation", "Git integration: GitHub, GitLab, Bitbucket", "Drift detection and remediation", "State management and locking", "
+AI co-pilot with your own LLM key", "Environment booking and scheduling", "Community support"],
+    },
+    {
+      name: "Starter", price: "$299", unit: "/ month", note: "14-day free trial", featured: true,
+      desc: "For startups and growing teams that need multi-cloud and more room to scale.",
+      ctaLabel: "Start 14-day trial", ctaHref: "/enterprise/contact", ctaVariant: "btn-primary",
+      meter: [["Users", "15"], ["Environments", "50"], ["Terraform projects", "5"], ["Workspaces per project", "10"], ["Cloud connections", "Unlimited"]],
+      features: ["Everything in Free", "Multi-cloud: AWS, Azure and GCP", "Webhook integrations", "AI co-pilot with your own LLM key", "Email support"],
+    },
+    {
+      name: "Enterprise", price: "Custom", unit: "", note: "Contact sales for pricing",
+      desc: "Enterprise identity, security and on-prem infrastructure for regulated organisations. Need FinOps and full audit logs? Ask about Ultimate.",
+      ctaLabel: "Talk to sales", ctaHref: "/enterprise/contact", ctaVariant: "btn-secondary",
+      meter: [["Users", "200"], ["Environments", "500"], ["Terraform projects", "100"], ["Cloud connections", "Unlimited"], ["Support", "12-hour SLA"]],
+      features: ["Everything in Starter", ...ENTERPRISE_FEATURES],
+    },
+  ],
+  self: [
+    {
+      name: "Free", price: "$0", unit: "forever", note: "No credit card, no time limit",
+      desc: "For startups and small teams. Run Realm9 on your own infrastructure at no cost.",
+      ctaLabel: "Deploy free", ctaHref: "/enterprise/contact", ctaVariant: "btn-secondary",
+      meter: [["Organizations", "1"], ["Users", "5"], ["Environments", "10"], ["Terraform projects", "2"], ["Workspaces per project", "3"]],
+      features: ["Full Terraform automation", "Git integration: GitHub, GitLab, Bitbucket", "Drift detection and remediation", "State management and locking", "
+AI co-pilot with your own LLM key", "Environment booking and scheduling", "Community support"],
+    },
+    {
+      name: "Enterprise", price: "Custom", unit: "", note: "Contact sales for pricing", featured: true,
+      desc: "Enterprise identity, security and on-prem infrastructure, deployed on your own Kubernetes cluster.",
+      ctaLabel: "Talk to sales", ctaHref: "/enterprise/contact", ctaVariant: "btn-primary",
+      meter: [["Organizations", "2"], ["Users", "200"], ["Environments", "500"], ["Terraform projects", "100"], ["Support", "12-hour SLA"]],
+      features: ["Everything in Free", ...ENTERPRISE_FEATURES],
+    },
+    {
+      name: "Ultimate", price: "Custom", unit: "", note: "Contact sales for pricing",
+      desc: "The full suite: unlimited usage, FinOps cost management and full audit logs.",
+      ctaLabel: "Talk to sales", ctaHref: "/enterprise/contact", ctaVariant: "btn-secondary",
+      meter: [["Organizations", "Unlimited"], ["Users", "Unlimited"], ["Environments", "Unlimited"], ["Terraform projects", "Unlimited"], ["Support", "24/7 · 4-
+hour SLA"]],
+      features: ULTIMATE_FEATURES,
+    },
+  ],
+};
+
+export const INCLUDED: [string, string, string][] = [
+  ["AI co-pilot", "Terraform generation, editing and error explanations using your own LLM key", "Every plan"],
+  ["Secrets management", "Reference credentials in AWS Secrets Manager, Azure Key Vault, HashiCorp Vault or OpenBao — never stored in Realm9", "Every plan"],
+  ["Terraform automation", "Git-triggered runs, drift detection, state management and locking", "Every plan"],
+  ["Environment booking", "Bookings, scheduling and conflict queueing", "Every plan"],
+  ["Multi-cloud", "AWS, Azure and GCP connections", "Starter and above"],
+  ["Enterprise identity", "SSO / SAML, SCIM, MFA, session security and break-glass access", "Enterprise and Ultimate"],
+  ["On-prem infrastructure", "VMware vCenter and Proxmox over site-to-site VPN", "Enterprise and Ultimate"],
+  ["FinOps and full audit logs", "Cost tracking, anomalies, forecasting, rightsizing and compliance reports", "Ultimate"],
+];
+
+export const COMPARE: [string, string, string, string, string][] = [
+  ["Users (SaaS)", "3", "15", "200", "Unlimited"],
+  ["Environments (SaaS)", "5", "50", "500", "Unlimited"],
+  ["Terraform projects (SaaS)", "1", "5", "100", "Unlimited"],
+  ["Cloud connections", "1", "Unlimited", "Unlimited", "Unlimited"],
+  ["Environment booking and scheduling", "✓", "✓", "✓", "✓"],
+  ["Terraform automation, drift detection and state locking", "✓", "✓", "✓", "✓"],
+  ["Git integration (GitHub, GitLab, Bitbucket)", "✓", "✓", "✓", "✓"],
+  ["AI co-pilot (bring your own key)", "✓", "✓", "✓", "✓"],
+  ["Multi-cloud (AWS, Azure, GCP)", "—", "✓", "✓", "✓"],
+  ["Webhook integrations", "—", "✓", "✓", "✓"],
+  ["SSO / SAML, SCIM and MFA", "—", "—", "✓", "✓"],
+  ["Session security, device fingerprinting, break-glass", "—", "—", "✓", "✓"],
+  ["VMware vCenter and Proxmox over VPN", "—", "—", "✓", "✓"],
+  ["Starter project templates", "—", "—", "✓", "✓"],
+  ["Custom scanner images and Zabbix integration", "—", "—", "✓", "✓"],
+  ["FinOps cost management", "—", "—", "—", "✓"],
+  ["Full audit logs and compliance reports", "—", "—", "—", "✓"],
+  ["Support", "Community", "Email", "Priority · 12-hour SLA", "24/7 phone · 4-hour SLA"],
+];
+
+export const FAQ: [string, string][] = [
+  ["Is there a free plan?", "Yes, two. The SaaS Free plan includes 3 users, 5 environments, 1 Terraform project, 2 workspaces and 1 cloud connection. The self-h
+osted Free plan includes 1 organization, 5 users, 10 environments, 2 Terraform projects, 3 workspaces per project and 1 cloud connection. Neither needs a credit
+ card or has a time limit."],
+  ["How do trials of paid SaaS plans work?", "Paid SaaS plans start with a 14-day free trial and no credit card. If you don't upgrade when the trial ends, your
+account moves to the Free plan and your data is kept."],
+  ["Can we run Realm9 on our own infrastructure?", "Yes. Realm9 is available as SaaS or self-hosted on your own Kubernetes cluster. Self-hosted is offered on th
+e Free, Enterprise and Ultimate plans."],
+  ["Do we pay extra for AI features?", "No. The AI co-pilot is included on every plan. You bring your own LLM provider key, so you stay in control of your model
+ and its usage."],
+  ["Which plan includes FinOps and audit logs?", "FinOps cost management — anomaly detection, forecasting, tag-based allocation, idle detection and rightsizing
+— and full audit logs with compliance reports are part of Ultimate."],
+  ["Can we connect on-prem infrastructure?", "Yes. VMware vCenter and Proxmox are supported on Enterprise and Ultimate, connected securely over site-to-site VPN
+."],
+];
+[exit code 0]
