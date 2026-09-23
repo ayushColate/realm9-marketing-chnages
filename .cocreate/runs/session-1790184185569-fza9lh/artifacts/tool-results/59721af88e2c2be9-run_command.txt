@@ -1,0 +1,28 @@
+n-prem parity, compliance exports, per-request pricing model"
+[main 3f20a63] feat: content redesign - governance layer messaging, agent capabilities, on-prem parity, compliance exports, per-request pricing model
+ 54 files changed, 1707 insertions(+), 1062 deletions(-)
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/04ba652db4a885e3-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/0ded7eb3aa6b493d-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/111cc8c41ed5c9b5-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/1514dd002b908acc-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/1c718385c10250bc-terminal_read.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/225f781ff8f94aac-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/2eebfcead43e5ada-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/32b656732fbab827-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/4933bcab4d8cea49-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/561c659a2d713a58-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/56ffcf0efbf9e222-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/5edacb7090f43cbc-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/6b6b2161f127c924-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/6ba115098627714d-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/98ca6c075fa977a4-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/9bff80c88db81c85-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/adac07edf7244743-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/af74e0cd92848d35-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/b1df9e20a5e17d11-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/b46c3c723c730d3b-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/b9c5038758c39fa5-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/c6c114cce003e9b6-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/e55b1d43d6111c69-run_command.txt
+ create mode 100644 .cocreate/runs/session-1790184185569-fza9lh/artifacts/tool-results/f7cb8273176c2e67-run_command.txt
+[exit code 0]

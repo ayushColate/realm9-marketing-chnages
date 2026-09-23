@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import ComingSoon from "@/components/coming-soon";
 
-export const metadata: Metadata = { title: "Realm9 Sandbox — Private Preview Q4 2026", description: "MicroVM isolation on your own hardware for AI agent workloads. Requested, approved, and tracked through governance workflows. Private preview: Q4 2026." };
+export const metadata: Metadata = { title: "Realm9 Sandbox — Private Preview Q4 2026", description: "MicroVM isolation on your own hardware for AI agent workloa
+ds. Requested, approved, and tracked through governance workflows. Private preview: Q4 2026." };
 
 export default function Page() {
   return <ComingSoon
@@ -14,6 +15,6 @@ export default function Page() {
       "Every sandbox is a lease: it has an owner, a TTL, a cost and a ledger entry",
       "Persistent and ephemeral modes, so long-running agents can resume where they left off",
       "Quotas and budgets apply to sandbox creation, so runaway agents are constrained",
-    ]}
-    why="Agents need somewhere safe to run untrusted code. Realm9 Sandbox gives them isolated, audited, governed space — on hardware you already own, under the quotas you already set." />;
+    ]} />;
 }
+[exit code 0]

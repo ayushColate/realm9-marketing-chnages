@@ -1,0 +1,16 @@
+
+> realm9-web@1.0.0 build
+> next build
+
+▲ Next.js 16.3.5 (Turbopack)
+✓ Running next.config.ts took 53ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.1s
+  Running TypeScript ...
+app/products/release-management/page.tsx(7,11): error TS2741: Property 'why' is missing in type '{ title: string; accent: string; when: string; sub: string; wha
+t: string[]; }' but required in type '{ title: string; sub: string; accent: string; when: string; what: string[]; why: string; }'.
+app/products/sandbox/page.tsx(7,11): error TS2741: Property 'why' is missing in type '{ title: string; accent: string; when: string; sub: string; what: string[]
+; }' but required in type '{ title: string; sub: string; accent: string; when: string; what: string[]; why: string; }'.
+Failed to type check.
+[exit code 0]

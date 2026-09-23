@@ -1,0 +1,30 @@
+  Generating static pages using 7 workers (5/20)
+  Generating static pages using 7 workers (10/20)
+  Generating static pages using 7 workers (15/20)
+✓ Generating static pages using 7 workers (20/20) in 476ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /agents/aiops
+├ ○ /agents/realm9-agents
+├ ○ /enterprise
+├ ○ /enterprise/contact
+├ ○ /enterprise/data-centers
+├ ○ /enterprise/gpu
+├ ○ /enterprise/trust-center
+├ ○ /enterprise/use-cases
+├ ○ /pricing
+├ ○ /products/environment-management
+├ ○ /products/finops
+├ ○ /products/infrastructure-management
+├ ○ /products/mcp-server
+├ ○ /products/r9
+├ ○ /products/release-management
+├ ○ /products/sandbox
+└ ○ /startups
+
+
+○  (Static)  prerendered as static content
+[exit code 0]

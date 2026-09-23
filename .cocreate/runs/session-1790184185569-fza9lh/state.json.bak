@@ -14,12 +14,15 @@
   "decisions": [],
   "document_type": "state",
   "episode_pointer_initialized": true,
-  "evidence_floor_seq": 160,
+  "evidence_floor_seq": 171,
   "failure_fingerprints": {
     "01815db2e9bf9d8820c7ce77": 2,
     "0f2290441419cb973309fced": 1,
     "2726da242a4e8d9959b2d51d": 1,
+    "2a48a4db57481ba63cf22f14": 1,
+    "339316bc64e1ad632f77ba48": 1,
     "3804108ac138a6be3bff1b3c": 1,
+    "6941fbc17e7cc7b6c0efe838": 1,
     "90d4f4d290945aaca00d9b22": 1,
     "9a70127447a10361bc35bf85": 1,
     "b12e03c9fac19567a0e48bfb": 1,
@@ -114,8 +117,8 @@
     "/Users/charusachan/Downloads/realm9-nextjs (1)/app/agents/realm9-agents/page.tsx",
     "/Users/charusachan/Downloads/realm9-nextjs (1)/app/agents/aiops/page.tsx"
   ],
-  "updated_at": "2026-09-23T18:03:38.000Z",
+  "updated_at": "2026-09-23T18:04:32.636Z",
   "verification_boundary_valid": true,
   "verification_epoch": 5,
-  "workspace_generation": 68
+  "workspace_generation": 72
 }
