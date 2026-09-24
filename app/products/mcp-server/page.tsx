@@ -12,7 +12,7 @@ export default function Page() {
       <Hero badge="New" eyebrow="Model Context Protocol" accent="#7c3aed"
         title="AI assistance that works through Realm9, not around it"
         sub="The Realm9 MCP Server is the tool layer behind the Terraform assistant. Instead of pasting code into a chat window, the assistant reads your project, searches files, proposes edits and runs plans through defined tools — using the same projects, connections and runs your team already manages."
-        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to the team", href: "/enterprise/contact" }]} />
+        ctas={[{ label: "Get started", href: "/" }, { label: "Talk to the team", href: "/enterprise/contact" }]} />
 
       <Section className="pad-sm">
         <div className="grid g3">
@@ -65,7 +65,7 @@ export default function Page() {
 
       <CtaBand title="Give your Terraform assistant real context"
         sub="The MCP Server provides structured project and code context inside Infrastructure Management."
-        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Infrastructure Management", href: "/products/infrastructure-management" }} />
+        primary={{ label: "Get started", href: "/" }} secondary={{ label: "Infrastructure Management", href: "/products/infrastructure-management" }} />
     </>
   );
 }

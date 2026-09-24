@@ -13,7 +13,7 @@ export default function Page() {
       <Hero badge="Beta" eyebrow="R9 — Terraform assistant" accent="#e5007a"
         title="An assistant that works on your Terraform, in your project"
         sub="R9 sits inside the Realm9 Terraform editor. Ask it to explain a module, change a resource or fix a validation error, and it works directly on the project's files — with every edit visible, reversible and committed only when you choose."
-        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to the team", href: "/enterprise/contact" }]} />
+        ctas={[{ label: "Get started", href: "/" }, { label: "Talk to the team", href: "/enterprise/contact" }]} />
 
       <Section className="pad">
         <SectionHead center title="What R9 does in the editor"
@@ -41,7 +41,7 @@ export default function Page() {
 
       <CtaBand title="Write and review Terraform with an assistant that knows your project"
         sub="R9 is in beta and is part of Infrastructure Management."
-        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "About the MCP Server", href: "/products/mcp-server" }} />
+        primary={{ label: "Get started", href: "/" }} secondary={{ label: "About the MCP Server", href: "/products/mcp-server" }} />
     </>
   );
 }

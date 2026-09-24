@@ -12,7 +12,7 @@ export default function Page() {
       <Hero eyebrow="Infrastructure Management" accent="#0070f3"
         title="Terraform changes that are reviewed before they are applied"
         sub="Infrastructure Management runs your Terraform from Git inside Realm9, checks every plan against the policies you choose, and holds changes for approval — whether the target is a cloud account or a hypervisor in your own data centre."
-        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to the team", href: "/enterprise/contact" }]} />
+        ctas={[{ label: "Get started", href: "/" }, { label: "Talk to the team", href: "/enterprise/contact" }]} />
 
       <Section>
         <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
@@ -74,7 +74,7 @@ export default function Page() {
 
       <CtaBand title="Put a review step between Terraform plan and apply"
         sub="Infrastructure Management shares users, approvals and audit with the rest of Realm9, so infrastructure changes and the environments they serve are governed together."
-        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Talk to the team", href: "/enterprise/contact" }} />
+        primary={{ label: "Get started", href: "/" }} secondary={{ label: "Talk to the team", href: "/enterprise/contact" }} />
     </>
   );
 }

@@ -16,7 +16,7 @@ export const PLANS: Plan[] = [
   {
     name: "Free", price: "$0", unit: "forever", note: "SaaS or self-hosted",
     desc: "For evaluating Realm9 and for small teams getting shared environments and Terraform under control.",
-    ctaLabel: "Get started", ctaHref: "/", ctaVariant: "btn-secondary",
+    ctaLabel: "Get started", ctaHref: "/enterprise/contact", ctaVariant: "btn-secondary",
     meter: [["Users", "3 SaaS · 5 self-hosted"], ["Environments", "5 SaaS · 10 self-hosted"], ["Terraform projects", "1 SaaS · 2 self-hosted"], ["Cloud connections", "1"]],
     features: ["Environment requests, bookings and approvals", "Terraform runs with Git integration", "Remote state with locking", "Drift detection", "Secrets vault integration", "Community support"],
   },

@@ -12,7 +12,7 @@ export default function Page() {
       <Hero eyebrow="Environment Management" accent="#0d9488"
         title="Shared environments, managed from request to retirement"
         sub="Dev, test and staging environments are usually tracked in spreadsheets and chat threads. Environment Management gives each one an owner, a status, and a governed path for requesting, booking and decommissioning it."
-        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Book a walkthrough", href: "/enterprise/contact" }]} />
+        ctas={[{ label: "Get started", href: "/" }, { label: "Book a walkthrough", href: "/enterprise/contact" }]} />
 
       <Section className="pad">
         <SectionHead center title="Four journeys, one record"
@@ -59,7 +59,7 @@ export default function Page() {
 
       <CtaBand title="Give every shared environment an owner and a process"
         sub="Environment Management works alongside Infrastructure Management and FinOps, so the environments you book can be provisioned and costed in the same platform."
-        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Talk to the team", href: "/enterprise/contact" }} />
+        primary={{ label: "Get started", href: "/" }} secondary={{ label: "Talk to the team", href: "/enterprise/contact" }} />
     </>
   );
 }
