@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Logo } from "./icons";
 
 const COLS: [string, [string, string][]][] = [
-  ["Products", [
+  ["Modules", [
     ["Environment Management", "/products/environment-management"],
     ["Infrastructure Management", "/products/infrastructure-management"],
     ["FinOps", "/products/finops"],

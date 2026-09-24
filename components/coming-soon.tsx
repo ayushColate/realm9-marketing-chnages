@@ -1,17 +1,17 @@
 import { Hero } from "./sections";
 import Waitlist from "./waitlist";
 
-export default function ComingSoon({ title, sub, accent, when, what, why }: {
+export default function ComingSoon({ title, sub, accent: _accent, when, what, why }: {
   title: string; sub: string; accent: string; when: string; what: string[]; why: string;
 }) {
   return (
     <>
-      <Hero eyebrow="Roadmap" title={title} sub={sub} accent={accent} />
+      <Hero eyebrow="Roadmap" title={title} sub={sub} accent="var(--purple)" />
       <section className="pad"><div className="wrap">
         <div style={{ maxWidth: 760 }}>
           <div className="soon-badge"><i className="blink" />In development · {when}</div>
           <h2 className="grad" style={{ marginBottom: 16 }}>What it will do</h2>
-          <ul className="bullets" style={{ ["--acc" as string]: accent }}>
+          <ul className="bullets" style={{ ["--acc" as string]: "var(--purple)" }}>
             {what.map((w) => <li key={w}>{w}</li>)}
           </ul>
           <div className="callout" style={{ marginTop: 40 }}>

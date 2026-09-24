@@ -22,8 +22,8 @@
   --fg-4:          #a8a8a8;
 
   /* accents (Geist palette, light-mode safe) */
-  --blue:          #0070f3;
-  --blue-2:        #0059c1;
+  --blue:          #5048E5;
+  --blue-2:        #3d37b8;
   --purple:        #7c3aed;
   --purple-2:      #6428d4;
   --pink:          #e5007a;
@@ -64,8 +64,8 @@
   --fg-2:          #c4c9d4;
   --fg-3:          #9299a8;
   --fg-4:          #6d7483;
-  --blue:          #5da8ff;
-  --blue-2:        #85bdff;
+  --blue:          #6c64ea;
+  --blue-2:        #857eef;
   --purple:        #ad8cff;
   --purple-2:      #c4acff;
   --pink:          #fb82bc;
@@ -135,8 +135,8 @@ section{position:relative}
   border:1px solid transparent; white-space:nowrap;
   transition:background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
 }
-.btn-primary{background:#0a0a0a; color:#fff; border-color:#0a0a0a}
-.btn-primary:hover{background:#333; border-color:#333}
+.btn-primary{background:var(--blue); color:#fff; border-color:var(--blue)}
+.btn-primary:hover{background:var(--blue-2); border-color:var(--blue-2)}
 .btn-secondary{background:#fff; color:var(--fg); border-color:var(--line-2); box-shadow:var(--shadow-sm)}
 .btn-secondary:hover{border-color:var(--fg-3); background:var(--bg-1)}
 .btn-ghost{background:transparent; color:var(--fg-2); padding:0 10px}
@@ -158,8 +158,13 @@ section{position:relative}
 .nav-inner{max-width:1320px; margin:0 auto; padding:0 24px; height:100%;
   display:flex; align-items:center; gap:6px}
 .logo{display:flex; align-items:center; gap:9px; font-weight:600; letter-spacing:-.03em; font-size:17px; margin-right:18px; color:var(--fg)}
-.logo svg{display:block}
-.realm9-wordmark{width:116px; height:auto; color:var(--fg)}
+.logo svg,.logo img{display:block}
+.realm9-logo{position:relative; display:block; width:120px; height:32px; flex:0 0 auto}
+.realm9-wordmark{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; object-position:center}
+.realm9-wordmark-dark{opacity:0; pointer-events:none}
+[data-theme="dark"] .realm9-wordmark-light{opacity:0; pointer-events:none}
+[data-theme="dark"] .realm9-wordmark-dark{opacity:1; pointer-events:auto}
+footer .logo{margin-right:0}
 .nav-links{display:flex; align-items:center; gap:2px; height:100%}
 .nav-item{position:relative; height:100%; display:flex; align-items:center}
 .nav-btn{
@@ -225,7 +230,7 @@ section{position:relative}
 .hero-content{position:relative}
 .eyebrow{
   display:inline-flex; align-items:center; gap:9px; height:30px; padding:0 10px 0 5px;
-  border:1px solid var(--line-2); border-radius:999px; background:#fff;
+  border:1px solid var(--line-2); border-radius:999px; background:var(--bg-2);
   box-shadow:var(--shadow-sm);
   font-size:12.5px; color:var(--fg-2); margin-bottom:26px; letter-spacing:-.005em;
 }
@@ -392,8 +397,9 @@ footer{border-top:1px solid var(--line); padding:56px 0 40px; background:var(--b
 [data-theme="dark"] .nav{background:rgba(10,11,15,.88)}
 [data-theme="dark"] .mega,[data-theme="dark"] .mobile-menu{background:var(--bg-1)}
 [data-theme="dark"] .burger,[data-theme="dark"] .btn-secondary,[data-theme="dark"] .eyebrow,[data-theme="dark"] .card,[data-theme="dark"] .alt .card,[data-theme="dark"] .pill,[data-theme="dark"] .input,[data-theme="dark"] table.tbl,[data-theme="dark"] .plan,[data-theme="dark"] .r9-shell,[data-theme="dark"] .r9-tabs,[data-theme="dark"] .chip{background:var(--bg-1)}
-[data-theme="dark"] .btn-primary,[data-theme="dark"] .eyebrow b,[data-theme="dark"] .pill.active,[data-theme="dark"] .plan.featured::before{background:#f5f7fb; color:#0a0b0f; border-color:#f5f7fb}
-[data-theme="dark"] .btn-primary:hover{background:#dce1eb; border-color:#dce1eb}
+[data-theme="dark"] .btn-primary{background:var(--blue); color:#fff; border-color:var(--blue)}
+[data-theme="dark"] .btn-primary:hover{background:var(--blue-2); color:#fff; border-color:var(--blue-2)}
+[data-theme="dark"] .eyebrow b,[data-theme="dark"] .pill.active,[data-theme="dark"] .plan.featured::before{background:var(--purple); color:#fff; border-color:var(--purple)}
 [data-theme="dark"] .term-body{background:#0d0f15; color:#d9deea}
 [data-theme="dark"] .term-bar{background:var(--bg-2)}
 [data-theme="dark"] .dot{background:var(--bg-3)}

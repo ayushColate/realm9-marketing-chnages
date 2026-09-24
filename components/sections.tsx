@@ -11,14 +11,14 @@ export const TagBadge = ({ tag }: { tag?: Tag }) => {
 
 export interface Cta { label: string; href: string }
 
-export function Hero({ eyebrow, badge, title, sub, ctas = [], accent }: {
+const MODULE_ACCENT = "var(--purple)";
+
+export function Hero({ eyebrow, badge, title, sub, ctas = [], accent: _accent }: {
   eyebrow?: string; badge?: string; title: string; sub?: string; ctas?: Cta[]; accent?: string;
 }) {
-  const glow = accent
-    ? { background: `radial-gradient(50% 50% at 50% 50%, ${accent}1c 0%, ${accent}0d 44%, transparent 72%)` }
-    : undefined;
+  const glow = { background: "radial-gradient(50% 50% at 50% 50%, rgba(130,83,232,.16) 0%, rgba(130,83,232,.06) 44%, transparent 72%)" };
   return (
-    <section className="hero" style={accent ? ({ ["--acc" as string]: accent }) : undefined}>
+    <section className="hero" style={{ ["--acc" as string]: MODULE_ACCENT }}>
       <div className="hero-bg" aria-hidden>
         <div className="hero-grid" />
         <div className="hero-glow" style={glow} />
@@ -88,11 +88,11 @@ export function Term({ title, html }: { title: string; html: string }) {
   );
 }
 
-export function FeatureRow({ title, body, bullets = [], media, flip, accent = "var(--blue)" }: {
+export function FeatureRow({ title, body, bullets = [], media, flip, accent: _accent }: {
   title: string; body: string; bullets?: string[]; media?: ReactNode; flip?: boolean; accent?: string;
 }) {
   return (
-    <div className={`feature-row ${media ? "" : "single-column"} ${flip ? "flip" : ""}`} style={{ ["--acc" as string]: accent }}>
+    <div className={`feature-row ${media ? "" : "single-column"} ${flip ? "flip" : ""}`} style={{ ["--acc" as string]: MODULE_ACCENT }}>
       <div>
         <h3 style={{ marginBottom: 14 }}>{title}</h3>
         <p className="lede" style={{ fontSize: 16 }}>{body}</p>

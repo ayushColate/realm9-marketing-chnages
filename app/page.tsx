@@ -92,11 +92,11 @@ export default function Home() {
           sub="Realm9 modules share the same projects, permissions, approvals and audit context. Teams can work through the browser, supported APIs or assisted tooling without creating a separate control model for each route." />
         <Cards items={[
           { icon: Icons.mcp, tag: "new", accent: "var(--purple)", title: "MCP Server", desc: "The Model Context Protocol tool layer used by Realm9’s Terraform assistant to inspect projects, search code, make targeted edits and request plan context.", href: "/products/mcp-server" },
-          { icon: Icons.sandbox, tag: "soon", accent: "var(--cyan)", title: "Sandbox", desc: "Planned isolated workspaces for experimental infrastructure work. This module is not yet available.", href: "/products/sandbox" },
-          { icon: Icons.env, accent: "var(--blue)", title: "Environment Management", desc: "Request, approve, book and decommission environments while keeping workspace links and lifecycle activity in one record.", href: "/products/environment-management" },
-          { icon: Icons.infra, accent: "var(--blue)", title: "Infrastructure Management", desc: "Manage Terraform projects, workspaces, runs, connections, policies and approvals across cloud and on-prem targets.", href: "/products/infrastructure-management" },
-          { icon: Icons.finops, accent: "var(--amber)", title: "FinOps", desc: "Explore AWS and Azure spend, investigate anomalies and enforce cost thresholds on Terraform plans. Available on Ultimate.", href: "/products/finops" },
-          { icon: Icons.release, tag: "soon", accent: "var(--green)", title: "Release Management", desc: "Planned release coordination built on the environment bookings, approvals and change records Realm9 already maintains.", href: "/products/release-management" },
+          { icon: Icons.sandbox, tag: "soon", accent: "var(--purple)", title: "Sandbox", desc: "Planned isolated workspaces for experimental infrastructure work. This module is not yet available.", href: "/products/sandbox" },
+          { icon: Icons.env, accent: "var(--purple)", title: "Environment Management", desc: "Request, approve, book and decommission environments while keeping workspace links and lifecycle activity in one record.", href: "/products/environment-management" },
+          { icon: Icons.infra, accent: "var(--purple)", title: "Infrastructure Management", desc: "Manage Terraform projects, workspaces, runs, connections, policies and approvals across cloud and on-prem targets.", href: "/products/infrastructure-management" },
+          { icon: Icons.finops, accent: "var(--purple)", title: "FinOps", desc: "Explore AWS and Azure spend, investigate anomalies and enforce cost thresholds on Terraform plans. Available on Ultimate.", href: "/products/finops" },
+          { icon: Icons.release, tag: "soon", accent: "var(--purple)", title: "Release Management", desc: "Planned release coordination built on the environment bookings, approvals and change records Realm9 already maintains.", href: "/products/release-management" },
         ]} />
       </Section>
 

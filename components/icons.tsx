@@ -30,11 +30,10 @@ export const Icons: Record<string, ReactElement> = {
 };
 
 export const Logo = () => (
-  <svg className="realm9-wordmark" viewBox="0 0 174 52" role="img" aria-label="Realm9">
-    <text x="0" y="40" fill="currentColor" fontFamily="Arial, Helvetica, sans-serif" fontSize="46" fontWeight="700" letterSpacing="-3.2">realm</text>
-    <path d="M130 10.5c4.6-5.7 12.5-7.3 18.9-3.7 7.3 4.1 9.9 13.4 5.8 20.7l-11.4 20.2h-10.5l9.3-16.2a16 16 0 0 1-6.7 1.5c-10.1 0-17.4-8.4-15.9-18.5.5-3.1 2-6 4.5-8.2a3.3 3.3 0 1 1 4.4 4.9c-1.1 1-1.9 2.3-2.1 3.8-.7 4.6 2.7 9 7.4 9.5 4.6.5 8.8-2.7 9.5-7.3.4-2.8-.6-5.5-2.8-7.2-2.2-1.7-5.3-1.9-7.7-.4l-2.7-4.5z" fill="#8253e8"/>
-    <path d="M126.5 3.5v9M122 8h9" stroke="#b58cff" strokeWidth="1.6" strokeLinecap="round"/>
-  </svg>
+  <span className="realm9-logo" role="img" aria-label="Realm9">
+    <img className="realm9-wordmark realm9-wordmark-light" src="/realm9-logo-black.png" alt="" />
+    <img className="realm9-wordmark realm9-wordmark-dark" src="/realm9-logo.png" alt="" />
+  </span>
 );
 
 export const Chevron = () => (

@@ -15,7 +15,7 @@ export interface NavEntry { label: string; href?: string; wide?: boolean; groups
 
 export const NAV: NavEntry[] = [
   {
-    label: "Products",
+    label: "Modules",
     wide: true,
     groups: [
       {
@@ -61,4 +61,5 @@ export const NAV: NavEntry[] = [
       ],
     }],
   },
+  { label: "Contact Sales", href: "/enterprise/contact" },
 ];
