@@ -12,7 +12,7 @@ export default function Page() {
         sub="Share how your teams request environments, change infrastructure and track cost. We will use that to show the parts of Realm9 that are relevant to you — and be clear about the parts that are not." />
 
       <Section>
-        <div className="feature-row">
+        <div className="feature-row" style={{ alignItems: "start" }}>
           <ContactForm />
           <div>
             <div className="callout">

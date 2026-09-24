@@ -55,7 +55,7 @@ export default function Page() {
 
       <CtaBand title="Start with the Free plan"
         sub="Run it as SaaS or on your own infrastructure. No credit card required."
-        primary={{ label: "Get started", href: "/enterprise/contact" }} secondary={{ label: "Talk to the team", href: "/enterprise/contact" }} />
+        primary={{ label: "Get started", href: "/" }} secondary={{ label: "Talk to the team", href: "/enterprise/contact" }} />
     </>
   );
 }

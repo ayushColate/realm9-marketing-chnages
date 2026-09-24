@@ -133,7 +133,7 @@ export default function Nav() {
         </div>
         <div style={{ display: "flex", gap: 10, marginTop: 22 }}>
           <Link className="btn btn-secondary" style={{ flex: 1 }} href="/enterprise/contact">Contact</Link>
-          <Link className="btn btn-primary" style={{ flex: 1 }} href="https://realm9.colate.io/auth/signin">Get Started</Link>
+          <Link className="btn btn-primary" style={{ flex: 1 }} href="/">Get Started</Link>
         </div>
       </div>
     </>
