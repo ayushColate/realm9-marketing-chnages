@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
 import ComingSoon from "@/components/coming-soon";
 
-export const metadata: Metadata = { title: "Release Management — Target Q1 2027", description: "Coordinate deployments across environments using live environment booking records. Release calendars read from real approval workflows. Target: Q1 2027." };
+export const metadata: Metadata = { title: "Release Management — On the roadmap", description: "Release Management is a planned Realm9 module for coordinating releases on top of the environment bookings, approval workflows and change history teams already use. It is not yet available." };
 
 export default function Page() {
   return <ComingSoon
-    title="Release Management" accent="#0070f3" when="Target: Q1 2027"
-    sub="Coordinate releases across environments, teams and change windows — on the same booking and approval engine that already governs your environments."
+    title="Release Management" accent="#0070f3" when="timeline not yet announced"
+    sub="A planned module for coordinating releases across shared environments. It is not yet available. Today, teams use Realm9 Environment Management to book release environments, route approvals, and keep a change history for each environment."
     what={[
-      "Release calendars that read from real environment bookings, not a parallel spreadsheet",
-      "Change windows and freeze periods enforced at request time, so a booking that violates a freeze never gets granted",
-      "Implementation plans with per-step ownership, dependencies and rollback criteria",
-      "Cross-team dependency mapping so a blocked release surfaces the blocking team, not just the delay",
-      "Deployment evidence packaged for audit — what shipped, to where, approved by whom",
-      "One-click rollback with the same approval, quota and audit as the original release",
+      "Plan releases against the environment bookings already in Realm9, rather than a separate calendar",
+      "Reuse the existing multi-level approval workflows for release sign-off",
+      "Link a release to the Terraform runs and environment changes it depends on",
+      "Give release, platform and application teams one shared view of what is scheduled where",
+      "Keep release decisions in the same audit history as bookings and infrastructure changes",
     ]}
-    why="Most release tools are parallel systems that duplicate booking and approval logic. Release Management reads from live environment records, so a release calendar is always accurate and a change window is always enforced." />;
+    why="Release coordination depends on information Realm9 already holds: who has booked which environment, which approvals are pending, and what changed on each environment. Building release planning on those records avoids a second tool that has to be kept in sync by hand." />;
 }

@@ -73,9 +73,9 @@ export function Cards({ items, cols = 3 }: { items: CardItem[]; cols?: 2 | 3 | 4
 
 export function StatBand({ stats }: { stats: { n: string; l: string }[] }) {
   return (
-    <div className="stat-band">
+    <div className="wrap"><div className="stat-band">
       {stats.map((s) => <div className="stat" key={s.n + s.l}><b>{s.n}</b><span>{s.l}</span></div>)}
-    </div>
+    </div></div>
   );
 }
 
@@ -92,7 +92,7 @@ export function FeatureRow({ title, body, bullets = [], media, flip, accent = "v
   title: string; body: string; bullets?: string[]; media?: ReactNode; flip?: boolean; accent?: string;
 }) {
   return (
-    <div className={`feature-row ${flip ? "flip" : ""}`} style={{ ["--acc" as string]: accent }}>
+    <div className={`feature-row ${media ? "" : "single-column"} ${flip ? "flip" : ""}`} style={{ ["--acc" as string]: accent }}>
       <div>
         <h3 style={{ marginBottom: 14 }}>{title}</h3>
         <p className="lede" style={{ fontSize: 16 }}>{body}</p>

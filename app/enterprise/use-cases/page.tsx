@@ -2,18 +2,18 @@ import type { Metadata } from "next";
 import { Hero, CtaBand, Section } from "@/components/sections";
 import UseCaseSwitcher from "@/components/use-case-switcher";
 
-export const metadata: Metadata = { title: "Use Cases & Industry Solutions", description: "How telecom, healthcare, financial services, public sector, manufacturing, and AI research teams solve infrastructure governance with Realm9." };
+export const metadata: Metadata = { title: "Use Cases", description: "How platform engineering, financial services, healthcare, telecommunications and manufacturing teams use Realm9 environment request, booking, Terraform and FinOps workflows." };
 
 export default function Page() {
   return (
     <>
       <Hero eyebrow="Enterprise · Use cases" accent="#7c3aed"
-        title="Six industries, one recurring problem"
-        sub="Scarce infrastructure, contended by multiple teams, consumed increasingly by machines, and answerable to somebody. The details differ. The shape does not."
-        ctas={[{ label: "Talk to an engineer", href: "/enterprise/contact" }]} />
+        title="Different industries, the same operational questions"
+        sub="Who can have this environment, who approved the change, and what is it costing? Each use case below shows how Realm9 environment request, booking, Terraform and FinOps workflows answer those questions for a particular kind of team."
+        ctas={[{ label: "Talk to the team", href: "/enterprise/contact" }]} />
       <Section><UseCaseSwitcher /></Section>
-      <CtaBand title="Not sure which of these you are?"
-        sub="Most organisations are two of them at once. Tell us what you run and we will be direct about fit."
+      <CtaBand title="Recognise your situation in more than one of these?"
+        sub="Most organisations do. Tell us how your teams request, change and pay for infrastructure today, and we will show where Realm9 fits."
         primary={{ label: "Contact us", href: "/enterprise/contact" }} secondary={{ label: "See pricing", href: "/pricing" }} />
     </>
   );

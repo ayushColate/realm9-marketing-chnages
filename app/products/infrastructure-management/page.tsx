@@ -1,48 +1,80 @@
 import type { Metadata } from "next";
-import { Hero, StatBand, FeatureRow, Term, CtaBand } from "@/components/sections";
+import { Hero, FeatureRow, Term, CtaBand, Section } from "@/components/sections";
 
 export const metadata: Metadata = {
-  title: "Terraform Orchestration — Cloud & On-Prem",
-  description: "Git-driven Terraform with the same workflow for AWS, Azure, GCP, and on-prem (vCenter, Proxmox). Drift detection, Checkov/Trivy scanning, policy checks on every run.",
+  title: "Infrastructure Management — Governed Terraform",
+  description: "Git-connected Terraform projects, workspaces and runs with policy profiles, approval gates, locked remote state and drift alerts — across AWS, Azure, Proxmox and VMware vCenter.",
 };
 
 export default function Page() {
   return (
     <>
       <Hero eyebrow="Infrastructure Management" accent="#0070f3"
-        title="Terraform, Kubernetes, vCenter and Proxmox — one governed workflow"
-        sub="Most orchestration platforms assume everything you run is in a public cloud. Realm9 treats the racks you already own as first-class infrastructure, with the same policy, state and audit model."
-        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to an engineer", href: "/enterprise/contact" }]} />
+        title="Terraform changes that are reviewed before they are applied"
+        sub="Infrastructure Management runs your Terraform from Git inside Realm9, checks every plan against the policies you choose, and holds changes for approval — whether the target is a cloud account or a hypervisor in your own data centre."
+        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to the team", href: "/enterprise/contact" }]} />
 
-      <StatBand stats={[
-        { n: "82", l: "API routes for infrastructure read and change" },
-        { n: "13+", l: "Audit categories capture every infrastructure action" },
-        { n: "4 clouds", l: "AWS, Azure, GCP, OCI + on-prem (vCenter, Proxmox, bare metal)" },
-        { n: "Drift detection", l: "Webhook-driven scanning for infrastructure drift" },
-      ]} />
+      <Section>
+        <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+      <FeatureRow accent="#0070f3" title="Projects, workspaces and runs, connected to Git"
+        body="Each project points at a repository, branch and path in GitHub or GitLab. Workspaces hold the variables for each deployment, and every plan, apply, destroy or refresh is recorded as a run with its logs and plan summary."
+        bullets={[
+          "Runs started manually, through the API, or from repository webhooks",
+          "Each run executes as an isolated Kubernetes job with its own streamed logs",
+          "Remote state with locking so two runs cannot change the same workspace at once",
+          "Templates expose selected variables as simple forms, so teams can create workspaces without editing code",
+        ]}
+        media={<Term title="run · production-network" html={`<span class="c-com"># plan waiting for review</span>
 
-      <FeatureRow accent="#0070f3" title="One workflow for cloud and on-prem" body="A VM in your rack goes through the same approval, quota and audit as an EC2 instance. No separate systems, no translation layers." bullets={[
-        "vCenter and Proxmox over site-to-site VPN",
-        "Same Terraform workflow, state and audit",
-        "Same quotas, approvals and cost tracking",
-        "On-prem infrastructure on equal footing with cloud",
-      ]} />
+  <span class="c-dim">type</span>             plan
+  <span class="c-dim">trigger</span>          webhook · main
+  <span class="c-dim">state lock</span>       <span class="c-ok">acquired</span>
+  <span class="c-dim">policy checks</span>    <span class="c-warn">1 finding to review</span>
+  <span class="c-dim">approval</span>         pending · project approvers
 
-      <FeatureRow accent="#0070f3" title="Drift detection across your estate" body="Realm9 detects when your real infrastructure diverges from your code and flags it — before it becomes a crisis." bullets={[
-        "Webhook-driven scanning triggered on infrastructure change",
-        "Drift categorised by severity and compliance impact",
-        "Automated remediation policies: detect, report, fix",
-        "Audit trail showing what drifted, who detected it, what changed",
-      ]} flip />
+<span class="c-dim">apply is held until approved</span>`} />} />
 
-      <FeatureRow accent="#0070f3" title="Security scanning on every run" body="Checkov, Trivy and custom scanners run on every Terraform plan. Policy violations block apply." bullets={[
-        "Checkov for infrastructure misconfiguration",
-        "Trivy for container and dependency vulnerabilities",
-        "Custom OPA policies for your compliance rules",
-        "Scan results in the change request, not a separate system",
-      ]} />
+      <FeatureRow flip accent="#0070f3" title="Policy checks with the enforcement level you set"
+        body="Attach a policy profile to a project to scan each run for misconfiguration, exposed secrets, vulnerabilities and cost. You decide whether findings are advisory or whether they block the run."
+        bullets={[
+          "Scanners include Checkov, Trivy, TruffleHog, Infracost and OPA, plus your own scanner image",
+          "Advisory, soft-mandatory and hard-mandatory enforcement modes",
+          "Block thresholds and exclusions tuned per profile",
+          "Policy results reviewed on the run, and overrides recorded in the audit log",
+        ]} />
 
-      <CtaBand title="One control plane for your entire infrastructure estate" sub="Cloud, on-prem, Kubernetes — same governance, same audit, same cost." primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Talk to an engineer", href: "/enterprise/contact" }} />
+      <FeatureRow accent="#0070f3" title="Approval gates for changes that matter"
+        body="Projects can require approval before apply. Named approvers and a minimum approval count keep production changes with the people responsible for them."
+        bullets={[
+          "Approve or reject from the run page, with notes kept on the run",
+          "Approver lists and minimum approvals configured per project",
+          "Role-based permissions separate viewing, running and managing Terraform",
+          "Run creation, approvals and overrides captured in the Terraform audit trail",
+        ]} />
+
+      <FeatureRow flip accent="#0070f3" title="Know when code, permissions and reality diverge"
+        body="When a repository changes, Realm9 re-analyses the project and raises drift alerts — new or removed resources, changed variables or modules, and permission gaps in the cloud role used to deploy."
+        bullets={[
+          "Drift alerts graded by severity, with acknowledge, ignore and resolve actions",
+          "Missing and excess cloud-role permissions identified for each project",
+          "Runs blocked while a project has unresolved drift or pending variables",
+          "Credentials kept in AWS Secrets Manager, Azure Key Vault, HashiCorp Vault or OpenBao",
+        ]} />
+
+      <FeatureRow accent="#0070f3" title="The same process for cloud and on-prem"
+        body="AWS and Azure cloud connections sit alongside Proxmox and VMware vCenter hypervisors, so a VM in your rack goes through the same policy, approval and audit path as a cloud instance."
+        bullets={[
+          "AWS and Azure connections with validated deployment roles",
+          "Proxmox and VMware vCenter supported as on-prem targets",
+          "Workspaces can be attached to environments and bookings in Environment Management",
+          "Estimated cost from each plan feeds FinOps cost thresholds",
+        ]} />
+        </div>
+      </Section>
+
+      <CtaBand title="Put a review step between Terraform plan and apply"
+        sub="Infrastructure Management shares users, approvals and audit with the rest of Realm9, so infrastructure changes and the environments they serve are governed together."
+        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Talk to the team", href: "/enterprise/contact" }} />
     </>
   );
 }

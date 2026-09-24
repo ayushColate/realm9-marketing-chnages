@@ -1,69 +1,54 @@
 import type { Metadata } from "next";
-import { Hero, StatBand, Cards, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+import { Hero, StatBand, Cards, SectionHead, CtaBand, Section } from "@/components/sections";
 
-export const metadata: Metadata = { title: "GPU", description: "Fair-share, quota and chargeback for accelerated compute. Placement stays with your scheduler." };
+export const metadata: Metadata = { title: "GPU Environments — Governed Access to Accelerated Compute", description: "Use Realm9 bookings, approval workflows, Terraform policy checks and FinOps cost visibility to control who can use expensive GPU-backed environments, and for how long." };
 
 export default function Page() {
   return (
     <>
       <Hero eyebrow="Enterprise · GPU" accent="#0d9488"
-        title="Your GPUs are the most contended resource you own and the least governed"
-        sub="Realm9 does not replace your scheduler. It sits above it — deciding who is entitled to what, for how long, at what cost, and who has to approve it. Placement stays with Kubernetes, Slurm or your hypervisor."
-        ctas={[{ label: "Talk to an engineer", href: "/enterprise/contact" }, { label: "Data centers", href: "/enterprise/data-centers" }]} />
+        title="Expensive capacity needs a clear process for who gets it"
+        sub="GPU-backed environments are costly and in demand. Realm9 does not schedule GPU workloads; it controls the process around them — who can book a GPU environment, who approves it, how its infrastructure is changed, and what it costs."
+        ctas={[{ label: "Talk to the team", href: "/enterprise/contact" }, { label: "Data centers", href: "/enterprise/data-centers" }]} />
 
       <StatBand stats={[
-        { n: "Fair-share", l: "Deserved quota per project, with controlled over-quota borrowing" },
-        { n: "Fractional", l: "MIG partitioning and time-slicing exposed as bookable units" },
-        { n: "Multi-cluster", l: "Kubernetes, Slurm, bare metal and neocloud in one entitlement view" },
-        { n: "Chargeback", l: "Every GPU-hour attributed to a principal, a project and an approval" },
+        { n: "Bookings", l: "Exclusive or shared bookings with per-environment duration limits" },
+        { n: "Approvals", l: "Multi-level sign-off before scarce capacity is committed" },
+        { n: "Policy", l: "Terraform changes to GPU infrastructure checked before apply" },
+        { n: "Cost", l: "AWS and Azure spend and anomalies visible in FinOps" },
       ]} />
 
       <Section>
         <div className="feature-row">
           <div>
-            <h3 style={{ marginBottom: 14 }}>We deliberately do not build a scheduler</h3>
-            <p className="lede" style={{ fontSize: 16 }}>Kubernetes now handles GPUs properly. Dynamic Resource Allocation is GA, NVIDIA donated its DRA driver to the CNCF, and the KAI Scheduler is a CNCF sandbox project. Placement, bin-packing, gang scheduling and preemption are solved.</p>
-            <p className="lede" style={{ fontSize: 16, marginTop: 16 }}>What is not solved is entitlement: which team is allowed how much, for how long, at what cost, and who signs off when they want more. Realm9 owns that layer and delegates placement downward.</p>
+            <h3 style={{ marginBottom: 14 }}>Governance around the scheduler, not instead of it</h3>
+            <p className="lede" style={{ fontSize: 16 }}>Placement and job scheduling stay with the tools you already run. The harder problem is usually organisational: several teams want the same accelerated environment, nobody is sure who holds it, and the bill arrives after the fact.</p>
+            <p className="lede" style={{ fontSize: 16, marginTop: 16 }}>Realm9 treats a GPU environment like any other governed environment. It has an owner and a status, it is booked through an approval workflow, its infrastructure is changed through reviewed Terraform runs, and its cloud cost is visible in FinOps.</p>
             <ul className="bullets" style={{ ["--acc" as string]: "var(--cyan)", marginTop: 26 }}>
-              <li>Delegates to KAI, Kueue and Volcano on Kubernetes; to Slurm on HPC estates</li>
-              <li>Delegates to vCenter and Proxmox for VM-attached accelerators</li>
-              <li>Adds the quota, approval, budget and ledger those schedulers do not have</li>
-              <li>Works identically across owned clusters and rented neocloud capacity</li>
+              <li>Exclusive bookings so one team holds a GPU environment at a time</li>
+              <li>Maximum booking duration set per environment</li>
+              <li>Approval workflows chosen by environment type</li>
+              <li>Cost thresholds on Terraform runs that add accelerated instances</li>
             </ul>
-          </div>
-          <div className="fr-media">
-            <Term title="realm9 gpu lease --request" html={`$ realm9 gpu lease <span class="c-str">--gpus 8 --type H100 --hours 6</span> \\
-    <span class="c-str">--project data-platform</span>
-
-  <span class="c-dim">deserved quota</span>   16 GPU  <span class="c-dim">(project)</span>
-  <span class="c-dim">in use</span>           12 GPU
-  <span class="c-dim">requested</span>         8 GPU  <span class="c-warn">→ 4 over quota</span>
-  <span class="c-dim">borrowable</span>        <span class="c-ok">yes, from shared pool (idle 21 GPU)</span>
-  <span class="c-dim">preemptible</span>       <span class="c-warn">yes — reclaimed if owner returns</span>
-  <span class="c-dim">est. cost</span>         <span class="c-num">$811.20</span> <span class="c-dim">@ $16.90/GPU-hr</span>
-  <span class="c-dim">budget after</span>      <span class="c-ok">$14,180 of $40,000 remaining</span>
-  <span class="c-dim">approval</span>          <span class="c-warn">⧗ over-quota → @ml-platform-leads</span>
-
-<span class="c-dim">placement delegated to</span> <span class="c-fn">kai-scheduler</span>`} />
           </div>
         </div>
       </Section>
 
       <Section alt>
-        <SectionHead title="The problems that actually cost you money" />
+        <SectionHead title="Problems this helps with" />
         <Cards items={[
-          { accent: "var(--cyan)", title: "Idle at night, queued at noon", desc: "Utilisation is a scheduling problem only after it is an entitlement problem. TTLs, idle detection and preemptible over-quota borrowing recover capacity nobody is using." },
-          { accent: "var(--cyan)", title: "The team that took everything", desc: "Deserved quota per project with controlled borrowing means one team's experiment cannot starve another team's deadline — without an administrator refereeing it manually." },
-          { accent: "var(--cyan)", title: "Fragmented fleets", desc: "Owned clusters, HPC partitions and rented neocloud capacity appear as one entitlement surface, so demand routes to whatever is free and cheapest." },
-          { accent: "var(--cyan)", title: "Whole GPUs for small jobs", desc: "MIG partitions and time-sliced shares are bookable units in their own right, so an inference job does not consume an H100 it cannot use." },
-          { accent: "var(--cyan)", title: "Agents with no ceiling", desc: "An autonomous training pipeline is a principal like any other: named, quota-bound, budget-capped and revocable in one call." },
-          { accent: "var(--cyan)", title: "No answer for finance", desc: "Every GPU-hour attributed to a project, a principal and an approval, on the same ledger as cloud and token spend." },
+          { accent: "var(--cyan)", title: "Unclear ownership", desc: "Every GPU environment has an owner, a status and a booking history, so there is no guessing who is using it or since when." },
+          { accent: "var(--cyan)", title: "Long-held capacity", desc: "Per-environment maximum booking durations and organisation booking limits stop one team holding scarce capacity indefinitely." },
+          { accent: "var(--cyan)", title: "Unreviewed changes", desc: "Adding or resizing GPU instances goes through the project's Terraform policy checks and approval gate before apply." },
+          { accent: "var(--cyan)", title: "Unexpected bills", desc: "Infracost estimates and cost thresholds flag expensive changes before apply, and FinOps anomaly detection highlights unusual spend after." },
+          { accent: "var(--cyan)", title: "On-prem and cloud GPUs apart", desc: "GPU hosts in Proxmox or VMware vCenter and GPU instances in AWS or Azure follow the same governed process." },
+          { accent: "var(--cyan)", title: "No record for audit", desc: "Bookings, approvals and infrastructure runs are recorded in the audit history for later review." },
         ]} />
       </Section>
 
-      <CtaBand title="Turn your GPU fleet into governed, accountable capacity"
-        sub="Works with the schedulers you already run. No migration, no replacement."
-        primary={{ label: "Talk to an engineer", href: "/enterprise/contact" }} secondary={{ label: "See pricing", href: "/pricing" }} />
+      <CtaBand title="Bring order to how GPU environments are shared"
+        sub="Works alongside the schedulers and platforms you already use."
+        primary={{ label: "Talk to the team", href: "/enterprise/contact" }} secondary={{ label: "See pricing", href: "/pricing" }} />
     </>
   );
 }

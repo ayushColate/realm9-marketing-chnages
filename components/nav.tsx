@@ -44,7 +44,7 @@ export default function Nav() {
     <>
       <nav className="nav">
         <div className="nav-inner">
-          <Link className="logo" href="/"><Logo />Realm9</Link>
+          <Link className="logo" href="/"><Logo /></Link>
 
           <div className="nav-links">
             {NAV.map((entry, i) =>

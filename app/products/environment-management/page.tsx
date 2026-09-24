@@ -1,45 +1,63 @@
 import type { Metadata } from "next";
-import { Hero, Cards, FeatureRow, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+import { Hero, FeatureRow, SectionHead, CtaBand, Section } from "@/components/sections";
 
 export const metadata: Metadata = {
-  title: "Environment Booking & Lifecycle",
-  description: "Self-service environments with booking, priority queues, approval workflows, TTL-based auto-reclaim, and shared calendars. Prevents contention before it happens.",
+  title: "Environment Management",
+  description: "Request, book, approve and retire shared environments through governed workflows — with multi-level approvals, information requests, booking controls and a full audit history.",
 };
 
 export default function Page() {
   return (
     <>
       <Hero eyebrow="Environment Management" accent="#0d9488"
-        title="The environment queue that everybody trusts"
-        sub="Shared environments are the scarcest resource in most engineering organisations and the least governed. Realm9 gives them a booking system, an approval chain, an expiry, and an owner."
+        title="Shared environments, managed from request to retirement"
+        sub="Dev, test and staging environments are usually tracked in spreadsheets and chat threads. Environment Management gives each one an owner, a status, and a governed path for requesting, booking and decommissioning it."
         ctas={[{ label: "Start free", href: "/pricing" }, { label: "Book a walkthrough", href: "/enterprise/contact" }]} />
 
       <Section className="pad">
-        <SectionHead center title="Environments as a service" sub="Booking, approval, ownership, expiry, and cost — all in one system" />
+        <SectionHead center title="Four journeys, one record"
+          sub="Every environment request, booking and decommission follows defined states, runs through an approval workflow, and is written to the audit log." />
 
-        <FeatureRow accent="#0d9488" title="Self-service booking with approval" body="Teams book environments from a shared pool. Approval workflows prevent contention before it happens." bullets={[
-          "Calendar view: see what's booked, who owns it, when it expires",
-          "Priority queues: urgent work can jump the line with approval",
-          "Approval workflows: check cost, availability and compliance before granting",
-          "Conflicts detected BEFORE clash: booking system knows the environment is already taken",
-        ]} />
+        <FeatureRow accent="#0d9488" title="Request new environments with the right details up front"
+          body="Teams ask for a new environment through a form your administrators design. Choosing an environment type selects the approval workflow, so the request goes to the right people from the start."
+          bullets={[
+            "Custom field groups for network, compliance or software requirements, with required fields and file attachments",
+            "Business justification and supporting documents stored with the request",
+            "Unique, validated environment names checked before submission",
+            "Status, comments, history and workflow progress on one request page",
+          ]} />
 
-        <FeatureRow accent="#0d9488" title="Automatic reclaim on expiry" body="Every booking has a TTL. When it expires, the environment is reclaimed �� unless the owner extends it." bullets={[
-          "TTL-based auto-reclaim prevents dead bookings",
-          "Owners notified before expiry, can request extension",
-          "Cost accumulates only while owned, resetting on reclaim",
-          "Audit trail shows who had it, when, why, what they changed",
-        ]} flip />
+        <FeatureRow flip accent="#0d9488" title="Approvals that match how your organisation decides"
+          body="Workflows run in ordered levels. Each level can require a named person or anyone holding a role, and approvers can ask for missing information instead of rejecting outright."
+          bullets={[
+            "Sequential levels with parallel steps and a configurable number of required approvals",
+            "Information Requests pause the workflow until the requester or an assigned colleague answers",
+            "Workflow timeouts expire stalled requests instead of leaving them open indefinitely",
+            "Type-specific workflows, an organisation-wide default, or direct admin decisions",
+          ]} />
 
-        <FeatureRow accent="#0d9488" title="Shared ownership and escalation" body="When an owner can't release an environment, the booking can be escalated without losing history." bullets={[
-          "Environment accessible only to current owner, plus admins",
-          "Owner reassignment without losing booking context",
-          "Escalation notifies on-call when booking can't be released",
-          "All access logged for audit and troubleshooting",
-        ]} />
+        <FeatureRow accent="#0d9488" title="Book existing environments without double-booking"
+          body="Each environment carries its own booking rules. Exclusive environments allow one active booking at a time; shared environments accept concurrent bookings from several teams."
+          bullets={[
+            "Per-environment settings for booking availability, approval and maximum duration",
+            "Live status — Available, Occupied, Preparing, Under Maintenance — before anyone books",
+            "Organisation-wide monthly booking limits that administrators can adjust",
+            "Terraform workspaces can be attached so provisioning follows the booking lifecycle",
+          ]} />
+
+        <FeatureRow flip accent="#0d9488" title="Retire environments on the record, and keep it connected"
+          body="Decommissioning is a request in its own right, with approval and history, so environments are retired deliberately rather than quietly forgotten."
+          bullets={[
+            "Governed decommission requests with the same approval model as new environments",
+            "Access details, ownership, labels and custom fields recorded on each environment",
+            "ServiceNow CMDB configuration-item data linked to environments",
+            "Side-by-side environment comparison and email and in-app notifications at each step",
+          ]} />
       </Section>
 
-      <CtaBand title="Stop contending over environments. Start governing them." sub="Booking + approval + expiry + cost, all in one system." primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Talk to an engineer", href: "/enterprise/contact" }} />
+      <CtaBand title="Give every shared environment an owner and a process"
+        sub="Environment Management works alongside Infrastructure Management and FinOps, so the environments you book can be provisioned and costed in the same platform."
+        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Talk to the team", href: "/enterprise/contact" }} />
     </>
   );
 }

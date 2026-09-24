@@ -6,6 +6,7 @@ const COLS: [string, [string, string][]][] = [
     ["Environment Management", "/products/environment-management"],
     ["Infrastructure Management", "/products/infrastructure-management"],
     ["FinOps", "/products/finops"],
+    ["Release Management", "/products/release-management"],
     ["MCP Server", "/products/mcp-server"],
     ["R9", "/products/r9"],
     ["Sandbox", "/products/sandbox"],
@@ -39,9 +40,9 @@ export default function Footer() {
       <div className="wrap">
         <div className="foot-grid">
           <div className="foot-col">
-            <Link className="logo" href="/" style={{ marginBottom: 14 }}><Logo />Realm9</Link>
+            <Link className="logo" href="/" style={{ marginBottom: 14 }}><Logo /></Link>
             <p className="small" style={{ maxWidth: "30ch" }}>
-              The ecosystem layer for software and hardware, leveraged by humans and by agents.
+              Governed environment and infrastructure workflows for platform teams.
             </p>
           </div>
           {COLS.map(([head, links]) => (
@@ -53,7 +54,7 @@ export default function Footer() {
         </div>
         <div className="foot-bottom">
           <span>© {new Date().getFullYear()} Realm9. All rights reserved.</span>
-          <span>Self-hostable · SOC 2 Type II · Deployable air-gapped</span>
+          <span>Self-hosted deployment · SSO and SCIM · Exportable audit history</span>
         </div>
       </div>
     </footer>

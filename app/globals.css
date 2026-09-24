@@ -130,6 +130,7 @@ section{position:relative}
   display:flex; align-items:center; gap:6px}
 .logo{display:flex; align-items:center; gap:9px; font-weight:600; letter-spacing:-.03em; font-size:17px; margin-right:18px; color:var(--fg)}
 .logo svg{display:block}
+.realm9-wordmark{width:116px; height:auto; color:var(--fg)}
 .nav-links{display:flex; align-items:center; gap:2px; height:100%}
 .nav-item{position:relative; height:100%; display:flex; align-items:center}
 .nav-btn{
@@ -224,6 +225,7 @@ a.card:hover{transform:translateY(-1px)}
 .alt .card{background:#fff}
 
 .feature-row{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center}
+.feature-row.single-column{grid-template-columns:minmax(0, 1fr)}
 .feature-row.flip .fr-media{order:-1}
 .fr-media{
   border:1px solid var(--line); border-radius:var(--r-lg); background:var(--bg-1);
@@ -299,6 +301,7 @@ table.tbl tr:hover td{background:var(--bg-1)}
 
 /* ---------- pricing ---------- */
 .price-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:start}
+.price-grid.cols-4{grid-template-columns:repeat(4,1fr)}
 .plan{background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:26px;
   display:flex; flex-direction:column; gap:18px; min-height:100%; box-shadow:var(--shadow-sm)}
 .plan.featured{border-color:var(--fg); box-shadow:var(--shadow); position:relative}
@@ -353,6 +356,7 @@ footer{border-top:1px solid var(--line); padding:56px 0 40px; background:var(--b
   .feature-row.flip .fr-media{order:0}
   .foot-grid{grid-template-columns:1fr 1fr 1fr}
   .price-grid{grid-template-columns:1fr}
+  .price-grid.cols-4{grid-template-columns:1fr 1fr}
   .stat-band{grid-template-columns:1fr 1fr}
   .stat:nth-child(2){border-right:0}
   .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line)}
@@ -373,6 +377,7 @@ footer{border-top:1px solid var(--line); padding:56px 0 40px; background:var(--b
 }
 @media (max-width:680px){
   .g2,.g3,.g4{grid-template-columns:1fr}
+  .price-grid.cols-4{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr 1fr}
   .stat-band{grid-template-columns:1fr}
   .stat{border-right:0; border-bottom:1px solid var(--line)}

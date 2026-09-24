@@ -14,7 +14,7 @@
   "decisions": [],
   "document_type": "state",
   "episode_pointer_initialized": true,
-  "evidence_floor_seq": 171,
+  "evidence_floor_seq": 173,
   "failure_fingerprints": {
     "01815db2e9bf9d8820c7ce77": 2,
     "0f2290441419cb973309fced": 1,
@@ -26,6 +26,7 @@
     "90d4f4d290945aaca00d9b22": 1,
     "9a70127447a10361bc35bf85": 1,
     "b12e03c9fac19567a0e48bfb": 1,
+    "ba883df84a33aa2208930ba6": 1,
     "c85742f9e265917bba5d885e": 1,
     "d3cde9baf1b8aebe703d6548": 1,
     "eeaed4a476d7a9e751ebfd9b": 1
@@ -117,8 +118,8 @@
     "/Users/charusachan/Downloads/realm9-nextjs (1)/app/agents/realm9-agents/page.tsx",
     "/Users/charusachan/Downloads/realm9-nextjs (1)/app/agents/aiops/page.tsx"
   ],
-  "updated_at": "2026-09-23T18:04:32.636Z",
+  "updated_at": "2026-09-23T18:04:50.987Z",
   "verification_boundary_valid": true,
   "verification_epoch": 5,
-  "workspace_generation": 72
+  "workspace_generation": 73
 }

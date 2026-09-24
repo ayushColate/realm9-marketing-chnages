@@ -45,7 +45,7 @@ export default function UseCaseSwitcher() {
             </div>
             <div className="mono" style={{ color: u.accent }}>{u.name.toUpperCase()}</div>
             <p className="small" style={{ marginTop: 10, maxWidth: "26ch" }}>
-              Deployed self-hosted, air-gapped, or in your own cloud account.
+              Available as a dedicated cloud deployment or self-hosted.
             </p>
           </div>
         </div>

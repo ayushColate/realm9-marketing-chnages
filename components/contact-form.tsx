@@ -32,22 +32,22 @@ export default function ContactForm() {
       </div>
       <div className="field"><label htmlFor="topic">What brings you here</label>
         <select className="input" id="topic" name="topic">
-          <option>Environment contention and booking</option>
-          <option>Infrastructure and Terraform governance</option>
-          <option>FinOps and cost attribution</option>
-          <option>GPU capacity and fair-share</option>
-          <option>Governing AI agents</option>
-          <option>Data centre or air-gapped deployment</option>
-          <option>Migration from another platform</option>
-          <option>Startup program</option>
+          <option>Environment requests and bookings</option>
+          <option>Terraform governance and approvals</option>
+          <option>FinOps and cloud cost visibility</option>
+          <option>On-prem Proxmox or VMware vCenter</option>
+          <option>R9 and the MCP Server</option>
+          <option>Security, SSO and deployment options</option>
+          <option>Plans and pricing</option>
+          <option>Something else</option>
         </select>
       </div>
-      <div className="field"><label htmlFor="msg">What does your estate look like?</label>
+      <div className="field"><label htmlFor="msg">How do your teams work today?</label>
         <textarea className="input" id="msg" name="msg" rows={5}
-          placeholder="Clouds, hypervisors, cluster sizes, team count, current tooling, and what is going wrong today." />
+          placeholder="Cloud accounts and hypervisors, how environments are requested and booked, how Terraform changes are approved, and what is not working." />
       </div>
       <div><button className="btn btn-primary btn-lg" type="submit">Send message</button></div>
-      {sent && <p className="small" style={{ color: "var(--cyan)" }}>Thanks — we&apos;ve received this. An engineer will reply within one business day.</p>}
+      {sent && <p className="small" style={{ color: "var(--cyan)" }}>Thanks — we&apos;ve received this and will be in touch.</p>}
       {error && <p className="small" style={{ color: "var(--red)" }}>Add your name, work email and company so we know who to reply to.</p>}
     </form>
   );

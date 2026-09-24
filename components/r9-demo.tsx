@@ -9,24 +9,24 @@ export default function R9Demo() {
   const [value, setValue] = useState("");
   const [pane, setPane] = useState<Pane>("tf");
   const [result, setResult] = useState<R9Result | null>(null);
-  const [status, setStatus] = useState("Generates a proposal. Nothing is applied.");
+  const [status, setStatus] = useState("Proposes a change. Nothing is applied.");
   const [busy, setBusy] = useState(false);
 
   const placeholder =
-    "A staging environment for the payments API — Postgres, Redis, two app nodes, EU only, torn down after 48 hours";
+    "Add a staging environment for the payments API — Postgres, Redis and two app nodes in eu-west-1";
 
   function generate(prompt?: string) {
     const q = (prompt ?? value ?? "").toLowerCase() || placeholder.toLowerCase();
     const tpl = R9_TEMPLATES.find((t) => t.match.some((m) => q.includes(m))) ?? R9_DEFAULT;
     setBusy(true);
     setResult(null);
-    setStatus("Composing from catalogue…");
-    setTimeout(() => setStatus("Running policy and cost checks…"), 420);
+    setStatus("Reading project files…");
+    setTimeout(() => setStatus("Checking against policy profile…"), 420);
     setTimeout(() => {
       setResult(tpl);
       setPane("tf");
       setBusy(false);
-      setStatus("Proposal ready. Nothing has been applied.");
+      setStatus("Change proposed. Nothing has been committed or applied.");
     }, 900);
   }
 
@@ -47,7 +47,7 @@ export default function R9Demo() {
           />
           <div className="r9-actions">
             <button className="btn btn-primary btn-sm" onClick={() => generate()} disabled={busy}>
-              {busy ? "Generating…" : "Generate plan"}
+              {busy ? "Working…" : "Propose change"}
             </button>
             <span className="small">{status}</span>
           </div>
@@ -78,8 +78,8 @@ export default function R9Demo() {
       </div>
 
       <p className="small" style={{ marginTop: 20 }}>
-        This is an interactive illustration of the R9 workflow. In the product, generation runs against your own
-        module catalogue, your policy set and your live cost data.
+        This is a simplified illustration with sample output. In the product, R9 works on the files of your own
+        Terraform project, and changes are checked by your project&apos;s policies before they are applied.
       </p>
     </div>
   );

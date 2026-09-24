@@ -21,18 +21,18 @@ export const NAV: NavEntry[] = [
       {
         head: "Manage",
         items: [
-          { title: "Environment Management", desc: "Book, approve and reclaim every environment your teams contend over.", href: "/products/environment-management", icon: Icons.env },
-          { title: "Infrastructure Management", desc: "Terraform, Kubernetes, VMware and Proxmox from one governed control plane.", href: "/products/infrastructure-management", icon: Icons.infra },
-          { title: "FinOps", desc: "Attribute every dollar to the request that caused it — cloud, on-prem and tokens.", href: "/products/finops", icon: Icons.finops },
-          { title: "Release Management", desc: "Coordinate releases across environments, teams and change windows.", href: "/products/release-management", icon: Icons.release, tag: "soon" },
+          { title: "Environment Management", desc: "Requests, bookings, approvals and decommissioning for shared environments.", href: "/products/environment-management", icon: Icons.env },
+          { title: "Infrastructure Management", desc: "Terraform runs with policy checks, approvals and state control — cloud and on-prem.", href: "/products/infrastructure-management", icon: Icons.infra },
+          { title: "FinOps", desc: "AWS and Azure cost visibility, anomaly detection and cost gates on Terraform runs.", href: "/products/finops", icon: Icons.finops },
+          { title: "Release Management", desc: "Planned: release coordination built on bookings and approval workflows.", href: "/products/release-management", icon: Icons.release, tag: "soon" },
         ],
       },
       {
         head: "Build with agents",
         items: [
-          { title: "MCP Server", desc: "Give coding agents governed infrastructure through one protocol.", href: "/products/mcp-server", icon: Icons.mcp, tag: "new" },
-          { title: "R9", desc: "Describe infrastructure in plain language. Get reviewable, policy-checked code.", href: "/products/r9", icon: Icons.r9, tag: "beta" },
-          { title: "Realm9 Sandbox", desc: "Sub-second isolated environments for agent work, on your own hardware.", href: "/products/sandbox", icon: Icons.sandbox, tag: "soon" },
+          { title: "MCP Server", desc: "The Model Context Protocol tool layer behind Realm9's Terraform assistant.", href: "/products/mcp-server", icon: Icons.mcp, tag: "new" },
+          { title: "R9", desc: "An AI assistant for your Terraform projects, using your own model provider key.", href: "/products/r9", icon: Icons.r9, tag: "beta" },
+          { title: "Realm9 Sandbox", desc: "Planned: isolated workspaces for experimental infrastructure work.", href: "/products/sandbox", icon: Icons.sandbox, tag: "soon" },
         ],
       },
     ],
@@ -43,12 +43,12 @@ export const NAV: NavEntry[] = [
     groups: [{
       head: "Enterprise",
       items: [
-        { title: "Overview", desc: "Governance, residency and scale for regulated organisations.", href: "/enterprise", icon: Icons.shield },
-        { title: "Data Centers", desc: "vCenter, Proxmox and bare metal as first-class bookable capacity.", href: "/enterprise/data-centers", icon: Icons.dc },
-        { title: "GPU", desc: "Fair-share, quota and chargeback for accelerated compute.", href: "/enterprise/gpu", icon: Icons.gpu },
-        { title: "Use cases", desc: "How telecom, healthcare, finance and public sector deploy Realm9.", href: "/enterprise/use-cases", icon: Icons.cases },
-        { title: "Trust Center", desc: "Certifications, sub-processors, architecture and security posture.", href: "/enterprise/trust-center", icon: Icons.lock },
-        { title: "Contact us", desc: "Talk to an engineer, not a form router.", href: "/enterprise/contact", icon: Icons.mail },
+        { title: "Overview", desc: "Identity, audit and deployment options for larger organisations.", href: "/enterprise", icon: Icons.shield },
+        { title: "Data Centers", desc: "Proxmox and VMware vCenter under the same governed workflow as cloud.", href: "/enterprise/data-centers", icon: Icons.dc },
+        { title: "GPU", desc: "Govern access to accelerated compute with bookings and approvals.", href: "/enterprise/gpu", icon: Icons.gpu },
+        { title: "Use cases", desc: "Common problems platform and operations teams solve with Realm9.", href: "/enterprise/use-cases", icon: Icons.cases },
+        { title: "Trust Center", desc: "Deployment security, identity, data protection and audit.", href: "/enterprise/trust-center", icon: Icons.lock },
+        { title: "Contact us", desc: "Talk to the team about your environments and requirements.", href: "/enterprise/contact", icon: Icons.mail },
       ],
     }],
   },
@@ -57,8 +57,8 @@ export const NAV: NavEntry[] = [
     groups: [{
       head: "Agents",
       items: [
-        { title: "Realm9 Agents", desc: "Named, budgeted, revocable identities for every non-human actor.", href: "/agents/realm9-agents", icon: Icons.agent, tag: "soon" },
-        { title: "AIOps", desc: "Detect, explain and remediate infrastructure incidents under policy.", href: "/agents/aiops", icon: Icons.aiops, tag: "soon" },
+        { title: "Realm9 Agents", desc: "Planned: governed identities for automated and AI actors.", href: "/agents/realm9-agents", icon: Icons.agent, tag: "soon" },
+        { title: "AIOps", desc: "Planned: assisted incident investigation built on Realm9 observability.", href: "/agents/aiops", icon: Icons.aiops, tag: "soon" },
       ],
     }],
   },

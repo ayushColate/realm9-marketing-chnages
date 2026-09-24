@@ -1,126 +1,109 @@
-import { Hero, StatBand, Cards, FeatureRow, Term, SectionHead, CtaBand, Section } from "@/components/sections";
+import { Hero, Cards, FeatureRow, Term, SectionHead, CtaBand, Section } from "@/components/sections";
 import { Icons } from "@/components/icons";
 
-const LOGOS = ["BT", "Verizon", "Harman", "Vodafone", "Orange", "Telefónica"];
+const PARTNERS = ["BT", "Harman", "Blocktwin", "RefactoreQ", "OQ", "NextGen Tech"];
 
 export default function Home() {
   return (
     <>
       <Hero
         badge="New"
-        eyebrow="The Governance Layer"
-        title="Terraform and AI agents, governed together"
-        sub="Policy-driven infrastructure for teams that run Terraform and empower AI agents — with cost you can explain down to the request. One control plane for environments, infrastructure and compute, with the approvals, quotas and audit that make it safe to hand any of it to an agent."
-        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to an engineer", href: "/enterprise/contact" }]}
+        eyebrow="Infrastructure governance"
+        title="Govern every infrastructure change from request to run"
+        sub="Realm9 brings environment access, Terraform operations, policy checks and approvals into one workflow. Platform teams can give engineers a clearer path to provision infrastructure while keeping ownership, decisions and change history visible."
+        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to the team", href: "/enterprise/contact" }]}
       />
 
       <Section className="pad-sm">
         <p className="small center" style={{ marginBottom: 30 }}>Running in production at</p>
-        <div className="logos">{LOGOS.map((l) => <span key={l}>{l}</span>)}</div>
+        <div className="logos">{PARTNERS.map((partner) => <span key={partner}>{partner}</span>)}</div>
       </Section>
-
-      <StatBand stats={[
-        { n: "4 clouds", l: "AWS, Azure, GCP and OCI alongside vCenter, Proxmox and bare metal" },
-        { n: "13+", l: "Audit categories captured on every request, human or machine" },
-        { n: "< 10 min", l: "From docker run to your first governed environment" },
-        { n: "Self-hosted", l: "Runs in your VPC, your data centre, or fully air-gapped" },
-      ]} />
 
       <Section>
         <SectionHead center
-          title="Infrastructure has a new majority user"
-          sub="Agents now open pull requests, run test suites, hold environments and burn GPU hours around the clock. Realm9 gives them the same thing you give a new engineer: an identity, a budget, a scope, and a record of what they did." />
-        <Cards items={[
-          { icon: Icons.agent, accent: "var(--purple)", title: "Every actor has a name", desc: "Humans, service accounts and agents are all first-class principals with an owner, a quota and a budget ceiling. No more shared credentials with unlimited blast radius." },
-          { icon: Icons.clock, accent: "var(--cyan)", title: "Every grant expires", desc: "Capacity is issued as a lease with a TTL, not a permanent assignment. Idle environments and forgotten GPU reservations reclaim themselves." },
-          { icon: Icons.ledger, accent: "var(--amber)", title: "Every action is on the ledger", desc: "Because Realm9 sits at the request boundary, it knows intent — who asked, why, under which approval, and what it cost. Tags cannot tell you that." },
-        ]} />
+          title="One operating record for environments and infrastructure"
+          sub="Realm9 connects environment requests and bookings with the projects, workspaces and Terraform runs that support them. Teams can see what was requested, what was approved, what changed and where to investigate when the planned state no longer matches the estate." />
       </Section>
 
       <section className="pad alt"><div className="wrap stack-24" style={{ gap: 88 }}>
         <FeatureRow
           accent="var(--cyan)"
-          title="Stop losing days to environment contention"
-          body="Six teams, one integration environment, and a spreadsheet nobody trusts. Realm9 replaces it with a real booking system — requests, priority queues, approval chains, and a calendar that reflects what is actually happening."
+          title="Make shared environments easier to request and safer to use"
+          body="Environment Management replaces informal handoffs with a defined lifecycle. Teams submit the details an environment needs, follow the approval workflow for its type and book time against the environment once it is available."
           bullets={[
-            "Priority-ordered queues with conflict detection before the clash, not after",
-            "Approval workflows that route by environment class, cost or blast radius",
-            "Automatic reclaim when a booking lapses, with owner notification",
-            "A shared calendar your release manager and your CI system both read",
+            "Custom request forms, business justification and attachments kept with the environment request",
+            "Multi-level approval workflows, including requests for additional information when a decision needs more context",
+            "Shared or exclusive bookings, with availability, approval and duration rules set per environment",
+            "Environment status and booking records linked to the workspaces that provision the environment",
           ]}
-          media={<Term title="realm9 env book --interactive" html={`<span class="c-com"># request the shared integration environment</span>
-$ realm9 env book int-01 <span class="c-str">--until</span> <span class="c-num">"2026-09-15T18:00Z"</span>
+          media={<Term title="environment booking · integration" html={`<span class="c-com"># request shared integration capacity</span>
 
-  <span class="c-dim">queue position</span>   <span class="c-ok">1 of 3</span>
-  <span class="c-dim">conflicts</span>        <span class="c-ok">none detected</span>
-  <span class="c-dim">approval</span>         auto <span class="c-dim">(policy: team-owned, &lt; 48h)</span>
-  <span class="c-dim">lease expires</span>    2026-09-15 18:00 UTC
-  <span class="c-dim">est. cost</span>        <span class="c-num">$41.20</span> <span class="c-dim">→ billed to platform-eng</span>
+  <span class="c-dim">environment</span>      integration
+  <span class="c-dim">booking mode</span>     shared
+  <span class="c-dim">approval</span>         pending review
+  <span class="c-dim">workspace link</span>   integration-services
 
-<span class="c-ok">✓ lease r9-lse-8814 granted</span>`} />}
+<span class="c-ok">✓ request recorded for the team</span>`} />}
         />
         <FeatureRow
           flip accent="var(--blue)"
-          title="One control plane for infrastructure you own and infrastructure you rent"
-          body="Terraform and OpenTofu runs, state locking, drift detection and policy scanning — across AWS, Azure, GCP and OCI, and across the vCenter and Proxmox estates most modern tools quietly ignore."
+          title="Keep Terraform changes inside a reviewable workflow"
+          body="Connect a GitHub or GitLab repository, organise deployments into projects and workspaces, and run plans, applies, refreshes or destroys from Realm9. Policy results and approval decisions stay with the run rather than being spread across separate tools."
           bullets={[
-            "Plan, apply and destroy with policy gates from Checkov, Trivy and TruffleHog",
-            "Drift detection with remediation plans you review before they run",
-            "Remote state with locking, versioning and per-workspace RBAC",
-            "On-prem parity: the same workflow for a VM in your rack and an instance in us-east-1",
+            "Remote state locking, workspace variables and run logs managed with each Terraform workspace",
+            "Policy profiles that combine security, secret, vulnerability and cost checks with advisory or mandatory enforcement",
+            "Project approvals that hold an apply until the configured approvers have reviewed it",
+            "AWS and Azure cloud connections alongside Proxmox and VMware vCenter for on-prem targets",
           ]}
-          media={<Term title="realm9 plan · production-vpc" html={`$ realm9 plan production-vpc
+          media={<Term title="workspace run · review required" html={`<span class="c-com"># planned infrastructure change</span>
 
-  <span class="c-ok">+</span> aws_subnet.private[2]
-  <span class="c-warn">~</span> aws_security_group.api        <span class="c-dim">1 rule changed</span>
-  <span class="c-ok">+</span> proxmox_vm.build-runner-04
+  <span class="c-dim">workspace</span>        production-vpc
+  <span class="c-dim">run type</span>          plan
+  <span class="c-dim">policy profile</span>    results ready for review
+  <span class="c-dim">state lock</span>        acquired
+  <span class="c-dim">approval</span>         pending approver decision
 
-  <span class="c-dim">policy</span>   <span class="c-ok">checkov  32 passed</span>  <span class="c-warn">1 warn</span>
-  <span class="c-dim">secrets</span>  <span class="c-ok">trufflehog clean</span>
-  <span class="c-dim">drift</span>    <span class="c-warn">2 resources diverged since 09-11</span>
-  <span class="c-dim">cost</span>    <span class="c-num">+$318/mo</span>  <span class="c-dim">→ requires approval (&gt; $250)</span>
-
-<span class="c-dim">awaiting review from</span> <span class="c-fn">@platform-leads</span>`} />}
+<span class="c-ok">✓ run history and logs available</span>`} />}
         />
         <FeatureRow
           accent="var(--amber)"
-          title="Cost you can explain, not just cost you can see"
-          body="Every FinOps tool can tell you what AWS charged. Realm9 can tell you which agent, running which task, on behalf of which team, under whose approval, caused the charge — across cloud, on-prem and model tokens."
+          title="Bring cost into the decision before an apply"
+          body="FinOps connects AWS and Azure cost data with Terraform policy checks. When a project uses Infracost, a plan can carry estimated monthly cost and cost-increase results into the same review that covers technical risk."
           bullets={[
-            "Unified spend across public cloud, private data centre and LLM providers",
-            "Anomaly detection tied to the request that triggered it",
-            "Rightsizing and idle-reclaim recommendations with one-click, audited action",
-            "Chargeback and showback reports finance will actually accept",
+            "AWS and Azure cost data available through the FinOps overview and cost explorer",
+            "Cost views filtered by account, region, service, environment, cost center and tags",
+            "Statistical anomaly detection and usage analysis to help teams investigate unusual spend",
+            "Policy thresholds for estimated monthly cost and cost increase before an apply",
           ]}
-          media={<Term title="realm9 ledger --group-by principal --window 7d" html={`PRINCIPAL              TYPE     LEASES   SPEND
-<span class="c-fn">agent/ci-migrator</span>      agent      1,204  <span class="c-num">$4,118</span>
-<span class="c-fn">agent/pr-reviewer</span>      agent        892  <span class="c-num">$1,244</span>
-<span class="c-fn">team/platform-eng</span>      human        141  <span class="c-num">$9,860</span>
-<span class="c-fn">team/data-science</span>      human         38  <span class="c-num">$22,410</span>  <span class="c-warn">▲ 41%</span>
+          media={<Term title="policy check · cost review" html={`<span class="c-com"># estimated cost attached to a Terraform plan</span>
 
-<span class="c-warn">! anomaly</span>  data-science exceeded GPU budget on 09-11
-          <span class="c-dim">cause: lease r9-lse-8102, 8×H100, no TTL set</span>
-          <span class="c-dim">policy 'gpu-max-ttl' now enforced</span>`} />}
+  <span class="c-dim">connection</span>       AWS production
+  <span class="c-dim">estimate</span>         available in policy results
+  <span class="c-dim">threshold</span>        evaluated before apply
+  <span class="c-dim">decision</span>         recorded with the run
+
+<span class="c-ok">✓ ready for approver review</span>`} />}
         />
       </div></section>
 
       <Section>
         <SectionHead center
-          title="Built for the way infrastructure is actually requested now"
-          sub="Five surfaces, one policy engine. Whether the request arrives from a person, a pipeline or a coding agent, it is evaluated the same way and written to the same ledger." />
+          title="A governed entry point for every kind of infrastructure work"
+          sub="Realm9 modules share the same projects, permissions, approvals and audit context. Teams can work through the browser, supported APIs or assisted tooling without creating a separate control model for each route." />
         <Cards items={[
-          { icon: Icons.mcp, tag: "new", accent: "var(--purple)", title: "MCP Server", desc: "Claude Code, Cursor and your own agent pipelines request infrastructure through one protocol — and get leases, not credentials.", href: "/products/mcp-server" },
-          { icon: Icons.r9, tag: "beta", accent: "var(--pink)", title: "R9", desc: "Describe what you need in plain language. R9 returns reviewable Terraform, a policy report and a cost estimate before anything runs.", href: "/products/r9" },
-          { icon: Icons.sandbox, tag: "soon", accent: "var(--cyan)", title: "Sandbox", desc: "Sub-second isolated environments for agent work, running on hardware you already own and already trust.", href: "/products/sandbox" },
-          { icon: Icons.env, accent: "var(--blue)", title: "Web console", desc: "Calendars, queues, approvals and dashboards for the humans who own the estate.", href: "/products/environment-management" },
-          { icon: Icons.infra, accent: "var(--blue)", title: "CLI and API", desc: "Everything the console does, scriptable — with the same policy checks and the same audit trail.", href: "/products/infrastructure-management" },
-          { icon: Icons.shield, accent: "var(--green)", title: "Policy engine", desc: "One place to express who may consume what, for how long, at what cost, and who has to say yes.", href: "/enterprise" },
+          { icon: Icons.mcp, tag: "new", accent: "var(--purple)", title: "MCP Server", desc: "The Model Context Protocol tool layer used by Realm9’s Terraform assistant to inspect projects, search code, make targeted edits and request plan context.", href: "/products/mcp-server" },
+          { icon: Icons.r9, tag: "beta", accent: "var(--pink)", title: "R9", desc: "A Terraform-editor assistant that works with project files, offers reversible edits and helps users validate or plan changes before they commit.", href: "/products/r9" },
+          { icon: Icons.sandbox, tag: "soon", accent: "var(--cyan)", title: "Sandbox", desc: "Planned isolated workspaces for experimental infrastructure work. This module is not yet available.", href: "/products/sandbox" },
+          { icon: Icons.env, accent: "var(--blue)", title: "Environment Management", desc: "Request, approve, book and decommission environments while keeping workspace links and lifecycle activity in one record.", href: "/products/environment-management" },
+          { icon: Icons.infra, accent: "var(--blue)", title: "Infrastructure Management", desc: "Manage Terraform projects, workspaces, runs, connections, policies and approvals across cloud and on-prem targets.", href: "/products/infrastructure-management" },
+          { icon: Icons.finops, accent: "var(--amber)", title: "FinOps", desc: "Explore AWS and Azure spend, investigate anomalies and enforce cost thresholds on Terraform plans. Available on Ultimate.", href: "/products/finops" },
+          { icon: Icons.release, tag: "soon", accent: "var(--green)", title: "Release Management", desc: "Planned release coordination built on the environment bookings, approvals and change records Realm9 already maintains.", href: "/products/release-management" },
         ]} />
       </Section>
 
       <CtaBand
-        title="Deploy it on your own hardware in ten minutes"
-        sub="Free forever, self-hosted, with audit logging included — not gated behind a sales call."
+        title="Give platform teams one place to govern the work they support"
+        sub="Start with the workflow that creates the most friction today, then connect environment access, Terraform operations and cost controls as your estate grows."
         primary={{ label: "Start free", href: "/pricing" }}
         secondary={{ label: "See enterprise", href: "/enterprise" }}
       />

@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
 import ComingSoon from "@/components/coming-soon";
 
-export const metadata: Metadata = { title: "Realm9 Sandbox — Private Preview Q4 2026", description: "MicroVM isolation on your own hardware for AI agent workloads. Requested, approved, and tracked through governance workflows. Private preview: Q4 2026." };
+export const metadata: Metadata = { title: "Realm9 Sandbox — On the roadmap", description: "Realm9 Sandbox is a planned module for isolated, short-lived workspaces for experimental infrastructure work. It is not yet available." };
 
 export default function Page() {
   return <ComingSoon
-    title="Realm9 Sandbox" accent="#0d9488" when="Private preview: Q4 2026"
-    sub="Sub-second isolated environments for agent work — running on hardware you already own, under the quotas and budgets you already set."
+    title="Realm9 Sandbox" accent="#0d9488" when="timeline not yet announced"
+    sub="A planned module for isolated workspaces where teams and automated tools can try infrastructure changes without touching shared environments. It is not yet available. Today, teams can book dedicated environments and run Terraform plans for review before anything is applied."
     what={[
-      "MicroVM isolation with a hard boundary between agent-generated code and everything else",
-      "Sub-second creation, with a full filesystem, shell and controlled network egress",
-      "Runs in your own VPC or your own data centre — not on a third-party multi-tenant platform",
-      "Every sandbox is a lease: it has an owner, a TTL, a cost and a ledger entry",
-      "Persistent and ephemeral modes, so long-running agents can resume where they left off",
-      "Quotas and budgets apply to sandbox creation, so runaway agents are constrained",
+      "Short-lived, isolated workspaces requested through the same approval workflows as other environments",
+      "A clear owner and an end date for every sandbox, so experiments do not linger",
+      "Separation from shared and production environments by default",
+      "Activity recorded in the same audit history as bookings and Terraform runs",
+      "Access for AI-assisted tooling within the limits your organisation sets",
     ]}
-    why="Agents need somewhere safe to run untrusted code. Realm9 Sandbox gives them isolated, audited, governed space — on hardware you already own, under the quotas you already set." />;
+    why="Experiments and automated tooling need somewhere to try changes safely. Realm9 already governs who can request an environment and what happens to it; Sandbox is planned to apply that same control to short-lived, isolated work." />;
 }
