@@ -11,7 +11,7 @@ export interface NavLink {
   tag?: Tag;
 }
 export interface NavGroup { head: string; items: NavLink[] }
-export interface NavEntry { label: string; href?: string; wide?: boolean; groups?: NavGroup[] }
+export interface NavEntry { label: string; href?: string; wide?: boolean; groups?: NavGroup[]; newTab?: boolean }
 
 export const NAV: NavEntry[] = [
   {
@@ -47,7 +47,6 @@ export const NAV: NavEntry[] = [
         { title: "GPU", desc: "Govern access to accelerated compute with bookings and approvals.", href: "/enterprise/gpu", icon: Icons.gpu },
         { title: "Use cases", desc: "Common problems platform and operations teams solve with Realm9.", href: "/enterprise/use-cases", icon: Icons.cases },
         { title: "Trust Center", desc: "Deployment security, identity, data protection and audit.", href: "/enterprise/trust-center", icon: Icons.lock },
-        { title: "Contact us", desc: "Talk to the team about your environments and requirements.", href: "/enterprise/contact", icon: Icons.mail },
       ],
     }],
   },
@@ -61,5 +60,6 @@ export const NAV: NavEntry[] = [
       ],
     }],
   },
-  { label: "Contact Sales", href: "/enterprise/contact" },
+  { label: "Docs", href: "https://realm9.colate.io/docs", newTab: true },
+  { label: "Contact", href: "/enterprise/contact" },
 ];

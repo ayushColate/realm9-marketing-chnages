@@ -11,7 +11,7 @@ export default function Home() {
         eyebrow="Infrastructure governance"
         title="Govern every infrastructure change from request to run"
         sub="Realm9 brings environment access, Terraform operations, policy checks and approvals into one workflow. Platform teams can give engineers a clearer path to provision infrastructure while keeping ownership, decisions and change history visible."
-        ctas={[{ label: "Start free", href: "/pricing" }, { label: "Talk to the team", href: "/enterprise/contact" }]}
+        ctas={[{ label: "Get started", href: "https://realm9.colate.io/auth/signin" }, { label: "Talk to the team", href: "/enterprise/contact" }]}
       />
 
       <Section className="pad-sm">
@@ -103,7 +103,7 @@ export default function Home() {
       <CtaBand
         title="Give platform teams one place to govern the work they support"
         sub="Start with the workflow that creates the most friction today, then connect environment access, Terraform operations and cost controls as your estate grows."
-        primary={{ label: "Start free", href: "/pricing" }}
+        primary={{ label: "Get started", href: "https://realm9.colate.io/auth/signin" }}
         secondary={{ label: "See enterprise", href: "/enterprise" }}
       />
     </>

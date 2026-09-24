@@ -51,7 +51,14 @@ export default function Nav() {
             {NAV.map((entry, i) =>
               entry.href ? (
                 <div className="nav-item" key={entry.label}>
-                  <Link className="nav-btn" href={entry.href}>{entry.label}</Link>
+                  <Link
+                    className="nav-btn"
+                    href={entry.href}
+                    target={entry.newTab ? "_blank" : undefined}
+                    rel={entry.newTab ? "noopener noreferrer" : undefined}
+                  >
+                    {entry.label}
+                  </Link>
                 </div>
               ) : (
                 <div
@@ -82,9 +89,8 @@ export default function Nav() {
 
           <div className="nav-right">
             <ThemeToggle />
-            <Link className="btn btn-ghost btn-sm" href="/enterprise/contact">Contact</Link>
-            <Link className="btn btn-secondary btn-sm" href="/pricing">Sign in</Link>
-            <Link className="btn btn-primary btn-sm" href="/pricing">Start free</Link>
+            <Link className="btn btn-secondary btn-sm" href="https://realm9.colate.io/auth/signin">Sign in</Link>
+            <Link className="btn btn-primary btn-sm" href="https://realm9.colate.io/auth/signin">Get Started</Link>
             <button className="burger" aria-label="Menu" aria-expanded={mobile}
               onClick={(e) => { e.stopPropagation(); setMobile(!mobile); }}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
@@ -98,7 +104,15 @@ export default function Nav() {
       <div className={`mobile-menu ${mobile ? "open" : ""}`}>
         {NAV.map((entry) =>
           entry.href ? (
-            <div className="mm-group" key={entry.label}><Link href={entry.href}>{entry.label}</Link></div>
+            <div className="mm-group" key={entry.label}>
+              <Link
+                href={entry.href}
+                target={entry.newTab ? "_blank" : undefined}
+                rel={entry.newTab ? "noopener noreferrer" : undefined}
+              >
+                {entry.label}
+              </Link>
+            </div>
           ) : (
             entry.groups?.map((g) => (
               <div className="mm-group" key={entry.label + g.head}>
@@ -119,7 +133,7 @@ export default function Nav() {
         </div>
         <div style={{ display: "flex", gap: 10, marginTop: 22 }}>
           <Link className="btn btn-secondary" style={{ flex: 1 }} href="/enterprise/contact">Contact</Link>
-          <Link className="btn btn-primary" style={{ flex: 1 }} href="/pricing">Start free</Link>
+          <Link className="btn btn-primary" style={{ flex: 1 }} href="https://realm9.colate.io/auth/signin">Get Started</Link>
         </div>
       </div>
     </>
