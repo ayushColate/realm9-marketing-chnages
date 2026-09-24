@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Realm9 Agents — On the roadmap", d
 export default function Page() {
   return <ComingSoon
     title="Realm9 Agents" accent="#7c3aed" when="timeline not yet announced"
-    sub="A planned capability for running automated operational tasks inside Realm9's existing controls. It is not yet available. Today, automation can use Realm9 API keys, and users can work with the in-app assistant and R9 in the Terraform editor."
+    sub="A planned capability for running automated operational tasks inside Realm9's existing controls. It is not yet available. Today, automation can use Realm9 API keys and users can work with the in-app assistant."
     what={[
       "Automated tasks that act under a defined Realm9 role, rather than a shared administrator account",
       "Proposed changes routed through the same approval workflows your teams already use",

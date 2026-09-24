@@ -31,7 +31,6 @@ export const NAV: NavEntry[] = [
         head: "Build with agents",
         items: [
           { title: "MCP Server", desc: "The Model Context Protocol tool layer behind Realm9's Terraform assistant.", href: "/products/mcp-server", icon: Icons.mcp, tag: "new" },
-          { title: "R9", desc: "An AI assistant for your Terraform projects, using your own model provider key.", href: "/products/r9", icon: Icons.r9, tag: "beta" },
           { title: "Realm9 Sandbox", desc: "Planned: isolated workspaces for experimental infrastructure work.", href: "/products/sandbox", icon: Icons.sandbox, tag: "soon" },
         ],
       },
@@ -62,5 +61,4 @@ export const NAV: NavEntry[] = [
       ],
     }],
   },
-  { label: "Pricing", href: "/pricing" },
 ];

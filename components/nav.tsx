@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { NAV, type NavLink as NL } from "@/lib/nav";
 import { Logo, Chevron } from "./icons";
 import { TagBadge } from "./sections";
+import ThemeToggle from "./theme-toggle";
 
 function MegaLink({ item }: { item: NL }) {
   return (
@@ -80,6 +81,7 @@ export default function Nav() {
           </div>
 
           <div className="nav-right">
+            <ThemeToggle />
             <Link className="btn btn-ghost btn-sm" href="/enterprise/contact">Contact</Link>
             <Link className="btn btn-secondary btn-sm" href="/pricing">Sign in</Link>
             <Link className="btn btn-primary btn-sm" href="/pricing">Start free</Link>
@@ -111,6 +113,10 @@ export default function Nav() {
             ))
           )
         )}
+        <div className="mobile-theme-row">
+          <span>Appearance</span>
+          <ThemeToggle />
+        </div>
         <div style={{ display: "flex", gap: 10, marginTop: 22 }}>
           <Link className="btn btn-secondary" style={{ flex: 1 }} href="/enterprise/contact">Contact</Link>
           <Link className="btn btn-primary" style={{ flex: 1 }} href="/pricing">Start free</Link>

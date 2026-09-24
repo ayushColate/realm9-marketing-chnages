@@ -15,52 +15,53 @@ export default function Page() {
         ctas={[{ label: "View plans", href: "/pricing" }, { label: "Talk to the team", href: "/enterprise/contact" }]} />
 
       <Section className="pad">
-        <SectionHead center title="From billing data to decisions"
-          sub="Cost data is synced from your connected cloud accounts every night, then organised for exploring, monitoring and acting on spend." />
+        <SectionHead center title="Cost visibility that informs each change"
+          sub="FinOps brings AWS and Azure cost data into Realm9, where teams can explore spend, investigate unusual changes and apply cost thresholds to Terraform plans." />
 
-        <FeatureRow accent="#b45309" title="One view of spend across accounts"
-          body="Enable FinOps on an AWS or Azure cloud connection and Realm9 brings its cost data into a multi-cloud overview, broken down by provider, account and top services."
+        <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
+        <FeatureRow accent="#b45309" title="Start with a clear view of connected cloud spend"
+          body="Enable FinOps on an AWS or Azure connection to see cost trends, account distribution and the services responsible for the largest share of spend."
           bullets={[
-            "Cost trends and distribution across every connected account",
-            "Top services by cost for each cloud connection",
-            "Manual sync when you need figures refreshed before the nightly run",
-            "Cost data kept alongside the environments and workspaces that generate it",
+            "Cost trends and service breakdowns for each connected cloud account",
+            "Manual sync when figures need refreshing before the scheduled cost sync",
+            "Cost data shown alongside the environment and workspace context held in Realm9",
           ]}
-          media={<Term title="cost explorer · last 30 days" html={`<span class="c-com"># filter and group spend</span>
+          media={<Term title="cost explorer · connected accounts" html={`<span class="c-com"># filter and group spend</span>
 
   <span class="c-dim">group by</span>         service
   <span class="c-dim">provider</span>         AWS, Azure
   <span class="c-dim">filters</span>          region · environment · cost center · tags
-  <span class="c-dim">view</span>             daily trend + breakdown
+  <span class="c-dim">view</span>             trend + breakdown
 
 <span class="c-ok">✓ saved to team dashboard</span>`} />} />
 
-        <FeatureRow flip accent="#b45309" title="Explore costs the way your organisation is structured"
-          body="The cost explorer lets you filter and group spend by the dimensions your teams already use, so the question “what is this costing us?” has a direct answer."
+        <FeatureRow flip accent="#b45309" title="Answer cost questions with the dimensions your team uses"
+          body="The cost explorer filters and groups spend by the same connection, environment and organisational details your teams use to manage infrastructure."
           bullets={[
             "Filter by provider, connection, region, service, environment, namespace, cost center and tags",
-            "Average daily cost and burn rate to see where spend is heading",
-            "Custom dashboards, created from scratch or from a template",
-            "Usage and utilisation analysis with rightsizing views for running resources",
+            "Review average daily cost and burn rate alongside the selected period",
+            "Create dashboards from scratch or begin with a template",
+            "Use usage and rightsizing views to review running resources",
           ]} />
 
-        <FeatureRow accent="#b45309" title="Unusual spend, surfaced with context"
-          body="Statistical anomaly detection compares actual cost against expected cost and flags significant variances, so a runaway resource is noticed in days rather than at month end."
+        <FeatureRow accent="#b45309" title="Investigate unusual spend without losing the context"
+          body="Statistical anomaly detection compares actual cost with expected cost and records the variance, period and contributing services for review."
           bullets={[
-            "Anomalies graded low, medium, high and critical",
-            "Expected versus actual cost, variance and the affected period",
-            "Contributing services and a possible cause recorded for each anomaly",
-            "Filter anomalies by cloud connection to find the owning team quickly",
+            "Anomalies categorised as low, medium, high or critical",
+            "Expected and actual cost shown together with the recorded variance",
+            "Contributing services and possible causes available on the anomaly record",
+            "Filter by cloud connection to route investigation to the responsible team",
           ]} />
 
-        <FeatureRow flip accent="#b45309" title="Cost limits inside the change process"
-          body="When a Terraform policy profile includes Infracost, every plan carries an estimated monthly cost and cost increase. Thresholds you set turn that estimate into a check that runs before apply."
+        <FeatureRow flip accent="#b45309" title="Use cost thresholds before infrastructure is applied"
+          body="When a Terraform policy profile includes Infracost, Realm9 records the estimated monthly cost and increase from the plan, then evaluates the thresholds configured for that profile."
           bullets={[
-            "Estimated monthly cost and cost increase recorded on each Terraform run",
-            "Thresholds for cost increase and total monthly cost in the policy profile",
-            "Advisory or blocking enforcement, matching the rest of your policy checks",
-            "Cost-related approvals kept on the run alongside security findings",
+            "Estimated monthly cost and increase stored with the Terraform run policy check",
+            "Maximum monthly cost and increase thresholds configured per policy profile",
+            "Advisory or blocking enforcement applied with the rest of the policy checks",
+            "Approval decisions stay with the same run as its cost and security results",
           ]} />
+        </div>
       </Section>
 
       <CtaBand title="Make cost part of how infrastructure gets approved"

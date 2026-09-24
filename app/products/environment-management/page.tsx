@@ -18,6 +18,7 @@ export default function Page() {
         <SectionHead center title="Four journeys, one record"
           sub="Every environment request, booking and decommission follows defined states, runs through an approval workflow, and is written to the audit log." />
 
+        <div style={{ display: "flex", flexDirection: "column", gap: 80 }}>
         <FeatureRow accent="#0d9488" title="Request new environments with the right details up front"
           body="Teams ask for a new environment through a form your administrators design. Choosing an environment type selects the approval workflow, so the request goes to the right people from the start."
           bullets={[
@@ -53,6 +54,7 @@ export default function Page() {
             "ServiceNow CMDB configuration-item data linked to environments",
             "Side-by-side environment comparison and email and in-app notifications at each step",
           ]} />
+        </div>
       </Section>
 
       <CtaBand title="Give every shared environment an owner and a process"

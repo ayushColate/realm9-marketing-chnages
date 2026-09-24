@@ -8,7 +8,6 @@ const COLS: [string, [string, string][]][] = [
     ["FinOps", "/products/finops"],
     ["Release Management", "/products/release-management"],
     ["MCP Server", "/products/mcp-server"],
-    ["R9", "/products/r9"],
     ["Sandbox", "/products/sandbox"],
   ]],
   ["Solutions", [

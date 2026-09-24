@@ -64,8 +64,8 @@ export default function Page() {
       </Section>
 
       <CtaBand title="Give your Terraform assistant real context"
-        sub="The MCP Server works with R9, Realm9's Terraform assistant, inside Infrastructure Management."
-        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "See R9", href: "/products/r9" }} />
+        sub="The MCP Server provides structured project and code context inside Infrastructure Management."
+        primary={{ label: "Start free", href: "/pricing" }} secondary={{ label: "Infrastructure Management", href: "/products/infrastructure-management" }} />
     </>
   );
 }

@@ -36,7 +36,7 @@ export default function ContactForm() {
           <option>Terraform governance and approvals</option>
           <option>FinOps and cloud cost visibility</option>
           <option>On-prem Proxmox or VMware vCenter</option>
-          <option>R9 and the MCP Server</option>
+          <option>AI-assisted Terraform tooling and the MCP Server</option>
           <option>Security, SSO and deployment options</option>
           <option>Plans and pricing</option>
           <option>Something else</option>

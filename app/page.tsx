@@ -92,7 +92,6 @@ export default function Home() {
           sub="Realm9 modules share the same projects, permissions, approvals and audit context. Teams can work through the browser, supported APIs or assisted tooling without creating a separate control model for each route." />
         <Cards items={[
           { icon: Icons.mcp, tag: "new", accent: "var(--purple)", title: "MCP Server", desc: "The Model Context Protocol tool layer used by Realm9’s Terraform assistant to inspect projects, search code, make targeted edits and request plan context.", href: "/products/mcp-server" },
-          { icon: Icons.r9, tag: "beta", accent: "var(--pink)", title: "R9", desc: "A Terraform-editor assistant that works with project files, offers reversible edits and helps users validate or plan changes before they commit.", href: "/products/r9" },
           { icon: Icons.sandbox, tag: "soon", accent: "var(--cyan)", title: "Sandbox", desc: "Planned isolated workspaces for experimental infrastructure work. This module is not yet available.", href: "/products/sandbox" },
           { icon: Icons.env, accent: "var(--blue)", title: "Environment Management", desc: "Request, approve, book and decommission environments while keeping workspace links and lifecycle activity in one record.", href: "/products/environment-management" },
           { icon: Icons.infra, accent: "var(--blue)", title: "Infrastructure Management", desc: "Manage Terraform projects, workspaces, runs, connections, policies and approvals across cloud and on-prem targets.", href: "/products/infrastructure-management" },
