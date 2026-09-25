@@ -9,7 +9,7 @@ export default function Home() {
       <Hero
         badge="New"
         eyebrow="Infrastructure governance"
-        title="Govern every infrastructure change from request to run"
+        title="Plan, Approve, Execute: Infrastructure Changes Under Control"
         sub="Realm9 brings environment access, Terraform operations, policy checks and approvals into one workflow. Platform teams can give engineers a clearer path to provision infrastructure while keeping ownership, decisions and change history visible."
         ctas={[{ label: "Get started", href: "/" }, { label: "Talk to the team", href: "/enterprise/contact" }]}
       />
